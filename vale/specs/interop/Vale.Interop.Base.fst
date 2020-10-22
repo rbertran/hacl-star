@@ -80,7 +80,7 @@ unfold
 let normal (#a:Type) (x:a) : a =
   FStar.Pervasives.norm
     [iota;
-     zeta;
+     zeta_full;
      delta_attr [`%__reduce__; `%BigOps.__reduce__];
      delta_only [`%TD_Buffer?;
                  `%BS.Mkmachine_state?.ms_ok;
