@@ -297,14 +297,14 @@ let aes_enc_last st key =
   shift_rows_state st;
   xor_state_key1 st key
 
-
-let rcon : b:ilbuffer uint8 11ul =
-  [@ inline_let]
-  let rcon_l = [
+unfold  let rcon_l = [
     u8(0x8d); u8(0x01); u8(0x02); u8(0x04);
     u8(0x08); u8(0x10); u8(0x20); u8(0x40);
     u8(0x80); u8(0x1b); u8(0x36)
-  ] in
+  ]
+
+
+let rcon : b:glbuffer uint8 11ul =
   assert_norm (List.Tot.length rcon_l == 11);
   createL_global rcon_l
 
