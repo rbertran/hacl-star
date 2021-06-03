@@ -27,75 +27,81 @@ let impl1 (#n:nat) (#xN:sig n) (x:xNxM xN 8) : xNxM xN 8 =
 val sliceable_impl1 (_:unit) : Lemma (sliceable impl1)
 let sliceable_impl1 () = sliceable_comp (circuit_spec outputs) (circuit_spec circ)
 
+// TODO:
+// this should not be written by hand
+// but produced by a tactic
+#push-options "--z3rlimit 100"
 let impl2 (#n:nat) (#xN:sig n) (x:xNxM xN 8) : (y:xNxM xN 8{y == impl1 x}) =
-  let a0 : xN.t = index x 0 in
-  let a1 : xN.t = index x 1 in
-  let a2 : xN.t = index x 2 in
-  let a3 : xN.t = index x 3 in
-  let a4 : xN.t = index x 4 in
-  let a5 : xN.t = index x 5 in
-  let a6 : xN.t = index x 6 in
-  let a7 : xN.t = index x 7 in
-  let a8 : xN.t = index x 0 in
-  let a9 : xN.t = index x 1 in
-  let a10 : xN.t = index x 2 in
-  let a11 : xN.t = index x 3 in
-  let a12 : xN.t = index x 4 in
-  let a13 : xN.t = index x 5 in
-  let a14 : xN.t = index x 6 in
-  let a15 : xN.t = index x 7 in
-  let a16 : xN.t = a0 ^^^ a8 in
-  let a17 : xN.t = a0 &&& a8 in
-  let a18 : xN.t = a1 ^^^ a9 in
-  let a19 : xN.t = a17 ^^^ a18 in
-  let a20 : xN.t = a1 &&& a9 in
-  let a21 : xN.t = a1 &&& a17 in
-  let a22 : xN.t = a9 &&& a17 in
-  let a23 : xN.t = a20 ||| a21 in
-  let a24 : xN.t = a22 ||| a23 in
-  let a25 : xN.t = a2 ^^^ a10 in
-  let a26 : xN.t = a24 ^^^ a25 in
-  let a27 : xN.t = a2 &&& a10 in
-  let a28 : xN.t = a2 &&& a24 in
-  let a29 : xN.t = a10 &&& a24 in
-  let a30 : xN.t = a27 ||| a28 in
-  let a31 : xN.t = a29 ||| a30 in
-  let a32 : xN.t = a3 ^^^ a11 in
-  let a33 : xN.t = a31 ^^^ a32 in
-  let a34 : xN.t = a3 &&& a11 in
-  let a35 : xN.t = a3 &&& a31 in
-  let a36 : xN.t = a11 &&& a31 in
-  let a37 : xN.t = a34 ||| a35 in
-  let a38 : xN.t = a36 ||| a37 in
-  let a39 : xN.t = a4 ^^^ a12 in
-  let a40 : xN.t = a38 ^^^ a39 in
-  let a41 : xN.t = a4 &&& a12 in
-  let a42 : xN.t = a4 &&& a38 in
-  let a43 : xN.t = a12 &&& a38 in
-  let a44 : xN.t = a41 ||| a42 in
-  let a45 : xN.t = a43 ||| a44 in
-  let a46 : xN.t = a5 ^^^ a13 in
-  let a47 : xN.t = a45 ^^^ a46 in
-  let a48 : xN.t = a5 &&& a13 in
-  let a49 : xN.t = a5 &&& a45 in
-  let a50 : xN.t = a13 &&& a45 in
-  let a51 : xN.t = a48 ||| a49 in
-  let a52 : xN.t = a50 ||| a51 in
-  let a53 : xN.t = a6 ^^^ a14 in
-  let a54 : xN.t = a52 ^^^ a53 in
-  let a55 : xN.t = a6 &&& a14 in
-  let a56 : xN.t = a6 &&& a52 in
-  let a57 : xN.t = a14 &&& a52 in
-  let a58 : xN.t = a55 ||| a56 in
-  let a59 : xN.t = a57 ||| a58 in
-  let a60 : xN.t = a7 ^^^ a15 in
-  let a61 : xN.t = a59 ^^^ a60 in
-  let y = xNxM_mk xN 8 (fun i -> match i with
-  | 0 -> a16 | 1 -> a19 | 2 -> a26 | 3 -> a33
-  | 4 -> a40 | 5 -> a47 | 6 -> a54 | 7 -> a61
-  ) in
-  assume (y == impl1 x);
+  let a0 : foo circ x 0 = circuit_input 0 in
+  let a1 : foo circ x 1 = circuit_input 1 in
+  let a2 : foo circ x 2 = circuit_input 2 in
+  let a3 : foo circ x 3 = circuit_input 3 in
+  let a4 : foo circ x 4 = circuit_input 4 in
+  let a5 : foo circ x 5 = circuit_input 5 in
+  let a6 : foo circ x 6 = circuit_input 6 in
+  let a7 : foo circ x 7 = circuit_input 7 in
+  let a8 : foo circ x 8 = circuit_input 0 in
+  let a9 : foo circ x 9 = circuit_input 1 in
+  let a10 : foo circ x 10 = circuit_input 2 in
+  let a11 : foo circ x 11 = circuit_input 3 in
+  let a12 : foo circ x 12 = circuit_input 4 in
+  let a13 : foo circ x 13 = circuit_input 5 in
+  let a14 : foo circ x 14 = circuit_input 6 in
+  let a15 : foo circ x 15 = circuit_input 7 in
+  let a16 : foo circ x 16 = circuit_xor a0 a8 in
+  let a17 : foo circ x 17 = circuit_and a0 a8 in
+  let a18 : foo circ x 18 = circuit_xor a1 a9 in
+  let a19 : foo circ x 19 = circuit_xor a17 a18 in
+  let a20 : foo circ x 20 = circuit_and a1 a9 in
+  let a21 : foo circ x 21 = circuit_and a1 a17 in
+  let a22 : foo circ x 22 = circuit_and a9 a17 in
+  let a23 : foo circ x 23 = circuit_or a20 a21 in
+  let a24 : foo circ x 24 = circuit_or a22 a23 in
+  let a25 : foo circ x 25 = circuit_xor a2 a10 in
+  let a26 : foo circ x 26 = circuit_xor a24 a25 in
+  let a27 : foo circ x 27 = circuit_and a2 a10 in
+  let a28 : foo circ x 28 = circuit_and a2 a24 in
+  let a29 : foo circ x 29 = circuit_and a10 a24 in
+  let a30 : foo circ x 30 = circuit_or a27 a28 in
+  let a31 : foo circ x 31 = circuit_or a29 a30 in
+  let a32 : foo circ x 32 = circuit_xor a3 a11 in
+  let a33 : foo circ x 33 = circuit_xor a31 a32 in
+  let a34 : foo circ x 34 = circuit_and a3 a11 in
+  let a35 : foo circ x 35 = circuit_and a3 a31 in
+  let a36 : foo circ x 36 = circuit_and a11 a31 in
+  let a37 : foo circ x 37 = circuit_or a34 a35 in
+  let a38 : foo circ x 38 = circuit_or a36 a37 in
+  let a39 : foo circ x 39 = circuit_xor a4 a12 in
+  let a40 : foo circ x 40 = circuit_xor a38 a39 in
+  let a41 : foo circ x 41 = circuit_and a4 a12 in
+  let a42 : foo circ x 42 = circuit_and a4 a38 in
+  let a43 : foo circ x 43 = circuit_and a12 a38 in
+  let a44 : foo circ x 44 = circuit_or a41 a42 in
+  let a45 : foo circ x 45 = circuit_or a43 a44 in
+  let a46 : foo circ x 46 = circuit_xor a5 a13 in
+  let a47 : foo circ x 47 = circuit_xor a45 a46 in
+  let a48 : foo circ x 48 = circuit_and a5 a13 in
+  let a49 : foo circ x 49 = circuit_and a5 a45 in
+  let a50 : foo circ x 50 = circuit_and a13 a45 in
+  let a51 : foo circ x 51 = circuit_or a48 a49 in
+  let a52 : foo circ x 52 = circuit_or a50 a51 in
+  let a53 : foo circ x 53 = circuit_xor a6 a14 in
+  let a54 : foo circ x 54 = circuit_xor a52 a53 in
+  let a55 : foo circ x 55 = circuit_and a6 a14 in
+  let a56 : foo circ x 56 = circuit_and a6 a52 in
+  let a57 : foo circ x 57 = circuit_and a14 a52 in
+  let a58 : foo circ x 58 = circuit_or a55 a56 in
+  let a59 : foo circ x 59 = circuit_or a57 a58 in
+  let a60 : foo circ x 60 = circuit_xor a7 a15 in
+  let a61 : foo circ x 61 = circuit_xor a59 a60 in
+  let f (i:nat{i<8}) = match i with
+  | 0 -> Foo?.u a16 | 1 -> Foo?.u a19 | 2 -> Foo?.u a26 | 3 -> Foo?.u a33
+  | 4 -> Foo?.u a40 | 5 -> Foo?.u a47 | 6 -> Foo?.u a54 | 7 -> Foo?.u a61
+  in
+  let y : xNxM xN 8 = xNxM_mk _ _ f in
+  xNxM_eq_intro y (impl1 x);
   y
+#pop-options
 
 val sliceable_impl2 (_:unit) : Lemma (sliceable impl2)
 let sliceable_impl2 () =

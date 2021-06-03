@@ -236,21 +236,96 @@ type gate (m:nat) (c:nat) =
 
 type circuit (m p:nat) = (i:nat{i<p}) -> gate m i
 
-private val circuit_spec_aux (#m #m':nat) (circ:circuit m m') (#n:nat) (#xN:sig n) (x:xNxM xN m) (i:nat{i<m'}) : xN.t
+val circuit_def (#m #m':nat) (circ:circuit m m') (#n:nat) (#xN:sig n) (x:xNxM xN m) (i:nat{i<m'}) : xN.t
 #push-options "--ifuel 1"
-let rec circuit_spec_aux circ x i =
+let rec circuit_def circ x i =
   match circ i with
   | Input j -> index x j
   | Ones -> ones _
   | Zeros -> zeros _
-  | Xor a b -> circuit_spec_aux circ x a ^^^ circuit_spec_aux circ x b
-  | And a b -> circuit_spec_aux circ x a &&& circuit_spec_aux circ x b
-  | Or a b -> circuit_spec_aux circ x a ||| circuit_spec_aux circ x b
-  | Not a -> ~~~(circuit_spec_aux circ x a)
+  | Xor a b -> circuit_def circ x a ^^^ circuit_def circ x b
+  | And a b -> circuit_def circ x a &&& circuit_def circ x b
+  | Or a b -> circuit_def circ x a ||| circuit_def circ x b
+  | Not a -> ~~~(circuit_def circ x a)
+#pop-options
+
+[@"opaqe_to_smt"]
+noeq
+type foo
+  (#m #m':nat) (circ:circuit m m')
+  (#n:nat) (#xN:sig n) (x:xNxM xN m)
+  (i:nat{i<m'}) =
+  | Foo : (u:xN.t{u == circuit_def circ x i}) -> foo circ x i
+
+[@"opaque_to_smt"]
+val circuit_input
+  (#m #m':nat) (#circ:circuit m m')
+  (#n:nat) (#xN:sig n) (#x:xNxM xN m)
+  (#c:nat{c<m'})
+  (j:nat{j<m})
+  : Pure (foo circ x c) (requires circ c == Input j) (ensures fun _ -> True)
+
+[@"opaque_to_smt"]
+val circuit_ones
+  (#m #m':nat) (#circ:circuit m m')
+  (#n:nat) (#xN:sig n) (#x:xNxM xN m)
+  (#c:nat{c<m'})
+  : Pure (foo circ x c) (requires circ c == Ones) (ensures fun _ -> True)
+
+[@"opaque_to_smt"]
+val circuit_zeros
+  (#m #m':nat) (#circ:circuit m m')
+  (#n:nat) (#xN:sig n) (#x:xNxM xN m)
+  (#c:nat{c<m'})
+  : Pure (foo circ x c) (requires circ c == Zeros) (ensures fun _ -> True)
+
+[@"opaque_to_smt"]
+val circuit_and
+  (#m #m':nat) (#circ:circuit m m')
+  (#n:nat) (#xN:sig n) (#x:xNxM xN m)
+  (#c:nat{c<m'})
+  (#a:nat{a<c}) (u:foo circ x a)
+  (#b:nat{b<c}) (v:foo circ x b)
+  : Pure (foo circ x c) (requires circ c == And a b) (ensures fun _ -> True)
+
+[@"opaque_to_smt"]
+val circuit_xor
+  (#m #m':nat) (#circ:circuit m m')
+  (#n:nat) (#xN:sig n) (#x:xNxM xN m)
+  (#c:nat{c<m'})
+  (#a:nat{a<c}) (u:foo circ x a)
+  (#b:nat{b<c}) (v:foo circ x b)
+  : Pure (foo circ x c) (requires circ c == Xor a b) (ensures fun _ -> True)
+
+[@"opaque_to_smt"]
+val circuit_or
+  (#m #m':nat) (#circ:circuit m m')
+  (#n:nat) (#xN:sig n) (#x:xNxM xN m)
+  (#c:nat{c<m'})
+  (#a:nat{a<c}) (u:foo circ x a)
+  (#b:nat{b<c}) (v:foo circ x b)
+  : Pure (foo circ x c) (requires circ c == Or a b) (ensures fun _ -> True)
+
+[@"opaque_to_smt"]
+val circuit_not
+  (#m #m':nat) (#circ:circuit m m')
+  (#n:nat) (#xN:sig n) (#x:xNxM xN m)
+  (#c:nat{c<m'})
+  (#a:nat{a<c}) (u:foo circ x a)
+  : Pure (foo circ x c) (requires circ c == Not a) (ensures fun _ -> True)
+
+#push-options "--fuel 1"
+let circuit_input #_ #_ #_ #_ #_ #x #_ j = Foo (index x j)
+let circuit_ones #_ #_ #_ #_ #_ #_ #_ = Foo (ones _)
+let circuit_zeros #_ #_ #_ #_ #_ #_ #_ = Foo (zeros _)
+let circuit_and u v = Foo (Foo?.u u &&& Foo?.u v)
+let circuit_xor u v = Foo (Foo?.u u ^^^ Foo?.u v)
+let circuit_or u v = Foo (Foo?.u u ||| Foo?.u v)
+let circuit_not u = Foo (~~~(Foo?.u u))
 #pop-options
 
 val circuit_spec (#m #m':nat) (circ:circuit m m') (#n:nat) (#xN:sig n) (x:xNxM xN m) : xNxM xN m'
-let circuit_spec #_ #m' circ #_ #xN x = xNxM_mk xN m' (circuit_spec_aux circ x)
+let circuit_spec #_ #m' circ #_ #xN x = xNxM_mk xN m' (circuit_def circ x)
 
 private val sliceable_circuit_lemma
   (#m #m':nat)
@@ -260,7 +335,7 @@ private val sliceable_circuit_lemma
   (x:xNxM xN m)
   (i:nat{i<m'})
   (j:nat{j<n})
-  : Lemma ( (circuit_spec_aux circ x i).[j] == (circuit_spec_aux circ (column j x) i).[0] )
+  : Lemma ( (circuit_def circ x i).[j] == (circuit_def circ (column j x) i).[0] )
 #push-options "--fuel 1 --ifuel 1"
 let rec sliceable_circuit_lemma circ x i j = match circ i with
   | Ones -> ()
