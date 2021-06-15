@@ -35,4 +35,4 @@ let rec uN t l n =
   else if n < bits t then
     xN_rest (aux t l) n
   else
-    xN_concat (bits t) (n-bits t) (aux t l) (uN t l (n-bits t))
+    xN_concat (aux t l) (uN t l (n-bits t))
