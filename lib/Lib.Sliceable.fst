@@ -1,7 +1,7 @@
 module Lib.Sliceable
 
 open FStar.UInt
-open FStar.Tactics
+//open FStar.Tactics
 
 #set-options "--fuel 0 --ifuel 0"
 
@@ -221,14 +221,25 @@ let u1xM_mk m f = xNxM_mk _ _ (fun i -> u1_of_bool (f i))
 
 val column (#n:nat) (#xN:sig n) (#m:nat) (j:nat{j<n}) (x:xNxM xN m) : u1xM m
 let column j x =
-  let aux1 i k : bool = (_).v (index x i) j in
-  let aux2 i : u1.t = u1.mk (aux1 i) in
-  xNxM_mk u1 _ aux2
+  let aux1 i k = (_).v (index x i) j in
+  let aux2 i = (_).mk (aux1 i) in
+  xNxM_mk _ _ aux2
+
+val line (#n:nat) (#xN:sig n) (#m:nat) (i:nat{i<m}) (x:xNxM xN m) : u1xM n
+let line i x =
+  let aux1 j k = (_).v (index x i) j in
+  let aux2 j = (_).mk (aux1 j) in
+  xNxM_mk _ _ aux2
 
 val column_def (#n:nat) (#xN:sig n) (#m:nat) (j:nat{j<n}) (x:xNxM xN m) (i:nat{i<m}) :
-  Lemma (index (column j x) i == (_).v (index x i) j)
-  [SMTPat (index (column j x) i)]
+  Lemma ((_).v (index (column j x) i) 0 == (_).v (index x i) j)
+  [SMTPat ((_).v (index (column j x) i) 0)]
 let column_def j x i = ()
+
+val line_def (#n:nat) (#xN:sig n) (#m:nat) (i:nat{i<m}) (x:xNxM xN m) (j:nat{j<n}) :
+  Lemma ((_).v (index (line i x) j) 0 == (_).v (index x i) j)
+  [SMTPat ((_).v (index (line i x) j) 0)]
+let line_def i x j = ()
 
 val column_lemma (#n:nat) (#xN:sig n) (#m:nat) (x:xNxM xN m) (i:nat{i<m}) (j:nat{j<n}) :
   Lemma ( u1.v (index (column j x) i) 0 == xN.v (index x i) j )
@@ -512,30 +523,30 @@ let bruteforce
   ) else false
 #pop-options
 
-val nat_ind
-  (n:pos)
-  (phi:((i:nat{i<n}) -> Type))
-  (_:squash (phi (n-1)))
-  (_:squash (forall (i:nat{i<n-1}). phi i))
-  : Lemma (forall (i:nat{i<n}). phi i)
-let nat_ind n phi _ _ = ()
+//val nat_ind
+//  (n:pos)
+//  (phi:((i:nat{i<n}) -> Type))
+//  (_:squash (phi (n-1)))
+//  (_:squash (forall (i:nat{i<n-1}). phi i))
+//  : Lemma (forall (i:nat{i<n}). phi i)
+//let nat_ind n phi _ _ = ()
 
-val bool_ind
-  (phi:(bool -> Type))
-  (_:squash (phi true))
-  (_:squash (phi false))
-  : Lemma (forall b. phi b)
-let bool_ind phi _ _ = ()
+//val bool_ind
+//  (phi:(bool -> Type))
+//  (_:squash (phi true))
+//  (_:squash (phi false))
+//  : Lemma (forall b. phi b)
+//let bool_ind phi _ _ = ()
 
-val nat_less_zero (phi : (i:nat{i<0}) -> Type) : Lemma (forall i. phi i)
-let nat_less_zero phi = ()
+//val nat_less_zero (phi : (i:nat{i<0}) -> Type) : Lemma (forall i. phi i)
+//let nat_less_zero phi = ()
 
-val bruteforce_nat (n:nat) (tac:unit -> Tac unit) : Tac unit
-let bruteforce_nat n tac =
-  let _ = repeatn n (fun _ -> apply_lemma (`nat_ind); tac ()) in
-  apply_lemma (`nat_less_zero)
+//val bruteforce_nat (n:nat) (tac:unit -> Tac unit) : Tac unit
+//let bruteforce_nat n tac =
+//  let _ = repeatn n (fun _ -> apply_lemma (`nat_ind); tac ()) in
+//  apply_lemma (`nat_less_zero)
 
-val bruteforce_bool (n:nat) (tac:unit -> Tac unit) : Tac unit
-let bruteforce_bool n tac =
-  let _ = repeatn n (fun _ -> iterAll (fun _ -> apply_lemma (`bool_ind))) in
-  iterAll tac
+//val bruteforce_bool (n:nat) (tac:unit -> Tac unit) : Tac unit
+//let bruteforce_bool n tac =
+//  let _ = repeatn n (fun _ -> iterAll (fun _ -> apply_lemma (`bool_ind))) in
+//  iterAll tac
