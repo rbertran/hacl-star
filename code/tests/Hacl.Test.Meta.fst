@@ -4,7 +4,7 @@ open FStar.UInt
 open Lib.Sliceable
 open FStar.Tactics
 
-#set-options "--fuel 0 --ifuel 0 --z3rlimit 0"
+#set-options "--fuel 0 --ifuel 1 --z3rlimit 0"
 
 /// Refs:
 /// FStar/ulib/experimental/FStar.InteractiveHelpers.*
@@ -63,3 +63,18 @@ let ls_length = normalize_term(List.Tot.length ls)
 
 // No need for `assert_norm` because of `normalize_term`
 let ls_test () : Lemma (ls_length == 128) = ()
+
+
+type result (a : Type) = | Success : v:a -> result a | Fail :result a
+let return (x:'a) : result 'a = Success x
+
+// The trick
+let bind (m : result 'a) (f : 'a -> result 'b) : result 'b =
+  match m with
+  | Success x -> f x
+  | Fail -> Fail
+
+let f () : result int =
+  x <-- return 3;
+  y <-- return 4;
+  return (x + y)
