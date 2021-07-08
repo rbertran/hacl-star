@@ -1,4 +1,4 @@
-HACL_HOME=../../..
+HACL_HOME=../..
 
 # CUSTOMIZE HERE: determine what is the main target of this Makefile, e.g. a C
 # test, a Low* test, or just a binary archive (like libcurve.a).
@@ -8,11 +8,12 @@ test: all
 	dist/aes128-bitslice.exe
 
 # Defines rules for producing .checked, .krml, .depend, etc.
-include ../../../Makefile.local
+include $(HACL_HOME)/Makefile.local
 
 #BASE_FLAGS+= -funroll-loops 4
 
-CFLAGS += -I../../../../lib/c -march=native -mtune=native -O3
+CFLAGS += -I$(HACL_HOME)/lib/c -march=native -mtune=native -O3
+#CFLAGS += -I(HACL_HOME)/lib/c -mavx -mavx2
 export CFLAGS
 
 # CUSTOMIZE HERE: how to produce binary objects
