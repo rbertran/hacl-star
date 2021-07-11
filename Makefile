@@ -695,7 +695,6 @@ BUNDLE_FLAGS	=\
   $(INTTYPES_BUNDLE) \
   $(RSAPSS_BUNDLE) \
   $(FFDHE_BUNDLE) \
-  $(AES_BUNDLE) \
   $(LEGACY_BUNDLE)
 
 DEFAULT_FLAGS = \
@@ -707,6 +706,10 @@ DEFAULT_FLAGS = \
   $(BUNDLE_FLAGS) \
   $(REQUIRED_FLAGS) \
   $(TARGET_H_INCLUDE)
+
+# AES testing
+# -----------
+dist/gcc-compatible/Makefile.basic: DEFAULT_FLAGS+=$(AES_BUNDLE)
 
 # WASM distribution
 # -----------------
