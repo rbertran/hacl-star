@@ -62,7 +62,7 @@ int main() {
   for (int i = 0; i < 32; i++)
     printf("%02x",comp[i]);
   printf("\n");
-  printf("AES_NI expected:");
+  printf("AES-NI expected:");
   for (int i = 0; i < 32; i++)
     printf("%02x",exp[i]);
   printf("\n");
