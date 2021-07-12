@@ -192,52 +192,64 @@ let shift32_lemma1 (x:uint64) (i0 i1:bool) (j:bool*bool*bool) :
   assert(get1 (x >>. size 32) (i0,i1,false) j == UI.nth #64 (UI.shift_right (v x) 32) (aux j0 j1 j2 i0 i1 true + 32))
 
 #push-options "--ifuel 1"
+let m32_def : (m:uint64{forall i0 i1 i2 j. get1 m (i0,i1,i2) j == i2}) =
+    let foo (i:nat{i<64}) : bool =
+        assert_norm(pow2 6 == 64);
+        UI.nth #6 (63-i) 0
+    in
+    u64 (UI.from_vec #64 (S.init 64 foo))
+#pop-options
+let m32 : uint64 = normalize_term m32_def
+let m32_lemma (_:unit) : Lemma (forall (i0 i1 i2:bool) (j:bool*bool*bool). get1 m32 (i0,i1,i2) j == i2) = assert_norm(m32 == m32_def)
 let transpose_aux_aux32 (a b:uint64) :
   Pure uint64x2 (requires True) (ensures fun x ->
     forall (k0 i0 i1 i2:bool) (j:bool*bool*bool). get2 x k0 (i0,i1,i2) j == get2 (a,b) i2 (i0,i1,k0) j
   ) =
-  let foo (i:nat{i<64}) : bool =
-    assert_norm(pow2 6 == 64);
-    UI.nth #6 (63-i) 0
-  in
-  let m : uint64 = u64 (UI.from_vec #64 (S.init 64 foo)) in
-  assert(forall (i0 i1 i2:bool) (j:bool*bool*bool). get1 m (i0,i1,i2) j == i2);
-  ( (a &. lognot m) ^. ((b <<. size 32) &. m)
-  , ((a >>. size 32) &. lognot m) ^. (b &. m)
-  )
-#pop-options
+  m32_lemma ();
+  let a' : uint64 = (a &. lognot m32) ^. ((b <<. size 32) &. m32) in
+  let b' : uint64 = ((a >>. size 32) &. lognot m32) ^. (b &. m32) in
+  (a', b')
 
 #push-options "--ifuel 1"
+let m16_def : (m:uint64{forall i0 i1 i2 j. get1 m (i0,i1,i2) j == i1}) =
+    let foo (i:nat{i<64}) : bool =
+        assert_norm(pow2 6 == 64);
+        UI.nth #6 (63-i) 1
+    in
+    u64 (UI.from_vec #64 (S.init 64 foo))
+#pop-options
+let m16 : uint64 = normalize_term m16_def
+let m16_lemma (_:unit) : Lemma (forall (i0 i1 i2:bool) (j:bool*bool*bool). get1 m16 (i0,i1,i2) j == i1) = assert_norm(m16 == m16_def)
 let transpose_aux_aux16 (a b:uint64) :
   Pure uint64x2 (requires True) (ensures fun x ->
     forall (k0 i0 i1 i2:bool) (j:bool*bool*bool). get2 x k0 (i0,i1,i2) j == get2 (a,b) i1 (i0,k0,i2) j
   ) =
-  let foo (i:nat{i<64}) : bool =
-    assert_norm(pow2 6 == 64);
-    UI.nth #6 (63-i) 1
-  in
-  let m : uint64 = u64 (UI.from_vec #64 (S.init 64 foo)) in
-  assert(forall (i0 i1 i2:bool) (j:bool*bool*bool). get1 m (i0,i1,i2) j == i1);
-  ( (a &. lognot m) ^. ((b <<. size 16) &. m)
-  , ((a >>. size 16) &. lognot m) ^. (b &. m)
-  )
-#pop-options
+  m16_lemma ();
+  let a' : uint64 = (a &. lognot m16) ^. ((b <<. size 16) &. m16) in
+  let b' : uint64 = ((a >>. size 16) &. lognot m16) ^. (b &. m16) in
+  (a', b')
 
 #push-options "--ifuel 1"
+let m8_def : (m:uint64{forall i0 i1 i2 j. get1 m (i0,i1,i2) j == i0}) =
+    let foo (i:nat{i<64}) : bool =
+        assert_norm(pow2 6 == 64);
+        UI.nth #6 (63-i) 2
+    in
+    u64 (UI.from_vec #64 (S.init 64 foo))
+#pop-options
+open FStar.Tactics
+let pp () : Tac unit = norm []; dump ""; trefl()
+[@@postprocess_with pp]
+let m8 : uint64 = normalize_term m8_def
+let m8_lemma (_:unit) : Lemma (forall (i0 i1 i2:bool) (j:bool*bool*bool). get1 m8 (i0,i1,i2) j == i0) = assert_norm(m8 == m8_def)
 let transpose_aux_aux8 (a b:uint64) :
   Pure uint64x2 (requires True) (ensures fun x ->
     forall (k0 i0 i1 i2:bool) (j:bool*bool*bool). get2 x k0 (i0,i1,i2) j == get2 (a,b) i0 (k0,i1,i2) j
   ) =
-  let foo (i:nat{i<64}) : bool =
-    assert_norm(pow2 6 == 64);
-    UI.nth #6 (63-i) 2
-  in
-  let m : uint64 = u64 (UI.from_vec #64 (S.init 64 foo)) in
-  assert(forall (i0 i1 i2:bool) (j:bool*bool*bool). get1 m (i0,i1,i2) j == i0);
-  ( (a &. lognot m) ^. ((b <<. size 8) &. m)
-  , ((a >>. size 8) &. lognot m) ^. (b &. m)
-  )
-#pop-options
+  m8_lemma ();
+  let a' : uint64 = (a &. lognot m8) ^. ((b <<. size 8) &. m8) in
+  let b' : uint64 = ((a >>. size 8) &. lognot m8) ^. (b &. m8) in
+  (a', b')
 
 let transpose_aux32 (x:uint64x8) : Pure uint64x8 (requires True) (ensures fun y -> forall (k0 k1 k2 i0 i1 i2 j0 j1 j2:bool). get8 y (k0,k1,k2) (i0,i1,i2) (j0,j1,j2) == get8 x (k0,k1,i2) (i0,i1,k2) (j0,j1,j2)) =
     let (((x0,x1),(x2,x3)),((x4,x5),(x6,x7))) = x in
@@ -248,10 +260,10 @@ let transpose_aux32 (x:uint64x8) : Pure uint64x8 (requires True) (ensures fun y 
     let y = (((y0,y1),(y2,y3)),((y4,y5),(y6,y7))) in
     forall_intro_bool_9 (fun k0 k1 k2 i0 i1 i2 j0 j1 j2 ->
       ( match (k0, k1) with
-      | (false, false) -> assert (get8 y (k0,k1,k2) (i0,i1,i2) (j0,j1,j2) == get2 (y0,y4) k2 (i0,i1,i2) (j0,j1,j2))
-      | (true, false) -> assert (get8 y (k0,k1,k2) (i0,i1,i2) (j0,j1,j2) == get2 (y1,y5) k2 (i0,i1,i2) (j0,j1,j2))
-      | (false, true) -> assert (get8 y (k0,k1,k2) (i0,i1,i2) (j0,j1,j2) == get2 (y2,y6) k2 (i0,i1,i2) (j0,j1,j2))
-      | (true, true) -> assert (get8 y (k0,k1,k2) (i0,i1,i2) (j0,j1,j2) == get2 (y3,y7) k2 (i0,i1,i2) (j0,j1,j2))
+      | (false, false) -> assert_norm(get8 y (k0,k1,k2) (i0,i1,i2) (j0,j1,j2) == get2 (y0,y4) k2 (i0,i1,i2) (j0,j1,j2))
+      | (true, false) -> assert_norm(get8 y (k0,k1,k2) (i0,i1,i2) (j0,j1,j2) == get2 (y1,y5) k2 (i0,i1,i2) (j0,j1,j2))
+      | (false, true) -> assert_norm(get8 y (k0,k1,k2) (i0,i1,i2) (j0,j1,j2) == get2 (y2,y6) k2 (i0,i1,i2) (j0,j1,j2))
+      | (true, true) -> assert_norm(get8 y (k0,k1,k2) (i0,i1,i2) (j0,j1,j2) == get2 (y3,y7) k2 (i0,i1,i2) (j0,j1,j2))
       ) <: Lemma (get8 y (k0,k1,k2) (i0,i1,i2) (j0,j1,j2) == get8 x (k0,k1,i2) (i0,i1,k2) (j0,j1,j2))
     );
     y
@@ -263,8 +275,8 @@ let transpose_aux16 (x:uint64x4) : Pure uint64x4 (requires True) (ensures fun y 
     let y = ((y0,y1),(y2,y3)) in
     forall_intro_bool_8 (fun k0 k1 i0 i1 i2 j0 j1 j2 ->
       ( match k0 with
-      | false -> assert(get4 y (k0,k1) (i0,i1,i2) (j0,j1,j2) == get2 (y0,y2) k1 (i0,i1,i2) (j0,j1,j2))
-      | true -> assert(get4 y (k0,k1) (i0,i1,i2) (j0,j1,j2) == get2 (y1,y3) k1 (i0,i1,i2) (j0,j1,j2))
+      | false -> assert_norm(get4 y (k0,k1) (i0,i1,i2) (j0,j1,j2) == get2 (y0,y2) k1 (i0,i1,i2) (j0,j1,j2))
+      | true -> assert_norm(get4 y (k0,k1) (i0,i1,i2) (j0,j1,j2) == get2 (y1,y3) k1 (i0,i1,i2) (j0,j1,j2))
       ) <: Lemma (get4 y (k0,k1) (i0,i1,i2) (j0,j1,j2) == get4 x (k0,i1) (i0,k1,i2) (j0,j1,j2))
     );
     y
