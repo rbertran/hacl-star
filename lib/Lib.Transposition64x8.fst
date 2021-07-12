@@ -237,9 +237,6 @@ let m8_def : (m:uint64{forall i0 i1 i2 j. get1 m (i0,i1,i2) j == i0}) =
     in
     u64 (UI.from_vec #64 (S.init 64 foo))
 #pop-options
-open FStar.Tactics
-let pp () : Tac unit = norm []; dump ""; trefl()
-[@@postprocess_with pp]
 let m8 : uint64 = normalize_term m8_def
 let m8_lemma (_:unit) : Lemma (forall (i0 i1 i2:bool) (j:bool*bool*bool). get1 m8 (i0,i1,i2) j == i0) = assert_norm(m8 == m8_def)
 let transpose_aux_aux8 (a b:uint64) :

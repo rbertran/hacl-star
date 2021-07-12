@@ -28,61 +28,10 @@ val transpose_bits64x8:
   Tot (uint64 * uint64 * uint64 * uint64 * uint64 * uint64 * uint64 * uint64)
 
 let transpose_bits64x8 i0 i1 i2 i3 i4 i5 i6 i7 =
-  let t0 = (i0 &. u64 0xffffffff) ^. (i4 <<. size 32) in
-  let t1 = (i1 &. u64 0xffffffff) ^. (i5 <<. size 32) in
-  let t2 = (i2 &. u64 0xffffffff) ^. (i6 <<. size 32) in
-  let t3 = (i3 &. u64 0xffffffff) ^. (i7 <<. size 32) in
-  let t4 = (i4 &. u64 0xffffffff00000000) ^. (i0 >>. size  32) in
-  let t5 = (i5 &. u64 0xffffffff00000000) ^. (i1 >>. size  32) in
-  let t6 = (i6 &. u64 0xffffffff00000000) ^. (i2 >>. size  32) in
-  let t7 = (i7 &. u64 0xffffffff00000000) ^. (i3 >>. size  32) in
-
-  let t0_ = t0 in
-  let t1_ = t1 in
-  let t2_ = t3 in
-  let t3_ = t3 in
-  let t4_ = t4 in
-  let t5_ = t5 in
-  let t6_ = t6 in
-  let t7_ = t7 in
-
-  let t0 = (t0 &. u64 0x0000ffff0000ffff) ^. ((t2 &. u64 0x0000ffff0000ffff) <<. size 16) in
-  let t1 = (t1 &. u64 0x0000ffff0000ffff) ^. ((t3 &. u64 0x0000ffff0000ffff) <<. size 16) in
-  let t2 = (t2 &. u64 0xffff0000ffff0000) ^. ((t0_ &. u64 0xffff0000ffff0000) >>. size  16) in
-  let t3 = (t3 &. u64 0xffff0000ffff0000) ^. ((t1_ &. u64 0xffff0000ffff0000) >>. size  16) in
-  let t4 = (t4 &. u64 0x0000ffff0000ffff) ^. ((t6 &. u64 0x0000ffff0000ffff) <<. size 16) in
-  let t5 = (t5 &. u64 0x0000ffff0000ffff) ^. ((t7 &. u64 0x0000ffff0000ffff) <<. size 16) in
-  let t6 = (t6 &. u64 0xffff0000ffff0000) ^. ((t4_ &. u64 0xffff0000ffff0000) >>. size  16) in
-  let t7 = (t7 &. u64 0xffff0000ffff0000) ^. ((t5_ &. u64 0xffff0000ffff0000) >>. size  16) in
-
-  let t0_ = t0 in
-  let t1_ = t1 in
-  let t2_ = t2 in
-  let t3_ = t3 in
-  let t4_ = t4 in
-  let t5_ = t5 in
-  let t6_ = t6 in
-  let t7_ = t7 in
-
-  let t0 = (t0 &. u64 0x00ff00ff00ff00ff) ^. ((t1 &. u64 0x00ff00ff00ff00ff) <<. size 8) in
-  let t1 = (t1 &. u64 0xff00ff00ff00ff00) ^. ((t0_ &. u64 0xff00ff00ff00ff00) >>. size  8) in
-  let t2 = (t2 &. u64 0x00ff00ff00ff00ff) ^. ((t3 &. u64 0x00ff00ff00ff00ff) <<. size 8) in
-  let t3 = (t3 &. u64 0xff00ff00ff00ff00) ^. ((t2_ &. u64 0xff00ff00ff00ff00) >>. size  8) in
-  let t4 = (t4 &. u64 0x00ff00ff00ff00ff) ^. ((t5 &. u64 0x00ff00ff00ff00ff) <<. size 8) in
-  let t5 = (t5 &. u64 0xff00ff00ff00ff00) ^. ((t4_ &. u64 0xff00ff00ff00ff00) >>. size  8) in
-  let t6 = (t6 &. u64 0x00ff00ff00ff00ff) ^. ((t7 &. u64 0x00ff00ff00ff00ff) <<. size 8) in
-  let t7 = (t7 &. u64 0xff00ff00ff00ff00) ^. ((t6_ &. u64 0xff00ff00ff00ff00) >>. size  8) in
-
-  let t0 = transpose_bits64(t0) in
-  let t1 = transpose_bits64(t1) in
-  let t2 = transpose_bits64(t2) in
-  let t3 = transpose_bits64(t3) in
-  let t4 = transpose_bits64(t4) in
-  let t5 = transpose_bits64(t5) in
-  let t6 = transpose_bits64(t6) in
-  let t7 = transpose_bits64(t7) in
-
-  (t0,t1,t2,t3,t4,t5,t6,t7)
+  let (((j0,j1),(j2,j3)),((j4,j5),(j6,j7))) =
+    Lib.Transposition64x8.transpose_bits64x8 (((i0,i1),(i2,i3)),((i4,i5),(i6,i7)))
+  in
+  (j0,j1,j2,j3,j4,j5,j6,j7)
 
 
 (* Boyar and Peralta circuit: depth 16, gates 125 *)
