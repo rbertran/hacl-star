@@ -46,6 +46,7 @@ let uint64x2 : Type0 = uint64x1 * uint64x1
 let uint64x4 : Type0 = uint64x2 * uint64x2
 let uint64x8 : Type0 = uint64x4 * uint64x4
 
+noextract
 let aux (i0 i1 i2 i3 i4 i5:bool) : (i:nat{i<64}) =
   assert_norm (pow2 6 == 64);
   let s = S.cons i5 (S.cons i4 (S.cons i3 (S.cons i2 (S.cons i1 (S.cons i0 S.empty))))) in
@@ -122,15 +123,19 @@ let aux_lemma32 (i0 i1 i2 i3 i4:bool) :
   aux_lemma #6 s t 0;
   assert_norm(pow2 5 == 32)
 
+noextract
 let get1 (x:uint64x1) ((i0,i1,i2):bool*bool*bool) ((j0,j1,j2):bool*bool*bool) : bool =
   UI.nth #64 (v x) (aux j0 j1 j2 i0 i1 i2)
 
+noextract
 let get2 ((x0,x1):uint64x2) (k0:bool) (i j:bool*bool*bool) : bool =
   if k0 then get1 x1 i j else get1 x0 i j
 
+noextract
 let get4 ((x0,x1):uint64x4) ((k0,k1):bool*bool) (i j:bool*bool*bool) : bool =
   if k1 then get2 x1 k0 i j else get2 x0 k0 i j
 
+noextract
 let get8 ((x0,x1):uint64x8) ((k0,k1,k2):bool*bool*bool) (i j:bool*bool*bool) : bool =
   if k2 then get4 x1 (k0,k1) i j else get4 x0 (k0,k1) i j
 
@@ -192,6 +197,7 @@ let shift32_lemma1 (x:uint64) (i0 i1:bool) (j:bool*bool*bool) :
   assert(get1 (x >>. size 32) (i0,i1,false) j == UI.nth #64 (UI.shift_right (v x) 32) (aux j0 j1 j2 i0 i1 true + 32))
 
 #push-options "--ifuel 1"
+noextract
 let m32_def : (m:uint64{forall i0 i1 i2 j. get1 m (i0,i1,i2) j == i2}) =
     let foo (i:nat{i<64}) : bool =
         assert_norm(pow2 6 == 64);
@@ -211,6 +217,7 @@ let transpose_aux_aux32 (a b:uint64) :
   (a', b')
 
 #push-options "--ifuel 1"
+noextract
 let m16_def : (m:uint64{forall i0 i1 i2 j. get1 m (i0,i1,i2) j == i1}) =
     let foo (i:nat{i<64}) : bool =
         assert_norm(pow2 6 == 64);
@@ -230,6 +237,7 @@ let transpose_aux_aux16 (a b:uint64) :
   (a', b')
 
 #push-options "--ifuel 1"
+noextract
 let m8_def : (m:uint64{forall i0 i1 i2 j. get1 m (i0,i1,i2) j == i0}) =
     let foo (i:nat{i<64}) : bool =
         assert_norm(pow2 6 == 64);
