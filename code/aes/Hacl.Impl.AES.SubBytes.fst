@@ -2,6 +2,7 @@ module Hacl.Impl.AES.SubBytes
 
 open FStar.UInt
 open Lib.Sliceable
+open Lib.Circuits
 
 #set-options "--fuel 0 --ifuel 0 --z3rlimit 0"
 
@@ -48,70 +49,73 @@ match i with
 | 6 -> 158
 | 7 -> 159
 
-private val subBytes_def (#n:nat) (#xN:sig n) (x:xNxM xN 8) : xNxM xN 8
-let subBytes_def x = reduce_output (circuit_spec circ) 8 outputs x
+private val subBytes_def (lN:bar) (x:xNxM lN.xN 8) : xNxM lN.xN 8
+let subBytes_def lN x = reduce_output (circuit_spec circ lN) 8 outputs x
 
-private val sliceable_subBytes_def (_:unit) : Lemma (sliceable subBytes_def)
-let sliceable_subBytes_def () = sliceable_feq (reduce_output (circuit_spec circ) 8 outputs) subBytes_def
+private val sliceable_subBytes_def (lN:bar) : Lemma (sliceable (subBytes_def lN) (subBytes_def l1))
+let sliceable_subBytes_def lN =
+  reduce_output_sliceable (circuit_spec circ lN) (circuit_spec circ l1) 8 outputs;
+  ()
 
 #push-options "--fuel 1 --ifuel 1"
-let subBytes (#n:nat) (#xN:sig n) (x:xNxM xN 8) : xNxM xN 8 =
-let (a0,(a1,(a2,(a3,(a4,(a5,(a6,(a7,())))))))) : xN.t*(xN.t*(xN.t*(xN.t*(xN.t*(xN.t*(xN.t*(xN.t*unit))))))) = x in
-let a8 = xN.xor_ a6 a4 in let a9 = xN.xor_ a3 a0 in let a10 = xN.xor_ a1 a2 in let a11 = xN.xor_ a7 a10 in
-let a12 = xN.xor_ a8 a9 in let a13 = xN.xor_ a1 a5 in let a14 = xN.xor_ a0 a6 in let a15 = xN.xor_ a8 a13 in
-let a16 = xN.xor_ a6 a11 in let a17 = xN.xor_ a3 a11 in let a18 = xN.xor_ a7 a12 in let a19 = xN.xor_ a12 a13 in
-let a20 = xN.xor_ a2 a5 in let a21 = xN.xor_ a10 a12 in let a22 = xN.xor_ a5 a14 in let a23 = xN.xor_ a0 a5 in
-let a24 = xN.xor_ a7 a15 in let a25 = xN.xor_ a6 a5 in let a26 = xN.xor_ a9 a25 in let a27 = xN.xor_ a11 a22 in
-let a28 = xN.xor_ a8 a20 in let a29 = xN.xor_ a0 a11 in let a30 = xN.zeros_ in let a31 = xN.zeros_ in
-let a32 = xN.zeros_ in let a33 = xN.zeros_ in let a34 = xN.zeros_ in let a35 = xN.zeros_ in
-let a36 = xN.zeros_ in let a37 = xN.zeros_ in let a38 = xN.zeros_ in let a39 = xN.zeros_ in
-let a40 = xN.zeros_ in let a41 = xN.zeros_ in let a42 = xN.zeros_ in let a43 = xN.zeros_ in
-let a44 = xN.zeros_ in let a45 = xN.zeros_ in let a46 = xN.xor_ a28 a12 in let a47 = xN.xor_ a28 a14 in
-let a48 = xN.xor_ a14 a26 in let a49 = xN.xor_ a23 a21 in let a50 = xN.xor_ a29 a24 in let a51 = xN.and_ a26 a12 in
-let a52 = xN.and_ a27 a18 in let a53 = xN.xor_ a19 a51 in let a54 = xN.and_ a17 a7 in let a55 = xN.xor_ a54 a51 in
-let a56 = xN.and_ a14 a28 in let a57 = xN.and_ a16 a11 in let a58 = xN.xor_ a47 a56 in let a59 = xN.and_ a29 a24 in
-let a60 = xN.xor_ a59 a56 in let a61 = xN.and_ a9 a15 in let a62 = xN.and_ a48 a46 in let a63 = xN.xor_ a62 a61 in
-let a64 = xN.and_ a23 a21 in let a65 = xN.xor_ a64 a61 in let a66 = xN.xor_ a53 a52 in let a67 = xN.xor_ a55 a49 in
-let a68 = xN.xor_ a58 a57 in let a69 = xN.xor_ a60 a65 in let a70 = xN.xor_ a66 a63 in let a71 = xN.xor_ a67 a65 in
-let a72 = xN.xor_ a68 a63 in let a73 = xN.xor_ a69 a50 in let a74 = xN.xor_ a72 a73 in let a75 = xN.and_ a72 a70 in
-let a76 = xN.xor_ a71 a75 in let a77 = xN.xor_ a70 a71 in let a78 = xN.xor_ a73 a75 in let a79 = xN.and_ a78 a77 in
-let a80 = xN.and_ a76 a74 in let a81 = xN.and_ a70 a73 in let a82 = xN.and_ a77 a81 in let a83 = xN.xor_ a77 a75 in
-let a84 = xN.and_ a71 a72 in let a85 = xN.and_ a74 a84 in let a86 = xN.xor_ a74 a75 in let a87 = xN.xor_ a71 a79 in
-let a88 = xN.xor_ a82 a83 in let a89 = xN.xor_ a73 a80 in let a90 = xN.xor_ a85 a86 in let a91 = xN.xor_ a88 a90 in
-let a92 = xN.xor_ a87 a89 in let a93 = xN.xor_ a87 a88 in let a94 = xN.xor_ a89 a90 in let a95 = xN.xor_ a92 a91 in
-let a96 = xN.and_ a94 a12 in let a97 = xN.and_ a90 a18 in let a98 = xN.and_ a89 a7 in let a99 = xN.and_ a93 a28 in
-let a100 = xN.and_ a88 a11 in let a101 = xN.and_ a87 a24 in let a102 = xN.and_ a92 a15 in let a103 = xN.and_ a95 a46 in
-let a104 = xN.and_ a91 a21 in let a105 = xN.and_ a94 a26 in let a106 = xN.and_ a90 a27 in let a107 = xN.and_ a89 a17 in
-let a108 = xN.and_ a93 a14 in let a109 = xN.and_ a88 a16 in let a110 = xN.and_ a87 a29 in let a111 = xN.and_ a92 a9 in
-let a112 = xN.and_ a95 a48 in let a113 = xN.and_ a91 a23 in let a114 = xN.xor_ a111 a112 in let a115 = xN.xor_ a100 a106 in
-let a116 = xN.xor_ a103 a114 in let a117 = xN.xor_ a105 a115 in let a118 = xN.xor_ a98 a108 in let a119 = xN.xor_ a96 a99 in
-let a120 = xN.xor_ a114 a119 in let a121 = xN.xor_ a97 a117 in let a122 = xN.xor_ a96 a102 in let a123 = xN.xor_ a101 a109 in
-let a124 = xN.xor_ a104 a110 in let a125 = xN.xor_ a98 a121 in let a126 = xN.xor_ a118 a124 in let a127 = xN.xor_ a107 a115 in
-let a128 = xN.xor_ a99 a102 in let a129 = xN.xor_ a117 a128 in let a130 = xN.xor_ a113 a126 in let a131 = xN.xor_ a111 a122 in
-let a132 = xN.xor_ a118 a123 in let a133 = xN.zeros_ in let a134 = xN.zeros_ in let a135 = xN.xor_ a101 a114 in
-let a136 = xN.zeros_ in let a137 = xN.zeros_ in let a138 = xN.xor_ a100 a108 in let a139 = xN.xor_ a119 a127 in
-let a140 = xN.zeros_ in let a141 = xN.xor_ a104 a123 in let a142 = xN.xor_ a138 a141 in let a143 = xN.xor_ a100 a122 in
-let a144 = xN.zeros_ in let a145 = xN.xor_ a126 a139 in let a146 = xN.zeros_ in let a147 = xN.xor_ a121 a143 in
-let a148 = xN.xor_ a120 a132 in let a149 = xN.not_ a148 in let a150 = xN.xor_ a116 a142 in let a151 = xN.not_ a150 in
-let a152 = xN.xor_ a116 a145 in let a153 = xN.xor_ a125 a135 in let a154 = xN.xor_ a120 a121 in let a155 = xN.xor_ a130 a131 in
-let a156 = xN.not_ a155 in let a157 = xN.xor_ a116 a147 in let a158 = xN.not_ a157 in let a159 = xN.xor_ a116 a129 in
-let f (i:nat{i<8}) : xN.t =
+let subBytes (lN:bar) (x:xNxM lN.xN 8) : xNxM lN.xN 8 =
+let (a0,(a1,(a2,(a3,(a4,(a5,(a6,(a7,())))))))) : lN.xN.t*(lN.xN.t*(lN.xN.t*(lN.xN.t*(lN.xN.t*(lN.xN.t*(lN.xN.t*(lN.xN.t*unit))))))) = x in
+let a8 = lN.xor_ a6 a4 in let a9 = lN.xor_ a3 a0 in let a10 = lN.xor_ a1 a2 in let a11 = lN.xor_ a7 a10 in
+let a12 = lN.xor_ a8 a9 in let a13 = lN.xor_ a1 a5 in let a14 = lN.xor_ a0 a6 in let a15 = lN.xor_ a8 a13 in
+let a16 = lN.xor_ a6 a11 in let a17 = lN.xor_ a3 a11 in let a18 = lN.xor_ a7 a12 in let a19 = lN.xor_ a12 a13 in
+let a20 = lN.xor_ a2 a5 in let a21 = lN.xor_ a10 a12 in let a22 = lN.xor_ a5 a14 in let a23 = lN.xor_ a0 a5 in
+let a24 = lN.xor_ a7 a15 in let a25 = lN.xor_ a6 a5 in let a26 = lN.xor_ a9 a25 in let a27 = lN.xor_ a11 a22 in
+let a28 = lN.xor_ a8 a20 in let a29 = lN.xor_ a0 a11 in let a30 = lN.zeros_ in let a31 = lN.zeros_ in
+let a32 = lN.zeros_ in let a33 = lN.zeros_ in let a34 = lN.zeros_ in let a35 = lN.zeros_ in
+let a36 = lN.zeros_ in let a37 = lN.zeros_ in let a38 = lN.zeros_ in let a39 = lN.zeros_ in
+let a40 = lN.zeros_ in let a41 = lN.zeros_ in let a42 = lN.zeros_ in let a43 = lN.zeros_ in
+let a44 = lN.zeros_ in let a45 = lN.zeros_ in let a46 = lN.xor_ a28 a12 in let a47 = lN.xor_ a28 a14 in
+let a48 = lN.xor_ a14 a26 in let a49 = lN.xor_ a23 a21 in let a50 = lN.xor_ a29 a24 in let a51 = lN.and_ a26 a12 in
+let a52 = lN.and_ a27 a18 in let a53 = lN.xor_ a19 a51 in let a54 = lN.and_ a17 a7 in let a55 = lN.xor_ a54 a51 in
+let a56 = lN.and_ a14 a28 in let a57 = lN.and_ a16 a11 in let a58 = lN.xor_ a47 a56 in let a59 = lN.and_ a29 a24 in
+let a60 = lN.xor_ a59 a56 in let a61 = lN.and_ a9 a15 in let a62 = lN.and_ a48 a46 in let a63 = lN.xor_ a62 a61 in
+let a64 = lN.and_ a23 a21 in let a65 = lN.xor_ a64 a61 in let a66 = lN.xor_ a53 a52 in let a67 = lN.xor_ a55 a49 in
+let a68 = lN.xor_ a58 a57 in let a69 = lN.xor_ a60 a65 in let a70 = lN.xor_ a66 a63 in let a71 = lN.xor_ a67 a65 in
+let a72 = lN.xor_ a68 a63 in let a73 = lN.xor_ a69 a50 in let a74 = lN.xor_ a72 a73 in let a75 = lN.and_ a72 a70 in
+let a76 = lN.xor_ a71 a75 in let a77 = lN.xor_ a70 a71 in let a78 = lN.xor_ a73 a75 in let a79 = lN.and_ a78 a77 in
+let a80 = lN.and_ a76 a74 in let a81 = lN.and_ a70 a73 in let a82 = lN.and_ a77 a81 in let a83 = lN.xor_ a77 a75 in
+let a84 = lN.and_ a71 a72 in let a85 = lN.and_ a74 a84 in let a86 = lN.xor_ a74 a75 in let a87 = lN.xor_ a71 a79 in
+let a88 = lN.xor_ a82 a83 in let a89 = lN.xor_ a73 a80 in let a90 = lN.xor_ a85 a86 in let a91 = lN.xor_ a88 a90 in
+let a92 = lN.xor_ a87 a89 in let a93 = lN.xor_ a87 a88 in let a94 = lN.xor_ a89 a90 in let a95 = lN.xor_ a92 a91 in
+let a96 = lN.and_ a94 a12 in let a97 = lN.and_ a90 a18 in let a98 = lN.and_ a89 a7 in let a99 = lN.and_ a93 a28 in
+let a100 = lN.and_ a88 a11 in let a101 = lN.and_ a87 a24 in let a102 = lN.and_ a92 a15 in let a103 = lN.and_ a95 a46 in
+let a104 = lN.and_ a91 a21 in let a105 = lN.and_ a94 a26 in let a106 = lN.and_ a90 a27 in let a107 = lN.and_ a89 a17 in
+let a108 = lN.and_ a93 a14 in let a109 = lN.and_ a88 a16 in let a110 = lN.and_ a87 a29 in let a111 = lN.and_ a92 a9 in
+let a112 = lN.and_ a95 a48 in let a113 = lN.and_ a91 a23 in let a114 = lN.xor_ a111 a112 in let a115 = lN.xor_ a100 a106 in
+let a116 = lN.xor_ a103 a114 in let a117 = lN.xor_ a105 a115 in let a118 = lN.xor_ a98 a108 in let a119 = lN.xor_ a96 a99 in
+let a120 = lN.xor_ a114 a119 in let a121 = lN.xor_ a97 a117 in let a122 = lN.xor_ a96 a102 in let a123 = lN.xor_ a101 a109 in
+let a124 = lN.xor_ a104 a110 in let a125 = lN.xor_ a98 a121 in let a126 = lN.xor_ a118 a124 in let a127 = lN.xor_ a107 a115 in
+let a128 = lN.xor_ a99 a102 in let a129 = lN.xor_ a117 a128 in let a130 = lN.xor_ a113 a126 in let a131 = lN.xor_ a111 a122 in
+let a132 = lN.xor_ a118 a123 in let a133 = lN.zeros_ in let a134 = lN.zeros_ in let a135 = lN.xor_ a101 a114 in
+let a136 = lN.zeros_ in let a137 = lN.zeros_ in let a138 = lN.xor_ a100 a108 in let a139 = lN.xor_ a119 a127 in
+let a140 = lN.zeros_ in let a141 = lN.xor_ a104 a123 in let a142 = lN.xor_ a138 a141 in let a143 = lN.xor_ a100 a122 in
+let a144 = lN.zeros_ in let a145 = lN.xor_ a126 a139 in let a146 = lN.zeros_ in let a147 = lN.xor_ a121 a143 in
+let a148 = lN.xor_ a120 a132 in let a149 = lN.not_ a148 in let a150 = lN.xor_ a116 a142 in let a151 = lN.not_ a150 in
+let a152 = lN.xor_ a116 a145 in let a153 = lN.xor_ a125 a135 in let a154 = lN.xor_ a120 a121 in let a155 = lN.xor_ a130 a131 in
+let a156 = lN.not_ a155 in let a157 = lN.xor_ a116 a147 in let a158 = lN.not_ a157 in let a159 = lN.xor_ a116 a129 in
+let f (i:nat{i<8}) : lN.xN.t =
   match i with
   | 0 -> a149 | 1 -> a151 | 2 -> a152 | 3 -> a153
   | 4 -> a154 | 5 -> a156 | 6 -> a158 | 7 -> a159
 in
-xNxM_mk xN 8 f
+xNxM_mk lN.xN 8 f
 
-val subBytes_eq_def (_:unit) : Lemma (forall (n:nat) (xN:sig n) (x:xNxM xN 8) (i:nat{i<8}). subBytes x == subBytes_def x)
-let subBytes_eq_def () = admit ()
+val subBytes_eq_def (lN:bar) : Lemma (forall (x:xNxM lN.xN 8) (i:nat{i<8}). subBytes lN x == subBytes_def lN x)
+let subBytes_eq_def lN = admit ()
 
-val subBytes_sliceable (_:unit) : Lemma (sliceable subBytes)
-#push-options "--fuel 1"
-let subBytes_sliceable () =
-  subBytes_eq_def ();
-  sliceable_subBytes_def ();
-  sliceable_feq subBytes_def subBytes
-#pop-options
+val subBytes_sliceable (lN:bar) : Lemma (sliceable (subBytes lN) (subBytes l1))
+let subBytes_sliceable lN =
+  sliceable_intro (subBytes lN) (subBytes l1) (fun x j ->
+    subBytes_eq_def lN;
+    subBytes_eq_def l1;
+    sliceable_subBytes_def lN;
+    ()
+  )
 
 val sbox (i:nat{i<256}) : (r:nat{r<256})
 let sbox i = match i with
@@ -148,13 +152,13 @@ let sbox i = match i with
 | 240 -> 0x8c | 241 -> 0xa1 | 242 -> 0x89 | 243 -> 0x0d | 244 -> 0xbf | 245 -> 0xe6 | 246 -> 0x42 | 247 -> 0x68
 | 248 -> 0x41 | 249 -> 0x99 | 250 -> 0x2d | 251 -> 0x0f | 252 -> 0xb0 | 253 -> 0x54 | 254 -> 0xbb | 255 -> 0x16
 
-val subBytes_spec (#n:nat) (#xN:sig n) (x:xNxM xN 8) (j:nat{j<n}) :
-  Lemma (column j (subBytes x) == of_uint (sbox (to_uint (column j x))))
-let subBytes_spec x j =
-  subBytes_sliceable ();
-  assert_norm(bruteforce subBytes sbox)
+val subBytes_spec (lN:bar) (x:xNxM lN.xN 8) (j:nat{j<lN.xN.n}) :
+  Lemma (column j (subBytes lN x) == of_uint (sbox (to_uint (column j x))))
+let subBytes_spec lN x j =
+  subBytes_sliceable lN;
+  assert_norm(bruteforce (subBytes lN) (subBytes l1) sbox)
 
 open Lib.IntTypes
 open Lib.Bitmap
 
-let subBytes64 (x:xNxM (uN U64 SEC 64) 8) : xNxM (uN U64 SEC 64) 8 = subBytes x
+let subBytes64 (x:xNxM (uN U64 SEC 64).xN 8) : xNxM (uN U64 SEC 64).xN 8 = subBytes (uN U64 SEC 64) x

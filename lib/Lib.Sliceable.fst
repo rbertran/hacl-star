@@ -3,7 +3,7 @@ module Lib.Sliceable
 open FStar.UInt
 //open FStar.Tactics
 
-#set-options "--fuel 0 --ifuel 0"
+#set-options "--fuel 0 --ifuel 0 --z3rlimit 0"
 
 (*** Helper functions ***)
 
@@ -14,68 +14,26 @@ let offset f off i = f (i+off)
 
 (*** xN and xNxM ***)
 
-noeq type sig (n:nat) =
-{ t:Type0
-; v: t -> (i:nat{i<n}) -> bool
-; mk: (i:nat{i<n} -> bool) -> t
-; mk_def: f:(i:nat{i<n} -> bool) -> i:nat{i<n} -> Lemma (v (mk f) i == f i)
-; ones_: t
-; zeros_: t
-; and_: t -> t -> t
-; xor_: t -> t -> t
-; or_: t -> t -> t
-; not_: t -> t
-; ones_spec: i:nat{i<n} -> Lemma (v ones_ i == true)
-; zeros_spec: i:nat{i<n} -> Lemma (v zeros_ i == false)
-; and_spec: x:t -> y:t -> i:nat{i<n} -> Lemma (v (and_ x y) i == (v x i && v y i))
-; xor_spec: x:t -> y:t -> i:nat{i<n} -> Lemma (v (xor_ x y) i == (v x i ^ v y i))
-; or_spec: x:t -> y:t -> i:nat{i<n} -> Lemma (v (or_ x y) i == (v x i || v y i))
-; not_spec: x:t -> i:nat{i<n} -> Lemma (v (not_ x) i == not(v x i))
+noeq type foo (a:Type0) =
+{ n:nat
+; t:Type0
+; v: t -> (i:nat{i<n}) -> a
+; mk: (i:nat{i<n} -> a) -> t
+; mk_def: f:(i:nat{i<n} -> a) -> i:nat{i<n} -> Lemma (v (mk f) i == f i)
 }
 
-val xN_mk_def (#n:nat) (xN:sig n) (f:(i:nat{i<n} -> bool)) (i:nat{i<n}) :
+val xN_mk_def (#a:Type0) (xN:foo a) (f:(i:nat{i<xN.n} -> a)) (i:nat{i<xN.n}) :
   Lemma (xN.v (xN.mk f) i == f i)
   [SMTPat (xN.v (xN.mk f) i)]
-
-val xN_ones_spec (#n:nat) (xN:sig n) (i:nat{i<n}) :
-  Lemma (xN.v xN.ones_ i == true)
-  [SMTPat (xN.v xN.ones_ i)]
-
-val xN_zeros_spec (#n:nat) (xN:sig n) (i:nat{i<n}) :
-  Lemma (xN.v xN.zeros_ i == false)
-  [SMTPat (xN.v xN.zeros_ i)]
-
-val xN_and_spec (#n:nat) (xN:sig n) (x y:xN.t) (i:nat{i<n}) :
-  Lemma (xN.v (xN.and_ x y) i == (xN.v x i && xN.v y i))
-  [SMTPat (xN.v (xN.and_ x y) i)]
-
-val xN_xor_spec (#n:nat) (xN:sig n) (x y:xN.t) (i:nat{i<n}) :
-  Lemma (xN.v (xN.xor_ x y) i == (xN.v x i ^ xN.v y i))
-  [SMTPat (xN.v (xN.xor_ x y) i)]
-
-val xN_or_spec (#n:nat) (xN:sig n) (x y:xN.t) (i:nat{i<n}) :
-  Lemma (xN.v (xN.or_ x y) i == (xN.v x i || xN.v y i))
-  [SMTPat (xN.v (xN.or_ x y) i)]
-
-val xN_not_spec (#n:nat) (xN:sig n) (x:xN.t) (i:nat{i<n}) :
-  Lemma (xN.v (xN.not_ x) i == not (xN.v x i))
-  [SMTPat (xN.v (xN.not_ x) i)]
-
 let xN_mk_def xN f i = xN.mk_def f i
-let xN_ones_spec xN i = xN.ones_spec i
-let xN_zeros_spec xN i = xN.zeros_spec i
-let xN_and_spec xN x y i = xN.and_spec x y i
-let xN_xor_spec xN x y i = xN.xor_spec x y i
-let xN_or_spec xN x y i = xN.or_spec x y i
-let xN_not_spec xN x i = xN.not_spec x i
 
-val xNxM (#n:nat) (xN:sig n) (m:nat) : Type0
+val xNxM (#a:Type0) (xN:foo a) (m:nat) : Type0
 #push-options "--fuel 1 --ifuel 1"
 let rec xNxM xN m = if m = 0 then unit else xN.t * xNxM xN (m-1)
 #pop-options
 
-inline_for_extraction
-val index (#n:nat) (#xN:sig n) (#m:nat) (x:xNxM xN m) (i:nat{i<m}) : xN.t
+noextract inline_for_extraction
+val index (#a:Type0) (#xN:foo a) (#m:nat) (x:xNxM xN m) (i:nat{i<m}) : xN.t
 #push-options "--ifuel 1 --fuel 1"
 let rec index #n #xN #m x i =
 if m = 0 then
@@ -88,13 +46,13 @@ else
     index v i
 #pop-options
 
-val xNxM_mk (#n:nat) (xN:sig n) (m:nat) (f:(i:nat{i<m} -> xN.t)) : xNxM xN m
+val xNxM_mk (#a:Type0) (xN:foo a) (m:nat) (f:(i:nat{i<m} -> xN.t)) : xNxM xN m
 #push-options "--fuel 1"
 let rec xNxM_mk xN m f =
   if m = 0 then () else (f (m-1), xNxM_mk xN (m-1) f)
 #pop-options
 
-val xNxM_mk_def (#n:nat) (xN:sig n) (m:nat) (f:(i:nat{i<m} -> xN.t)) (i:nat{i<m}) :
+val xNxM_mk_def (#a:Type0) (xN:foo a) (m:nat) (f:(i:nat{i<m} -> xN.t)) (i:nat{i<m}) :
   Lemma (index (xNxM_mk xN m f) i == f i)
   [SMTPat (index (xNxM_mk xN m f) i)]
 #push-options "--fuel 1"
@@ -107,7 +65,7 @@ let rec xNxM_mk_def xN m f i =
     xNxM_mk_def xN (m-1) f i
 #pop-options
 
-val xNxM_eq_intro (#n:nat) (#xN:sig n) (#m:nat) (x y:xNxM xN m) :
+val xNxM_eq_intro (#a:Type0) (#xN:foo a) (#m:nat) (x y:xNxM xN m) :
   Lemma
     (requires forall (i:nat{i<m}). index x i == index y i)
     (ensures x == y)
@@ -124,315 +82,157 @@ let rec xNxM_eq_intro #n #xN #m x y =
     assert (index y (m-1) == b)
 #pop-options
 
-val xN_rest (#n:nat) (xN:sig n) (m:nat{m<=n}) : sig m
-let xN_rest (#n:nat) (xN:sig n) (m:nat{m<=n}) : sig m =
-{ t = xN.t
-; v = xN.v
-; mk = (fun f -> xN.mk (fun i -> if i < m then f i else false))
-; mk_def = (fun f i -> xN.mk_def (fun i -> if i < m then f i else false) i)
-; ones_ = xN.ones_
-; zeros_ = xN.zeros_
-; and_ = xN.and_
-; xor_ = xN.xor_
-; or_ = xN.or_
-; not_ = xN.not_
-; ones_spec = xN.ones_spec
-; zeros_spec = xN.zeros_spec
-; and_spec = xN.and_spec
-; xor_spec = xN.xor_spec
-; or_spec = xN.or_spec
-; not_spec = xN.not_spec
-}
+(*** x1 and x1xM ***)
 
-val xN_concat (#n:nat) (xN:sig n) (#m:nat) (xM:sig m) : sig (n+m)
-#push-options "--fuel 1 --ifuel 1"
-let xN_concat (#n:nat) (xN:sig n) (#m:nat) (xM:sig m) : sig (n+m) =
-{ t = xN.t * xM.t
-; v = (fun (x, y) i -> if i < n then xN.v x i else xM.v y (i-n))
-; mk = (fun f -> (xN.mk f), xM.mk (offset #_ #(n+m) f n))
-; mk_def = (fun f i -> if i < n then xN.mk_def f i else xM.mk_def (offset #_ #(n+m) f n) (i-n))
-; ones_ = (xN.ones_, xM.ones_)
-; zeros_ = (xN.zeros_, xM.zeros_)
-; and_ = (fun (x1, y1) (x2, y2) -> (xN.and_ x1 x2, xM.and_ y1 y2))
-; xor_ = (fun (x1, y1) (x2, y2) -> (xN.xor_ x1 x2, xM.xor_ y1 y2))
-; or_ = (fun (x1, y1) (x2, y2) -> (xN.or_ x1 x2, xM.or_ y1 y2))
-; not_ = (fun (x, y) -> (xN.not_ x, xM.not_ y))
-; ones_spec = (fun i -> if i < n then xN.ones_spec i else xM.ones_spec (i-n))
-; zeros_spec = (fun i -> if i < n then xN.zeros_spec i else xM.zeros_spec (i-n))
-; and_spec = (fun (x1, y1) (x2, y2) i -> if i < n then xN.and_spec x1 x2 i else xM.and_spec y1 y2 (i-n))
-; xor_spec = (fun (x1, y1) (x2, y2) i -> if i < n then xN.xor_spec x1 x2 i else xM.xor_spec y1 y2 (i-n))
-; or_spec = (fun (x1, y1) (x2, y2) i -> if i < n then xN.or_spec x1 x2 i else xM.or_spec y1 y2 (i-n))
-; not_spec = (fun (x, y) i -> if i < n then xN.not_spec x i else xM.not_spec y (i-n))
-}
-#pop-options
-
-(*** u1 and u1xM ***)
-
-let u1 : sig 1 =
-{ t = bool
+let x1 (a:Type0) : (xN:foo a{xN.n==1}) =
+{ n = 1
+; t = a
 ; v = (fun x 0 -> x)
 ; mk = (fun f -> f 0)
 ; mk_def = (fun f i -> ())
-; ones_ = true
-; zeros_ = false
-; and_ = (fun x y -> x && y)
-; xor_ = (fun x y -> x ^ y)
-; or_ = (fun x y -> x || y)
-; not_ = (fun x -> not x)
-; ones_spec = (fun i -> ())
-; zeros_spec = (fun i -> ())
-; and_spec = (fun x y i -> ())
-; xor_spec = (fun x y i -> ())
-; or_spec = (fun x y i -> ())
-; not_spec = (fun x i -> ())
 }
 
-val u1_of_bool (b:bool) : u1.t
-let u1_of_bool b = u1.mk (fun 0 -> b)
+val x1_of (#a:Type0) (x:a) : (x1 a).t
+let x1_of #a x = (x1 a).mk (fun 0 -> x)
 
-val u1_of_bool_def (b:bool) : Lemma (u1.v (u1_of_bool b) 0 == b) [SMTPat (u1.v (u1_of_bool b) 0)]
-let u1_of_bool_def b = ()
+val x1_of_def (#a:Type0) (x:a) : Lemma ((x1 a).v (x1_of x) 0 == x) [SMTPat ((x1 a).v (x1_of x) 0)]
+let x1_of_def x = ()
 
-let u1xM (m:nat) : Type0 = xNxM u1 m
+let x1xM (a:Type0) (m:nat) : Type0 = xNxM (x1 a) m
 
-val u1xM_eq (#m:nat) (a b:u1xM m) : bool
+val x1xM_eq (#a:eqtype) (#m:nat) (u v:x1xM a m) : bool
 #push-options "--fuel 1 --ifuel 1"
-let rec u1xM_eq #m a b =
+let rec x1xM_eq #a #m x y =
   if m = 0 then
     true
   else
-    let (x1, y1) = a <: u1.t * u1xM (m-1) in
-    let (x2, y2) = b <: u1.t * u1xM (m-1) in
-    if x1 = x2 then u1xM_eq y1 y2 else false
+    let (u0, u1) = x <: (x1 a).t * x1xM a (m-1) in
+    let (v0, v1) = y <: (x1 a).t * x1xM a (m-1) in
+    (u0 = v0) && x1xM_eq u1 v1
 #pop-options
 
-val u1xM_eq_lemma (#m:nat) (a b:u1xM m) : Lemma (requires u1xM_eq a b) (ensures a == b)
+val x1xM_eq_lemma (#a:eqtype) (#m:nat) (u v:x1xM a m) : Lemma (requires x1xM_eq u v) (ensures u == v)
 #push-options "--fuel 1 --ifuel 1"
-let rec u1xM_eq_lemma #m a b =
+let rec x1xM_eq_lemma #a #m u v =
   if m = 0 then
     ()
   else
-    let (x1, y1) = a <: u1.t * u1xM (m-1) in
-    let (x2, y2) = b <: u1.t * u1xM (m-1) in
-    u1xM_eq_lemma y1 y2
+    let (u0, u1) = u <: (x1 a).t * x1xM a (m-1) in
+    let (v0, v1) = v <: (x1 a).t * x1xM a (m-1) in
+    x1xM_eq_lemma u1 v1
 #pop-options
 
-val u1xM_mk (m:nat) (f:(i:nat{i<m} -> bool)) : u1xM m
-let u1xM_mk m f = xNxM_mk _ _ (fun i -> u1_of_bool (f i))
+val x1xM_mk (#a:Type0) (m:nat) (f:(i:nat{i<m} -> a)) : x1xM a m
+let x1xM_mk m f = xNxM_mk _ _ (fun i -> x1_of (f i))
 
-val column (#n:nat) (#xN:sig n) (#m:nat) (j:nat{j<n}) (x:xNxM xN m) : u1xM m
+val column (#a:Type0) (#xN:foo a) (#m:nat) (j:nat{j<xN.n}) (x:xNxM xN m) : x1xM a m
 let column j x =
   let aux1 i k = (_).v (index x i) j in
   let aux2 i = (_).mk (aux1 i) in
   xNxM_mk _ _ aux2
 
-val line (#n:nat) (#xN:sig n) (#m:nat) (i:nat{i<m}) (x:xNxM xN m) : u1xM n
-let line i x =
-  let aux1 j k = (_).v (index x i) j in
-  let aux2 j = (_).mk (aux1 j) in
-  xNxM_mk _ _ aux2
-
-val column_def (#n:nat) (#xN:sig n) (#m:nat) (j:nat{j<n}) (x:xNxM xN m) (i:nat{i<m}) :
+val column_def (#a:Type0) (#xN:foo a) (#m:nat) (j:nat{j<xN.n}) (x:xNxM xN m) (i:nat{i<m}) :
   Lemma ((_).v (index (column j x) i) 0 == (_).v (index x i) j)
   [SMTPat ((_).v (index (column j x) i) 0)]
 let column_def j x i = ()
 
-val line_def (#n:nat) (#xN:sig n) (#m:nat) (i:nat{i<m}) (x:xNxM xN m) (j:nat{j<n}) :
-  Lemma ((_).v (index (line i x) j) 0 == (_).v (index x i) j)
-  [SMTPat ((_).v (index (line i x) j) 0)]
-let line_def i x j = ()
-
-val column_lemma (#n:nat) (#xN:sig n) (#m:nat) (x:xNxM xN m) (i:nat{i<m}) (j:nat{j<n}) :
-  Lemma ( u1.v (index (column j x) i) 0 == xN.v (index x i) j )
-  [SMTPat (u1.v (index (column j x) i) 0)]
+val column_lemma (#a:Type0) (#xN:foo a) (#m:nat) (x:xNxM xN m) (i:nat{i<m}) (j:nat{j<xN.n}) :
+  Lemma ( (x1 a).v (index (column j x) i) 0 == xN.v (index x i) j )
+  [SMTPat ((x1 a).v (index (column j x) i) 0)]
 let column_lemma x i j = ()
 
-val column_column (#m:nat) (x:u1xM m) :
+val column_column (#a:Type0) (#m:nat) (x:x1xM a m) :
   Lemma (column 0 x == x)
   [SMTPat (column 0 x)]
 let column_column x = xNxM_eq_intro (column 0 x) x
 
 (*** Sliceability ***)
 
-val sliceable (#m #m':nat) (f:(#n:nat -> #xN:sig n -> xNxM xN m -> xNxM xN m')) : Type0
-let sliceable #m #m' f =
-  forall (n:nat) (xN:sig n) (x:xNxM xN m) (j:nat{j<n}).
-  ( column j (f x) == f (column j x))
+val sliceable (#a:Type0) (#xN:foo a) (#m #m':nat) (f:(xNxM xN m -> xNxM xN m')) (g:(x1xM a m -> x1xM a m')) : Type0
+let sliceable #a #xN #m #m' f g =
+  forall (x:xNxM xN m) (j:nat{j<xN.n}).
+  (column j (f x) == g (column j x))
 
 val sliceable_intro
+  (#a:Type0) (#xN:foo a)
   (#m #m':nat)
-  (f:(#n:nat -> #xN:sig n -> xNxM xN m -> xNxM xN m'))
-  (pr:(#n:nat -> #xN:sig n -> x:xNxM xN m -> j:nat{j<n} -> Lemma (column j (f x) == f (column j x))))
-  : Lemma (sliceable f)
-let sliceable_intro f pr =
-  FStar.Classical.forall_intro_2 (fun (n:nat) (xN:sig n) ->
-    FStar.Classical.forall_intro_2 (fun (x:xNxM xN _) (j:nat{j<n}) ->
-      pr x j
-    )
-  )
+  (f:(xNxM xN m -> xNxM xN m'))
+  (g:(x1xM a m -> x1xM a m'))
+  (pr:(x:xNxM xN m -> j:nat{j<xN.n} -> Lemma (column j (f x) == g (column j x))))
+  : Lemma (sliceable f g)
+let sliceable_intro #a #xN #m #m' f g pr = FStar.Classical.forall_intro_2 pr
 
 val sliceable_def
+  (#a:Type0) (#xN:foo a)
   (#m #m':nat)
-  (f:(#n:nat -> #xN:sig n -> xNxM xN m -> xNxM xN m'){sliceable f})
-  : Lemma (forall (#n:nat) (#xN:sig n) (x:xNxM xN m) (j:nat{j<n}). column j (f x) == f (column j x))
-    [SMTPat (sliceable f)]
-let sliceable_def f = ()
+  (f:(xNxM xN m -> xNxM xN m'))
+  (g:(x1xM a m -> x1xM a m'))
+  : Lemma (requires sliceable f g) (ensures (forall (x:xNxM xN m) (j:nat{j<xN.n}). column j (f x) == g (column j x)))
+    [SMTPat (sliceable f g)]
+let sliceable_def f g = ()
 
 val sliceable_feq
+  (#a:Type0) (#xN:foo a)
   (#m #m':nat)
-  (f:(#n:nat -> #xN:sig n -> xNxM xN m -> xNxM xN m'){sliceable f})
-  (g:(#n:nat -> #xN:sig n -> xNxM xN m -> xNxM xN m'))
+  (f:(xNxM xN m -> xNxM xN m'))
+  (g:(x1xM a m -> x1xM a m'){sliceable f g})
+  (h:(xNxM xN m -> xNxM xN m'))
   : Lemma
-    (requires forall (n:nat) (xN:sig n) (x:xNxM xN m). f x == g x)
-    (ensures sliceable g)
-let sliceable_feq f g = ()
+    (requires forall (x:xNxM xN m). f x == h x)
+    (ensures sliceable h g)
+let sliceable_feq f g h = ()
 
 val reduce_output
+  (#a:Type0) (#xN:foo a)
   (#m #m':nat)
-  (f:(#n:nat -> #xN:sig n -> xNxM xN m -> xNxM xN m'))
+  (f:(xNxM xN m -> xNxM xN m'))
   (m'':nat) (r:(i:nat{i<m''} -> j:nat{j<m'}))
-  : #n:nat -> #xN:sig n -> xNxM xN m -> xNxM xN m''
+  : xNxM xN m -> xNxM xN m''
 let reduce_output f m'' r x = xNxM_mk _ _ (fun i -> index (f x) (r i))
 
 val reduce_output_def
+  (#a:Type0) (#xN:foo a)
   (#m #m':nat)
-  (f:(#n:nat -> #xN:sig n -> xNxM xN m -> xNxM xN m'))
+  (f:( xNxM xN m -> xNxM xN m'))
   (m'':nat) (r:(i:nat{i<m''} -> j:nat{j<m'}))
-  (#n:nat) (#xN:sig n) (x:xNxM xN m) (i:nat{i<m''})
+  (x:xNxM xN m) (i:nat{i<m''})
   : Lemma (index (reduce_output f m'' r x) i == index (f x) (r i))
   [SMTPat (index (reduce_output f m'' r x) i)]
 let reduce_output_def f m'' r x i = ()
 
 val reduce_output_sliceable
+  (#a:Type0) (#xN:foo a)
   (#m #m':nat)
-  (f:(#n:nat -> #xN:sig n -> xNxM xN m -> xNxM xN m'){sliceable f})
+  (f:(xNxM xN m -> xNxM xN m'))
+  (g:(x1xM a m -> x1xM a m'){sliceable f g})
   (m'':nat{m''<=m'}) (r:(i:nat{i<m''} -> j:nat{j<m'}))
-  : Lemma (sliceable (reduce_output f m'' r))
-  [SMTPat (sliceable (reduce_output f m'' r))]
-let reduce_output_sliceable f m'' r =
-  sliceable_intro (reduce_output f m'' r)
-    (fun x j -> xNxM_eq_intro (reduce_output f m'' r (column j x)) (column j (reduce_output f m'' r x)))
-
-(*** Circuits ***)
-
-type gate (m:nat) (c:nat) =
-| Zeros
-| Ones
-| Input : (i:nat{i<m}) -> gate m c
-| Xor : (a:nat{a<c}) -> (b:nat{b<c}) -> gate m c
-| And : (a:nat{a<c}) -> (b:nat{b<c}) -> gate m c
-| Or : (a:nat{a<c}) -> (b:nat{b<c}) -> gate m c
-| Not : (a:nat{a<c}) -> gate m c
-
-type circuit (m p:nat) = (i:nat{i<p}) -> gate m i
-
-val circuit_def (#m #m':nat) (circ:circuit m m') (#n:nat) (#xN:sig n) (x:xNxM xN m) (i:nat{i<m'}) : xN.t
-#push-options "--ifuel 1"
-let rec circuit_def circ x i =
-  match circ i with
-  | Input j -> index x j
-  | Ones -> (_).ones_
-  | Zeros -> (_).zeros_
-  | Xor a b -> (_).xor_ (circuit_def circ x a) (circuit_def circ x b)
-  | And a b -> (_).and_ (circuit_def circ x a) (circuit_def circ x b)
-  | Or a b -> (_).or_ (circuit_def circ x a) (circuit_def circ x b)
-  | Not a -> (_).not_ (circuit_def circ x a)
-#pop-options
-
-val circuit_def_lemma (#m #m':nat) (circ:circuit m m') (#n:nat) (#xN:sig n) (x:xNxM xN m) (i:nat{i<m'-1}) :
-  Lemma (circuit_def #_ #(m'-1) circ x i == circuit_def #_ #m' circ x i)
-  [SMTPat (circuit_def #m #m' circ x i)]
-#push-options "--fuel 1 --ifuel 1"
-let rec circuit_def_lemma circ x i =
-  match circ i with
-  | Input j -> ()
-  | Ones -> ()
-  | Zeros -> ()
-  | Xor a b -> circuit_def_lemma circ x a; circuit_def_lemma circ x b
-  | And a b -> circuit_def_lemma circ x a; circuit_def_lemma circ x b
-  | Or a b -> circuit_def_lemma circ x a; circuit_def_lemma circ x b
-  | Not a -> circuit_def_lemma circ x a
-#pop-options
-
-val circuit_spec (#m #m':nat) (circ:circuit m m') (#n:nat) (#xN:sig n) (x:xNxM xN m) : xNxM xN m'
-let circuit_spec circ x = xNxM_mk _ _ (circuit_def circ x)
-
-val circuit_spec_lemma (#m #m':nat) (circ:circuit m m') (#n:nat) (#xN:sig n) (x:xNxM xN m) (i:nat{i<m'}) :
-  Lemma (index (circuit_spec circ x) i == circuit_def circ x i)
-  [SMTPat (index (circuit_spec circ x) i)]
-let circuit_spec_lemma circ x i = ()
-
-val circuit_spec' (#m #m':nat) (circ:circuit m m') (#n:nat) (#xN:sig n) (x:xNxM xN m) : (y:xNxM xN m'{y == circuit_spec circ x})
-#push-options "--fuel 1 --ifuel 1"
-let rec circuit_spec' #m #m' circ #n #xN x =
-  if m' = 0 then
-    ()
-  else (
-    let _ : (i:nat{i<m'}) = m'-1 in
-    let y : xNxM xN (m'-1) = circuit_spec' #_ #(m'-1) circ x in
-    let w : (w:xN.t{w == circuit_def circ x (m'-1)}) =
-      match circ (m'-1) with
-      | Input j -> index x j
-      | Ones -> (_).ones_
-      | Zeros -> (_).zeros_
-      | Xor a b -> (_).xor_ (index y a) (index y b)
-      | And a b -> (_).and_ (index y a) (index y b)
-      | Or a b -> (_).or_ (index y a) (index y b)
-      | Not a -> (_).not_ (index y a)
-    in
-    let z : xNxM xN m' = ((w <: xN.t), y) in
-    xNxM_eq_intro z (circuit_spec circ x);
-    z
-  )
-#pop-options
-
-private val sliceable_circuit_lemma
-  (#m #m':nat)
-  (circ:circuit m m')
-  (#n:nat)
-  (#xN:sig n)
-  (x:xNxM xN m)
-  (i:nat{i<m'})
-  (j:nat{j<n})
-  : Lemma ( xN.v (circuit_def circ x i) j == u1.v (circuit_def circ (column j x) i) 0 )
-#push-options "--fuel 1 --ifuel 1"
-let rec sliceable_circuit_lemma circ x i j = match circ i with
-  | Ones -> ()
-  | Zeros -> ()
-  | Input _ -> ()
-  | Xor a b -> sliceable_circuit_lemma circ x a j; sliceable_circuit_lemma circ x b j
-  | And a b -> sliceable_circuit_lemma circ x a j; sliceable_circuit_lemma circ x b j
-  | Or a b -> sliceable_circuit_lemma circ x a j; sliceable_circuit_lemma circ x b j
-  | Not a -> sliceable_circuit_lemma circ x a j
-#pop-options
-
-val sliceable_circuit (#m #m':nat) (circ:circuit m m') :
-  Lemma (sliceable (circuit_spec circ))
-  [SMTPat (sliceable (circuit_spec circ))]
-let sliceable_circuit circ =
-  sliceable_intro (circuit_spec circ) (fun x j ->
-    xNxM_eq_intro (FStar.Classical.forall_intro (fun i -> sliceable_circuit_lemma circ x i j);
-    circuit_spec circ (column j x)) (column j (circuit_spec circ x))
-  )
+  : Lemma (sliceable (reduce_output f m'' r) (reduce_output g m'' r))
+  [SMTPat (sliceable (reduce_output f m'' r) (reduce_output g m'' r))]
+let reduce_output_sliceable f g m'' r =
+  sliceable_intro (reduce_output f m'' r) (reduce_output g m'' r)
+    (fun x j -> xNxM_eq_intro (reduce_output g m'' r (column j x)) (column j (reduce_output f m'' r x)))
 
 (*** of_uint and to_uint ***)
 
-val to_uint_spec (#m:nat) (x:u1xM m) : uint_t m
-let to_uint_spec #m x = FStar.UInt.from_vec (FStar.Seq.init m (index x))
+module UI = FStar.UInt
+module S = FStar.Seq
 
-val of_uint_spec (#m:nat) (p:uint_t m) : u1xM m
+val to_uint_spec (#m:nat) (x:x1xM bool m) : uint_t m
+let to_uint_spec #m x = UI.from_vec (S.init m (index x))
+
+val of_uint_spec (#m:nat) (p:uint_t m) : x1xM bool m
 #push-options "--fuel 1"
 let of_uint_spec #m p =
   if m = 0 then
     ()
   else
-    u1xM_mk _ (FStar.UInt.nth p)
+    x1xM_mk _ (UI.nth p)
 #pop-options
 
-val to_uint (#m:nat) (x:u1xM m) : (p:uint_t m{p == to_uint_spec x})
+val to_uint (#m:nat) (x:x1xM bool m) : (p:uint_t m{p == to_uint_spec x})
 let to_uint #m x =
   let rec aux (j:nat{j<=m})
-    : (p:uint_t j{p == FStar.UInt.from_vec (FStar.Seq.init j (index x))})
+    : (p:uint_t j{p == UI.from_vec (S.init j (index x))})
     =
     if j = 0 then
       0
@@ -440,20 +240,20 @@ let to_uint #m x =
       let r = Prims.op_Multiply 2 (aux (j-1)) + (if index x (j-1) then 1 else 0) in
       assume (r <= pow2 j - 1);
       let r : uint_t j = r in
-      let v = FStar.Seq.init j (index x) in
-      assume (r == FStar.UInt.from_vec (FStar.Seq.init j (index x)));
+      let v = S.init j (index x) in
+      assume (r == UI.from_vec (S.init j (index x)));
       r
     )
   in
   aux m
 
-val of_uint (#m:nat) (p:uint_t m) : (x:u1xM m{x == of_uint_spec p})
+val of_uint (#m:nat) (p:uint_t m) : (x:x1xM bool m{x == of_uint_spec p})
 let of_uint #m p =
-  let aux (q:uint_t m) (i:nat{i<m}) : (r:bool{r == FStar.UInt.nth p i}) =
+  let aux (q:uint_t m) (i:nat{i<m}) : (r:bool{r == UI.nth p i}) =
     admit ();
     q / (pow2 i) % 2 = 1
   in
-  let x = u1xM_mk _ (aux p) in
+  let x = x1xM_mk _ (aux p) in
   xNxM_eq_intro x (of_uint_spec p);
   x
 
@@ -464,16 +264,16 @@ let to_uint_of_uint #m p =
   if m = 0 then
     ()
   else
-    FStar.UInt.nth_lemma (to_uint (of_uint p)) p
+    UI.nth_lemma (to_uint (of_uint p)) p
 
-val of_uint_to_uint (#m:nat) (x:u1xM m) :
+val of_uint_to_uint (#m:nat) (x:x1xM bool m) :
   Lemma (of_uint (to_uint x) == x)
   [SMTPat (of_uint (to_uint x))]
 let of_uint_to_uint x = xNxM_eq_intro (of_uint (to_uint x)) x
 
 (*** Bruteforce lemmas and tactics ***)
 
-val forall_uint_lemma (#m:nat) (phi:u1xM m -> Type0) :
+val forall_uint_lemma (#m:nat) (phi:x1xM bool m -> Type0) :
   Lemma
     (requires forall (i:uint_t m). phi (of_uint i))
     (ensures forall x. phi x)
@@ -497,31 +297,33 @@ let bruteforce_aux (n:nat) (phi:(i:uint_t n -> bool)) :
 
 #push-options "--fuel 1 --ifuel 1"
 let bruteforce
+  (#xN:foo bool)
   (#m #m':nat)
-  (impl:(#n:nat -> #xN:sig n -> xNxM xN m -> xNxM xN m'))
+  (impl_n:(xNxM xN m -> xNxM xN m'))
+  (impl_1:(x1xM bool m -> x1xM bool m'))
   (spec:(uint_t m -> uint_t m'))
   : Pure
     bool
-    (requires sliceable impl)
+    (requires sliceable impl_n impl_1)
     (ensures fun r ->
       if r then
-        forall (n:nat) (xN:sig n) (x:xNxM xN m) (j:nat{j<n}).
-        column j (impl x) == of_uint (spec (to_uint (column j x)))
+        forall (x:xNxM xN m) (j:nat{j<xN.n}).
+        column j (impl_n x) == of_uint (spec (to_uint (column j x)))
       else
         True
     )
   =
-  let phi0 (x:u1xM m) : Type0 = impl x == of_uint (spec (to_uint x)) in
-  let phi1 (i:uint_t m) : bool = u1xM_eq (impl (of_uint i)) (of_uint (spec i)) in
+  let phi0 (x:x1xM bool m) : Type0 = impl_1 x == of_uint (spec (to_uint x)) in
+  let phi1 (i:uint_t m) : bool = x1xM_eq (impl_1 (of_uint i)) (of_uint (spec i)) in
   let r = bruteforce_aux m phi1 in
   if r then (
     FStar.Classical.forall_intro (fun (i:uint_t m) ->
-      u1xM_eq_lemma (impl (of_uint i)) (of_uint (spec i))
-      <: Lemma (impl (of_uint i) == of_uint (spec i))
+      x1xM_eq_lemma (impl_1 (of_uint i)) (of_uint (spec i))
+      <: Lemma (impl_1 (of_uint i) == of_uint (spec i))
     );
-    forall_uint_lemma phi0;
-    true
-  ) else false
+    forall_uint_lemma phi0
+  ) else ();
+  r
 #pop-options
 
 //val nat_ind
