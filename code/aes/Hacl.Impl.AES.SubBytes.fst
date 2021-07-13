@@ -1,4 +1,4 @@
-module Hacl.Test.Sliceable
+module Hacl.Impl.AES.SubBytes
 
 open FStar.UInt
 open Lib.Sliceable
