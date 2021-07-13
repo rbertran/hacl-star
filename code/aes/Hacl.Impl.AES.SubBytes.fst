@@ -54,9 +54,9 @@ let subBytes_def x = reduce_output (circuit_spec circ) 8 outputs x
 private val sliceable_subBytes_def (_:unit) : Lemma (sliceable subBytes_def)
 let sliceable_subBytes_def () = sliceable_feq (reduce_output (circuit_spec circ) 8 outputs) subBytes_def
 
+#push-options "--fuel 1 --ifuel 1"
 let subBytes (#n:nat) (#xN:sig n) (x:xNxM xN 8) : xNxM xN 8 =
-let a0 = index x 7 in let a1 = index x 6 in let a2 = index x 5 in let a3 = index x 4 in
-let a4 = index x 3 in let a5 = index x 2 in let a6 = index x 1 in let a7 = index x 0 in
+let (a0,(a1,(a2,(a3,(a4,(a5,(a6,(a7,())))))))) : xN.t*(xN.t*(xN.t*(xN.t*(xN.t*(xN.t*(xN.t*(xN.t*unit))))))) = x in
 let a8 = xN.xor_ a6 a4 in let a9 = xN.xor_ a3 a0 in let a10 = xN.xor_ a1 a2 in let a11 = xN.xor_ a7 a10 in
 let a12 = xN.xor_ a8 a9 in let a13 = xN.xor_ a1 a5 in let a14 = xN.xor_ a0 a6 in let a15 = xN.xor_ a8 a13 in
 let a16 = xN.xor_ a6 a11 in let a17 = xN.xor_ a3 a11 in let a18 = xN.xor_ a7 a12 in let a19 = xN.xor_ a12 a13 in
