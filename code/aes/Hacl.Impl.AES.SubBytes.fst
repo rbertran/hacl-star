@@ -153,3 +153,8 @@ val subBytes_spec (#n:nat) (#xN:sig n) (x:xNxM xN 8) (j:nat{j<n}) :
 let subBytes_spec x j =
   subBytes_sliceable ();
   assert_norm(bruteforce subBytes sbox)
+
+open Lib.IntTypes
+open Lib.Bitmap
+
+let subBytes64 (x:xNxM (uN U64 SEC 64) 8) : xNxM (uN U64 SEC 64) 8 = subBytes x
