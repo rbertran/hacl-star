@@ -6,16 +6,20 @@ open Lib.Sliceable
 
 (*** Circuits ***)
 
-type gate (m:nat) (c:nat) =
-| Zeros
-| Ones
-| Input : (i:nat{i<m}) -> gate m c
-| Xor : (a:nat{a<c}) -> (b:nat{b<c}) -> gate m c
-| And : (a:nat{a<c}) -> (b:nat{b<c}) -> gate m c
-| Or : (a:nat{a<c}) -> (b:nat{b<c}) -> gate m c
-| Not : (a:nat{a<c}) -> gate m c
+type gate (m p:nat) =
+| Zeros : gate m p
+| Ones : gate m p
+| Input : i:nat{i<m} -> gate m p
+| And : a:nat{a<p} -> b:nat{b<p} -> gate m p
+| Xor : a:nat{a<p} -> b:nat{b<p} -> gate m p
+| Or : a:nat{a<p} -> b:nat{b<p} -> gate m p
+| Not : a:nat{a<p} -> gate m p
 
-type circuit (m p:nat) = (i:nat{i<p}) -> gate m i
+let succ : nat -> nat = fun n -> n+1
+
+type circuit (m:nat) : nat -> Type0 =
+| Empty : circuit m 0
+| Cons : #p:nat -> circ:circuit m p -> g:gate m p -> circuit m (succ p)
 
 noeq type bar =
 { xN : foo bool
@@ -29,6 +33,7 @@ noeq type bar =
 ; zeros_spec: i:nat{i<xN.n} -> Lemma ((_).v zeros_ i == false)
 ; and_spec: x:xN.t -> y:xN.t -> i:nat{i<xN.n} -> Lemma ((_).v (and_ x y) i == ((_).v x i && (_).v y i))
 ; xor_spec: x:xN.t -> y:xN.t -> i:nat{i<xN.n} -> Lemma ((_).v (xor_ x y) i == ((_).v x i ^ (_).v y i))
+
 ; or_spec: x:xN.t -> y:xN.t -> i:nat{i<xN.n} -> Lemma ((_).v (or_ x y) i == ((_).v x i || (_).v y i))
 ; not_spec: x:xN.t -> i:nat{i<xN.n} -> Lemma ((_).v (not_ x) i == not((_).v x i))
 }
@@ -51,32 +56,21 @@ let l1 : bar =
 
 let l1xM_def (m:nat) : Lemma (xNxM l1.xN m == x1xM bool m) [SMTPat (xNxM l1.xN m)] = ()
 
-val circuit_def (#m #m':nat) (circ:circuit m m') (#lN:bar) (x:xNxM lN.xN m) (i:nat{i<m'}) : lN.xN.t
+val circuit_def (#m #p:nat) (circ:circuit m p) (#lN:bar) (x:xNxM lN.xN m) (i:nat{i<p}) : lN.xN.t
 #push-options "--ifuel 1"
-let rec circuit_def circ #lN x i =
-  match circ i with
-  | Input j -> index #bool #lN.xN x j
-  | Zeros -> lN.zeros_
-  | Ones -> lN.ones_
-  | And a b -> lN.and_ (circuit_def circ x a) (circuit_def circ x b)
-  | Or a b -> lN.or_ (circuit_def circ x a) (circuit_def circ x b)
-  | Xor a b -> lN.xor_ (circuit_def circ x a) (circuit_def circ x b)
-  | Not a -> lN.not_ (circuit_def circ x a)
-#pop-options
-
-val circuit_def_lemma (#m #m':nat) (circ:circuit m m') (#lN:bar) (x:xNxM lN.xN m) (i:nat{i<m'-1}) :
-  Lemma (circuit_def #_ #(m'-1) circ x i == circuit_def #_ #m' circ x i)
-  [SMTPat (circuit_def #m #m' circ x i)]
-#push-options "--fuel 1 --ifuel 1"
-let rec circuit_def_lemma circ x i =
-  match circ i with
-  | Input j -> ()
-  | Ones -> ()
-  | Zeros -> ()
-  | Xor a b -> circuit_def_lemma circ x a; circuit_def_lemma circ x b
-  | And a b -> circuit_def_lemma circ x a; circuit_def_lemma circ x b
-  | Or a b -> circuit_def_lemma circ x a; circuit_def_lemma circ x b
-  | Not a -> circuit_def_lemma circ x a
+let rec circuit_def #m #p circ #lN x i =
+  let Cons circ g = circ in
+  if i=p-1 then
+    match g with
+    | Input j -> index x j
+    | Zeros -> (_).zeros_
+    | Ones -> (_).ones_
+    | And a b -> (_).and_ (circuit_def circ x a) (circuit_def circ x b)
+    | Or a b -> (_).or_ (circuit_def circ x a) (circuit_def circ x b)
+    | Xor a b -> (_).xor_ (circuit_def circ x a) (circuit_def circ x b)
+    | Not a -> (_).not_ (circuit_def circ x a)
+  else
+    circuit_def circ x i
 #pop-options
 
 val lN_mk_def (lN:bar) (f:(i:nat{i<lN.xN.n} -> bool)) (i:nat{i<lN.xN.n}) :
@@ -115,22 +109,27 @@ val lN_not_spec (lN:bar) (x:lN.xN.t) (i:nat{i<lN.xN.n}) :
 let lN_not_spec lN x i = lN.not_spec x i
 
 private val sliceable_circuit_lemma
-  (#m #m':nat)
-  (circ:circuit m m')
+  (#m #p:nat)
+  (circ:circuit m p)
   (#lN:bar)
   (x:xNxM lN.xN m)
-  (i:nat{i<m'})
+  (i:nat{i<p})
   (j:nat{j<lN.xN.n})
   : Lemma ( (_).v (circuit_def circ x i) j == (x1 bool).v (circuit_def circ #l1 (column j x) i) 0 )
 #push-options "--fuel 1 --ifuel 1"
-let rec sliceable_circuit_lemma circ x i j = match circ i with
-  | Ones -> ()
-  | Zeros -> ()
-  | Input _ -> ()
-  | Xor a b -> sliceable_circuit_lemma circ x a j; sliceable_circuit_lemma circ x b j
-  | And a b -> sliceable_circuit_lemma circ x a j; sliceable_circuit_lemma circ x b j
-  | Or a b -> sliceable_circuit_lemma circ x a j; sliceable_circuit_lemma circ x b j
-  | Not a -> sliceable_circuit_lemma circ x a j
+let rec sliceable_circuit_lemma #m #p circ #lN x i j =
+  let Cons circ g = circ in
+  if i=p-1 then
+    match g with
+    | Ones -> ()
+    | Zeros -> ()
+    | Input _ -> ()
+    | Xor a b -> sliceable_circuit_lemma circ x a j; sliceable_circuit_lemma circ x b j
+    | And a b -> sliceable_circuit_lemma circ x a j; sliceable_circuit_lemma circ x b j
+    | Or a b -> sliceable_circuit_lemma circ x a j; sliceable_circuit_lemma circ x b j
+    | Not a -> sliceable_circuit_lemma circ x a j
+  else
+   sliceable_circuit_lemma circ x i j
 #pop-options
 
 val circuit_spec (#m #m':nat) (circ:circuit m m') (lN:bar) (x:xNxM lN.xN m) : xNxM lN.xN m'
@@ -141,16 +140,16 @@ val circuit_spec_lemma (#m #m':nat) (circ:circuit m m') (lN:bar) (x:xNxM lN.xN m
   [SMTPat (index (circuit_spec circ lN x) i)]
 let circuit_spec_lemma circ x lN i = ()
 
-val circuit_spec' (#m #m':nat) (circ:circuit m m') (lN:bar) (x:xNxM lN.xN m) : (y:xNxM lN.xN m'{y == circuit_spec circ lN x})
+val circuit_spec' (#m #p:nat) (circ:circuit m p) (lN:bar) (x:xNxM lN.xN m) : (y:xNxM lN.xN p{y == circuit_spec circ lN x})
 #push-options "--fuel 1 --ifuel 1"
-let rec circuit_spec' #m #m' circ lN x =
-  if m' = 0 then
+let rec circuit_spec' #m #p circ lN x =
+  if p = 0 then
     ()
   else (
-    let _ : (i:nat{i<m'}) = m'-1 in
-    let y : xNxM lN.xN (m'-1) = circuit_spec' #_ #(m'-1) circ lN x in
-    let w : (w:lN.xN.t{w == circuit_def circ x (m'-1)}) =
-      match circ (m'-1) with
+    let Cons circ' g = circ in
+    let y : xNxM lN.xN (p-1) = circuit_spec' circ' lN x in
+    let w : (w:lN.xN.t{w == circuit_def circ x (p-1)}) =
+      match g with
       | Input j -> index x j
       | Ones -> (_).ones_
       | Zeros -> (_).zeros_
@@ -159,7 +158,8 @@ let rec circuit_spec' #m #m' circ lN x =
       | Or a b -> (_).or_ (index y a) (index y b)
       | Not a -> (_).not_ (index y a)
     in
-    let z : xNxM lN.xN m' = ((w <: lN.xN.t), y) in
+    let z : xNxM lN.xN p = ((w <: lN.xN.t), y) in
+    assert(w == circuit_def circ x (p-1));
     xNxM_eq_intro z (circuit_spec circ lN x);
     z
   )
@@ -173,3 +173,125 @@ let sliceable_circuit circ lN =
     xNxM_eq_intro (FStar.Classical.forall_intro (fun i -> sliceable_circuit_lemma circ x i j);
     circuit_spec circ l1 (column j x)) (column j (circuit_spec circ lN x))
   )
+
+type circ_st =
+{ m: nat
+; p: nat
+; circ: circuit m p
+}
+let circ_st_empty (m:nat) =
+{ m = m
+; p = 0
+; circ = Empty
+}
+
+type st_monad (b:Type0) (a:Type0) = b -> a * b
+let bind (#b:Type0) (m:st_monad b 'a) (f:'a -> st_monad b 'b) : st_monad b 'b =
+fun s -> let (a, s') = m s in f a s'
+let return (#b:Type0) (x:'a) : st_monad b 'a =
+fun s -> (x,s)
+let put (#b:Type0) (s:b) : st_monad b unit =
+fun _ -> ((),s)
+let get (#b:Type0) : st_monad b b =
+fun s -> (s,s)
+let run (#b:Type0) (m:st_monad b 'a) (s:b) : 'a*b = m s
+
+let bld_aux (st:circ_st) (g:gate st.m st.p) : circ_st =
+{ m = st.m
+; p = st.p+1
+; circ = Cons st.circ g
+}
+
+let bld_zeros : st_monad circ_st nat =
+  st <-- get;
+  _ <-- put (bld_aux st Zeros);
+  return st.p
+
+let bld_ones : st_monad circ_st nat =
+  st <-- get;
+  _ <-- put (bld_aux st Ones);
+  return st.p
+
+let bld_input (j:nat) : st_monad circ_st nat =
+  st <-- get;
+  _ <-- put (bld_aux st (if j<st.m then Input j else Zeros));
+  return st.p
+
+let bld_and (a b:nat) : st_monad circ_st nat =
+  st <-- get;
+  _ <-- put (bld_aux st (if a<st.p && b<st.p then And a b else Zeros));
+  return st.p
+
+let bld_xor (a b:nat) : st_monad circ_st nat =
+  st <-- get;
+  _ <-- put (bld_aux st (if a<st.p && b<st.p then Xor a b else Zeros));
+  return st.p
+
+let bld_or (a b:nat) : st_monad circ_st nat =
+  st <-- get;
+  _ <-- put (bld_aux st (if a<st.p && b<st.p then Or a b else Zeros));
+  return st.p
+
+let bld_not (a:nat) : st_monad circ_st nat =
+  st <-- get;
+  _ <-- put (bld_aux st (if a<st.p then Not a else Zeros));
+  return st.p
+
+#push-options "--ifuel 1"
+let rec nth_gate (#m #p:nat) (circ:circuit m p) (i:nat{i<p}) : gate m i =
+  let Cons circ g = circ in
+  if i=p-1 then g else nth_gate circ i
+#pop-options
+
+#push-options "--fuel 1"
+let nth_gate_lemma (#m #p:nat) (circ:circuit m p) (g:gate m p) (i:nat{i<p}) :
+  Lemma (nth_gate circ i == nth_gate (Cons circ g) i)
+  [SMTPat (nth_gate (Cons circ g) i)]
+  = ()
+#pop-options
+
+#push-options "--fuel 1 --ifuel 1"
+let rec nth_gate_eq_intro (#m #p:nat) (circ1 circ2:circuit m p) :
+  Lemma
+    (requires forall (i:nat{i<p}). nth_gate circ1 i == nth_gate circ2 i)
+    (ensures circ1 == circ2) =
+  if p=0 then () else (
+    let Cons tl1 g1 = circ1 in
+    let Cons tl2 g2 = circ2 in
+    assert(g1 == nth_gate circ1 (p-1));
+    assert(forall (i:nat{i<p-1}). nth_gate tl1 i == nth_gate circ1 i);
+    nth_gate_eq_intro tl1 tl2
+  )
+#pop-options
+
+#push-options "--fuel 1"
+let rec circuit_of_fun (#m #p:nat) (f:(i:nat{i<p} -> gate m i)) : (circ:circuit m p{forall (i:nat{i<p}). nth_gate circ i == f i}) =
+  if p=0 then Empty else Cons (circuit_of_fun f) (f (p-1))
+#pop-options
+
+let circuit_of_fun_nth_gate (#m #p:nat) (circ:circuit m p) : Lemma (circuit_of_fun (nth_gate circ) == circ) =
+  nth_gate_eq_intro (circuit_of_fun (nth_gate circ)) circ
+
+val circuit_def_lemma (#m #p:nat) (circ:circuit m p) (g:gate m p) (#lN:bar) (x:xNxM lN.xN m) (i:nat{i<p}) :
+  Lemma (circuit_def (Cons circ g) x i == circuit_def circ x i)
+  [SMTPat (circuit_def (Cons circ g) x i)]
+#push-options "--fuel 1"
+let circuit_def_lemma #m #p circ g #lN x i = ()
+#pop-options
+
+#push-options "--fuel 1 --ifuel 1"
+let rec nth_gate_zeros (#m #p:nat) (circ:circuit m p) (#lN:bar) (inputs:xNxM lN.xN m) (i:nat{i<p}) :
+  Lemma (requires nth_gate circ i == Zeros) (ensures circuit_def circ inputs i == (_).zeros_)
+  =
+  if i=p-1 then () else let Cons circ' g = circ in nth_gate_zeros circ' inputs i
+
+let rec nth_gate_ones (#m #p:nat) (circ:circuit m p) (#lN:bar) (inputs:xNxM lN.xN m) (i:nat{i<p}) :
+  Lemma (requires nth_gate circ i == Ones) (ensures circuit_def circ inputs i == (_).ones_)
+  =
+  if i=p-1 then () else let Cons circ' g = circ in nth_gate_ones circ' inputs i
+
+let rec nth_gate_input (#m #p:nat) (circ:circuit m p) (#lN:bar) (inputs:xNxM lN.xN m) (i:nat{i<p}) (j:nat{j<m}) :
+  Lemma (requires nth_gate circ i == Input j) (ensures circuit_def circ inputs i == index inputs j)
+  =
+  if i=p-1 then () else let Cons circ' g = circ in nth_gate_input circ' inputs i j
+#pop-options

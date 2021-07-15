@@ -6,48 +6,175 @@ open Lib.Circuits
 
 #set-options "--fuel 0 --ifuel 0 --z3rlimit 0"
 
-private val circ : circuit 8 160
-let circ =
-fun i -> match i with
-| 0 -> Input 7 | 1 -> Input 6 | 2 -> Input 5 | 3 -> Input 4 | 4 -> Input 3 | 5 -> Input 2
-| 6 -> Input 1 | 7 -> Input 0 | 8 -> Xor 6 4 | 9 -> Xor 3 0 | 10 -> Xor 1 2 | 11 -> Xor 7 10
-| 12 -> Xor 8 9 | 13 -> Xor 1 5 | 14 -> Xor 0 6 | 15 -> Xor 8 13 | 16 -> Xor 6 11 | 17 -> Xor 3 11 
-| 18 -> Xor 7 12 | 19 -> Xor 12 13 | 20 -> Xor 2 5 | 21 -> Xor 10 12 | 22 -> Xor 5 14 | 23 -> Xor 0 5
-| 24 -> Xor 7 15 | 25 -> Xor 6 5 | 26 -> Xor 9 25 | 27 -> Xor 11 22 | 28 -> Xor 8 20 | 29 -> Xor 0 11
-| 30 -> Zeros | 31 -> Zeros | 32 -> Zeros | 33 -> Zeros | 34 -> Zeros | 35 -> Zeros
-| 36 -> Zeros | 37 -> Zeros | 38 -> Zeros | 39 -> Zeros | 40 -> Zeros | 41 -> Zeros
-| 42 -> Zeros | 43 -> Zeros | 44 -> Zeros | 45 -> Zeros | 46 -> Xor 28 12 | 47 -> Xor 28 14
-| 48 -> Xor 14 26 | 49 -> Xor 23 21 | 50 -> Xor 29 24 | 51 -> And 26 12 | 52 -> And 27 18 | 53 -> Xor 19 51
-| 54 -> And 17 7 | 55 -> Xor 54 51 | 56 -> And 14 28 | 57 -> And 16 11 | 58 -> Xor 47 56 | 59 -> And 29 24
-| 60 -> Xor 59 56 | 61 -> And 9 15 | 62 -> And 48 46 | 63 -> Xor 62 61 | 64 -> And 23 21 | 65 -> Xor 64 61
-| 66 -> Xor 53 52 | 67 -> Xor 55 49 | 68 -> Xor 58 57 | 69 -> Xor 60 65 | 70 -> Xor 66 63 | 71 -> Xor 67 65 
-| 72 -> Xor 68 63 | 73 -> Xor 69 50 | 74 -> Xor 72 73 | 75 -> And 72 70 | 76 -> Xor 71 75 | 77 -> Xor 70 71 
-| 78 -> Xor 73 75 | 79 -> And 78 77 | 80 -> And 76 74 | 81 -> And 70 73 | 82 -> And 77 81 | 83 -> Xor 77 75 
-| 84 -> And 71 72 | 85 -> And 74 84 | 86 -> Xor 74 75 | 87 -> Xor 71 79 | 88 -> Xor 82 83 | 89 -> Xor 73 80 
-| 90 -> Xor 85 86 | 91 -> Xor 88 90 | 92 -> Xor 87 89 | 93 -> Xor 87 88 | 94 -> Xor 89 90 | 95 -> Xor 92 91 
-| 96 -> And 94 12 | 97 -> And 90 18 | 98 -> And 89 7 | 99 -> And 93 28 | 100 -> And 88 11 | 101 -> And 87 24 
-| 102 -> And 92 15 | 103 -> And 95 46 | 104 -> And 91 21 | 105 -> And 94 26 | 106 -> And 90 27 | 107 -> And 89 17 
-| 108 -> And 93 14 | 109 -> And 88 16 | 110 -> And 87 29 | 111 -> And 92 9 | 112 -> And 95 48 | 113 -> And 91 23 
-| 114 -> Xor 111 112 | 115 -> Xor 100 106 | 116 -> Xor 103 114 | 117 -> Xor 105 115 | 118 -> Xor 98 108 | 119 -> Xor 96 99 
-| 120 -> Xor 114 119 | 121 -> Xor 97 117 | 122 -> Xor 96 102 | 123 -> Xor 101 109 | 124 -> Xor 104 110  | 125 -> Xor 98 121 
-| 126 -> Xor 118 124 | 127 -> Xor 107 115 | 128 -> Xor 99 102 | 129 -> Xor 117 128 | 130 -> Xor 113 126 | 131 -> Xor 111 122 
-| 132 -> Xor 118 123 | 133 -> Zeros | 134 -> Zeros | 135 -> Xor 101 114 | 136 -> Zeros | 137 -> Zeros
-| 138 -> Xor 100 108 | 139 -> Xor 119 127 | 140 -> Zeros | 141 -> Xor 104 123 | 142 -> Xor 138 141 | 143 -> Xor 100 122 
-| 144 -> Zeros | 145 -> Xor 126 139 | 146 -> Zeros | 147 -> Xor 121 143 | 148 -> Xor 120 132 | 149 -> Not 148
-| 150 -> Xor 116 142 | 151 -> Not 150 | 152 -> Xor 116 145 | 153 -> Xor 125 135 | 154 -> Xor 120 121 | 155 -> Xor 130 131
-| 156 -> Not 155 | 157 -> Xor 116 147 | 158 -> Not 157 | 159 -> Xor 116 129
+let circuit_builder : st_monad circ_st (nat*nat*nat*nat*nat*nat*nat*nat) =
+a0 <-- bld_input 7;
+a1 <-- bld_input 6;
+a2 <-- bld_input 5;
+a3 <-- bld_input 4;
+a4 <-- bld_input 3;
+a5 <-- bld_input 2;
+a6 <-- bld_input 1;
+a7 <-- bld_input 0;
+a8 <-- bld_xor a6 a4;
+a9 <-- bld_xor a3 a0;
+a10 <-- bld_xor a1 a2;
+a11 <-- bld_xor a7 a10;
+a12 <-- bld_xor a8 a9;
+a13 <-- bld_xor a1 a5;
+a14 <-- bld_xor a0 a6;
+a15 <-- bld_xor a8 a13;
+a16 <-- bld_xor a6 a11;
+a17 <-- bld_xor a3 a11;
+a18 <-- bld_xor a7 a12;
+a19 <-- bld_xor a12 a13;
+a20 <-- bld_xor a2 a5;
+a21 <-- bld_xor a10 a12;
+a22 <-- bld_xor a5 a14;
+a23 <-- bld_xor a0 a5;
+a24 <-- bld_xor a7 a15;
+a25 <-- bld_xor a6 a5;
+a26 <-- bld_xor a9 a25;
+a27 <-- bld_xor a11 a22;
+a28 <-- bld_xor a8 a20;
+a29 <-- bld_xor a0 a11;
+a46 <-- bld_xor a28 a12;
+a47 <-- bld_xor a28 a14;
+a48 <-- bld_xor a14 a26;
+a49 <-- bld_xor a23 a21;
+a50 <-- bld_xor a29 a24;
+a51 <-- bld_and a26 a12;
+a52 <-- bld_and a27 a18;
+a53 <-- bld_xor a19 a51;
+a54 <-- bld_and a17 a7;
+a55 <-- bld_xor a54 a51;
+a56 <-- bld_and a14 a28;
+a57 <-- bld_and a16 a11;
+a58 <-- bld_xor a47 a56;
+a59 <-- bld_and a29 a24;
+a60 <-- bld_xor a59 a56;
+a61 <-- bld_and a9 a15;
+a62 <-- bld_and a48 a46;
+a63 <-- bld_xor a62 a61;
+a64 <-- bld_and a23 a21;
+a65 <-- bld_xor a64 a61;
+a66 <-- bld_xor a53 a52;
+a67 <-- bld_xor a55 a49;
+a68 <-- bld_xor a58 a57;
+a69 <-- bld_xor a60 a65;
+a70 <-- bld_xor a66 a63;
+a71 <-- bld_xor a67 a65;
+a72 <-- bld_xor a68 a63;
+a73 <-- bld_xor a69 a50;
+a74 <-- bld_xor a72 a73;
+a75 <-- bld_and a72 a70;
+a76 <-- bld_xor a71 a75;
+a77 <-- bld_xor a70 a71;
+a78 <-- bld_xor a73 a75;
+a79 <-- bld_and a78 a77;
+a80 <-- bld_and a76 a74;
+a81 <-- bld_and a70 a73;
+a82 <-- bld_and a77 a81;
+a83 <-- bld_xor a77 a75;
+a84 <-- bld_and a71 a72;
+a85 <-- bld_and a74 a84;
+a86 <-- bld_xor a74 a75;
+a87 <-- bld_xor a71 a79;
+a88 <-- bld_xor a82 a83;
+a89 <-- bld_xor a73 a80;
+a90 <-- bld_xor a85 a86;
+a91 <-- bld_xor a88 a90;
+a92 <-- bld_xor a87 a89;
+a93 <-- bld_xor a87 a88;
+a94 <-- bld_xor a89 a90;
+a95 <-- bld_xor a92 a91;
+a96 <-- bld_and a94 a12;
+a97 <-- bld_and a90 a18;
+a98 <-- bld_and a89 a7;
+a99 <-- bld_and a93 a28;
+a100 <-- bld_and a88 a11;
+a101 <-- bld_and a87 a24;
+a102 <-- bld_and a92 a15;
+a103 <-- bld_and a95 a46;
+a104 <-- bld_and a91 a21;
+a105 <-- bld_and a94 a26;
+a106 <-- bld_and a90 a27;
+a107 <-- bld_and a89 a17;
+a108 <-- bld_and a93 a14;
+a109 <-- bld_and a88 a16;
+a110 <-- bld_and a87 a29;
+a111 <-- bld_and a92 a9;
+a112 <-- bld_and a95 a48;
+a113 <-- bld_and a91 a23;
+a114 <-- bld_xor a111 a112;
+a115 <-- bld_xor a100 a106;
+a116 <-- bld_xor a103 a114;
+a117 <-- bld_xor a105 a115;
+a118 <-- bld_xor a98 a108;
+a119 <-- bld_xor a96 a99;
+a120 <-- bld_xor a114 a119;
+a121 <-- bld_xor a97 a117;
+a122 <-- bld_xor a96 a102;
+a123 <-- bld_xor a101 a109;
+a124 <-- bld_xor a104 a110;
+a125 <-- bld_xor a98 a121;
+a126 <-- bld_xor a118 a124;
+a127 <-- bld_xor a107 a115;
+a128 <-- bld_xor a99 a102;
+a129 <-- bld_xor a117 a128;
+a130 <-- bld_xor a113 a126;
+a131 <-- bld_xor a111 a122;
+a132 <-- bld_xor a118 a123;
+a135 <-- bld_xor a101 a114;
+a138 <-- bld_xor a100 a108;
+a139 <-- bld_xor a119 a127;
+a141 <-- bld_xor a104 a123;
+a142 <-- bld_xor a138 a141;
+a143 <-- bld_xor a100 a122;
+a145 <-- bld_xor a126 a139;
+a147 <-- bld_xor a121 a143;
+a148 <-- bld_xor a120 a132;
+a149 <-- bld_not a148;
+a150 <-- bld_xor a116 a142;
+a151 <-- bld_not a150;
+a152 <-- bld_xor a116 a145;
+a153 <-- bld_xor a125 a135;
+a154 <-- bld_xor a120 a121;
+a155 <-- bld_xor a130 a131;
+a156 <-- bld_not a155;
+a157 <-- bld_xor a116 a147;
+a158 <-- bld_not a157;
+a159 <-- bld_xor a116 a129;
+return (a149,a151,a152,a153,a154,a156,a158,a159)
 
-private val outputs : (i:nat{i<8}) -> (j:nat{j<160})
-let outputs i =
-match i with
-| 0 -> 149
-| 1 -> 151
-| 2 -> 152
-| 3 -> 153
-| 4 -> 154
-| 5 -> 156
-| 6 -> 158
-| 7 -> 159
+//open FStar.Tactics
+//let pp (_:unit) : Tac unit = norm [delta]; dump ""; trefl()
+//[@@postprocess_with pp]
+
+let circuit_foo = normalize_term(run circuit_builder (circ_st_empty 8))
+
+let circ_size : nat =
+  let (_,st) = circuit_foo in
+  st.p
+
+[@@"opaque_to_smt"]
+let circ : circuit 8 circ_size =
+  let (_,st) = circuit_foo in
+  st.circ
+
+private val outputs : i:nat{i<8} -> j:nat{j<circ_size}
+let outputs =
+  let (outputs,_) = circuit_foo in
+  let (r0,r1,r2,r3,r4,r5,r6,r7) = outputs in
+  let open FStar.Tactics in
+  fun i -> match i with
+  | 0 -> r0
+  | 1 -> r1
+  | 2 -> r2
+  | 3 -> r3
+  | 4 -> r4
+  | 5 -> r5
+  | 6 -> r6
+  | 7 -> r7
 
 private val subBytes_def (lN:bar) (x:xNxM lN.xN 8) : xNxM lN.xN 8
 let subBytes_def lN x = reduce_output (circuit_spec circ lN) 8 outputs x

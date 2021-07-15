@@ -25,8 +25,7 @@ val sub_bytes64x8:
 let sub_bytes64x8 (st0:uint64) (st1:uint64) (st2:uint64) (st3:uint64) (st4:uint64) (st5:uint64) (st6:uint64) (st7:uint64) =
   let (s7,(s6,(s5,(s4,(s3,(s2,(s1,(s0,())))))))) :
     uint64*(uint64*(uint64*(uint64*(uint64*(uint64*(uint64*(uint64*unit))))))) =
-    Hacl.Impl.AES.SubBytes.subBytes #64 #(Lib.Bitmap.uN U64 SEC 64)
-      (st7,(st6,(st5,(st4,(st3,(st2,(st1,(st0,()))))))))
+    Hacl.Impl.AES.SubBytes.subBytes64 (st7,(st6,(st5,(st4,(st3,(st2,(st1,(st0,()))))))))
   in
   (s0,s1,s2,s3,s4,s5,s6,s7)
 

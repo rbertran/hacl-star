@@ -32,7 +32,7 @@ val xNxM (#a:Type0) (xN:foo a) (m:nat) : Type0
 let rec xNxM xN m = if m = 0 then unit else xN.t * xNxM xN (m-1)
 #pop-options
 
-noextract inline_for_extraction
+noextract
 val index (#a:Type0) (#xN:foo a) (#m:nat) (x:xNxM xN m) (i:nat{i<m}) : xN.t
 #push-options "--ifuel 1 --fuel 1"
 let rec index #n #xN #m x i =
