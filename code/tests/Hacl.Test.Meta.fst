@@ -64,17 +64,46 @@ let ls_length = normalize_term(List.Tot.length ls)
 // No need for `assert_norm` because of `normalize_term`
 let ls_test () : Lemma (ls_length == 128) = ()
 
+let pp (_:unit) : Tac unit = norm []; dump ""; trefl ()
 
-type result (a : Type) = | Success : v:a -> result a | Fail :result a
-let return (x:'a) : result 'a = Success x
+// are value of type `term` typed-checked?
+// what's inside `bv_view`? inside a binder?
 
-// The trick
-let bind (m : result 'a) (f : 'a -> result 'b) : result 'b =
-  match m with
-  | Success x -> f x
-  | Fail -> Fail
+//[@@postprocess_with pp]
+val synt_test (_:unit) : Tac decls
+let synt_test () = // trying to build `test:(#ty:Type0 -> ty -> ty) = fun (#ty:Type0) (x:ty) -> x`
+  let arrow (bv:bv) (typ:term) : Tac term = pack (Tv_Arrow (pack_binder bv Q_Explicit []) (pack_comp (C_Total typ []))) in
+  let arrow_implicit (bv:bv) (typ:term) : Tac term = pack (Tv_Arrow (pack_binder bv Q_Implicit []) (pack_comp (C_Total typ []))) in
 
-let f () : result int =
-  x <-- return 3;
-  y <-- return 4;
-  return (x + y)
+  let bv0 = pack_bv ({
+    bv_ppname = "ty";
+    bv_index = 0;
+    //bv_sort = pack (Tv_Type ());
+    bv_sort = (`Type0);
+  }) in
+  let typ = pack (Tv_BVar bv0) in
+  let bv1 = pack_bv ({
+    bv_ppname = "x";
+    bv_index = 1;
+    bv_sort = typ;
+  }) in
+
+  // build type
+  let decltyp = arrow_implicit bv0 (arrow bv1 typ) in
+
+  // build term
+  let binder0 = pack_binder bv0 Q_Implicit [] in
+  let binder1 = pack_binder bv1 Q_Explicit [] in
+  let body = pack (Tv_Abs binder0 (Tv_Abs binder1 (pack (Tv_BVar bv1)))) in
+
+  // Generate the declaration
+  let xname:string = "test" in
+  let module_name = cur_module () in
+  let fv = pack_fv (List.Tot.snoc (module_name, xname)) in
+  let is_recursive = false in
+  let sig : sigelt_view = Sg_Let is_recursive fv [] decltyp body in
+  [pack_sigelt sig]
+
+let foo = ()
+
+%splice[test](synt_test ())
