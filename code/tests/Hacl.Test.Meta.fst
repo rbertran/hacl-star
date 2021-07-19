@@ -69,6 +69,7 @@ let pp (_:unit) : Tac unit = norm []; dump ""; trefl ()
 // are value of type `term` typed-checked?
 // what's inside `bv_view`? inside a binder?
 
+(*
 //[@@postprocess_with pp]
 val synt_test (_:unit) : Tac decls
 let synt_test () = // trying to build `test:(#ty:Type0 -> ty -> ty) = fun (#ty:Type0) (x:ty) -> x`
@@ -107,3 +108,4 @@ let synt_test () = // trying to build `test:(#ty:Type0 -> ty -> ty) = fun (#ty:T
 let foo = ()
 
 %splice[test](synt_test ())
+*)

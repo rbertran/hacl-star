@@ -33,9 +33,9 @@ let rec xNxM xN m = if m = 0 then unit else xN.t * xNxM xN (m-1)
 #pop-options
 
 noextract
-val index (#a:Type0) (#xN:foo a) (#m:nat) (x:xNxM xN m) (i:nat{i<m}) : xN.t
+val index (#a:Type0) (#xN:foo a) (#m:nat) (i:nat{i<m}) (x:xNxM xN m) : xN.t
 #push-options "--ifuel 1 --fuel 1"
-let rec index #n #xN #m x i =
+let rec index #n #xN #m i x =
 if m = 0 then
   ()
 else
@@ -43,7 +43,7 @@ else
   if i = m-1 then
     u
   else
-    index v i
+    index i v
 #pop-options
 
 val xNxM_mk (#a:Type0) (xN:foo a) (m:nat) (f:(i:nat{i<m} -> xN.t)) : xNxM xN m
@@ -53,8 +53,8 @@ let rec xNxM_mk xN m f =
 #pop-options
 
 val xNxM_mk_def (#a:Type0) (xN:foo a) (m:nat) (f:(i:nat{i<m} -> xN.t)) (i:nat{i<m}) :
-  Lemma (index (xNxM_mk xN m f) i == f i)
-  [SMTPat (index (xNxM_mk xN m f) i)]
+  Lemma (index i (xNxM_mk xN m f) == f i)
+  [SMTPat (index i (xNxM_mk xN m f))]
 #push-options "--fuel 1"
 let rec xNxM_mk_def xN m f i =
   if m = 0 then
@@ -67,7 +67,7 @@ let rec xNxM_mk_def xN m f i =
 
 val xNxM_eq_intro (#a:Type0) (#xN:foo a) (#m:nat) (x y:xNxM xN m) :
   Lemma
-    (requires forall (i:nat{i<m}). index x i == index y i)
+    (requires forall (i:nat{i<m}). index i x == index i y)
     (ensures x == y)
 #push-options "--fuel 1"
 let rec xNxM_eq_intro #n #xN #m x y =
@@ -76,10 +76,10 @@ let rec xNxM_eq_intro #n #xN #m x y =
   else
     let (a, u) : xN.t * xNxM xN (m-1) = x in
     let (b, v) : xN.t * xNxM xN (m-1) = y in
-    assert (forall (i:nat{i<m-1}). index u i == index x i);
+    assert (forall (i:nat{i<m-1}). index i u == index i x);
     xNxM_eq_intro u v;
     //assert (index x (m-1) == a);
-    assert (index y (m-1) == b)
+    assert (index (m-1) y == b)
 #pop-options
 
 (*** x1 and x1xM ***)
@@ -125,20 +125,21 @@ let rec x1xM_eq_lemma #a #m u v =
 val x1xM_mk (#a:Type0) (m:nat) (f:(i:nat{i<m} -> a)) : x1xM a m
 let x1xM_mk m f = xNxM_mk _ _ (fun i -> x1_of (f i))
 
+noextract
 val column (#a:Type0) (#xN:foo a) (#m:nat) (j:nat{j<xN.n}) (x:xNxM xN m) : x1xM a m
 let column j x =
-  let aux1 i k = (_).v (index x i) j in
+  let aux1 i k = (_).v (index i x) j in
   let aux2 i = (_).mk (aux1 i) in
   xNxM_mk _ _ aux2
 
 val column_def (#a:Type0) (#xN:foo a) (#m:nat) (j:nat{j<xN.n}) (x:xNxM xN m) (i:nat{i<m}) :
-  Lemma ((_).v (index (column j x) i) 0 == (_).v (index x i) j)
-  [SMTPat ((_).v (index (column j x) i) 0)]
+  Lemma ((_).v (index i (column j x)) 0 == (_).v (index i x) j)
+  [SMTPat ((_).v (index i (column j x)) 0)]
 let column_def j x i = ()
 
 val column_lemma (#a:Type0) (#xN:foo a) (#m:nat) (x:xNxM xN m) (i:nat{i<m}) (j:nat{j<xN.n}) :
-  Lemma ( (x1 a).v (index (column j x) i) 0 == xN.v (index x i) j )
-  [SMTPat ((x1 a).v (index (column j x) i) 0)]
+  Lemma ( (x1 a).v (index i (column j x)) 0 == xN.v (index i x) j )
+  [SMTPat ((x1 a).v (index i (column j x)) 0)]
 let column_lemma x i j = ()
 
 val column_column (#a:Type0) (#m:nat) (x:x1xM a m) :
@@ -182,13 +183,14 @@ val sliceable_feq
     (ensures sliceable h g)
 let sliceable_feq f g h = ()
 
+noextract
 val reduce_output
   (#a:Type0) (#xN:foo a)
   (#m #m':nat)
   (f:(xNxM xN m -> xNxM xN m'))
   (m'':nat) (r:(i:nat{i<m''} -> j:nat{j<m'}))
   : xNxM xN m -> xNxM xN m''
-let reduce_output f m'' r x = xNxM_mk _ _ (fun i -> index (f x) (r i))
+let reduce_output f m'' r x = xNxM_mk _ _ (fun i -> index (r i) (f x))
 
 val reduce_output_def
   (#a:Type0) (#xN:foo a)
@@ -196,8 +198,8 @@ val reduce_output_def
   (f:( xNxM xN m -> xNxM xN m'))
   (m'':nat) (r:(i:nat{i<m''} -> j:nat{j<m'}))
   (x:xNxM xN m) (i:nat{i<m''})
-  : Lemma (index (reduce_output f m'' r x) i == index (f x) (r i))
-  [SMTPat (index (reduce_output f m'' r x) i)]
+  : Lemma (index i (reduce_output f m'' r x) == index (r i) (f x))
+  [SMTPat (index i (reduce_output f m'' r x))]
 let reduce_output_def f m'' r x i = ()
 
 val reduce_output_sliceable
@@ -217,9 +219,11 @@ let reduce_output_sliceable f g m'' r =
 module UI = FStar.UInt
 module S = FStar.Seq
 
+noextract
 val to_uint_spec (#m:nat) (x:x1xM bool m) : uint_t m
-let to_uint_spec #m x = UI.from_vec (S.init m (index x))
+let to_uint_spec #m x = UI.from_vec (S.init m (fun i -> index i x))
 
+noextract
 val of_uint_spec (#m:nat) (p:uint_t m) : x1xM bool m
 #push-options "--fuel 1"
 let of_uint_spec #m p =
@@ -229,24 +233,26 @@ let of_uint_spec #m p =
     x1xM_mk _ (UI.nth p)
 #pop-options
 
+noextract
 val to_uint (#m:nat) (x:x1xM bool m) : (p:uint_t m{p == to_uint_spec x})
 let to_uint #m x =
   let rec aux (j:nat{j<=m})
-    : (p:uint_t j{p == UI.from_vec (S.init j (index x))})
+    : (p:uint_t j{p == UI.from_vec (S.init j (fun i -> index i x))})
     =
     if j = 0 then
       0
     else (
-      let r = Prims.op_Multiply 2 (aux (j-1)) + (if index x (j-1) then 1 else 0) in
+      let r = Prims.op_Multiply 2 (aux (j-1)) + (if index (j-1) x then 1 else 0) in
       assume (r <= pow2 j - 1);
       let r : uint_t j = r in
-      let v = S.init j (index x) in
-      assume (r == UI.from_vec (S.init j (index x)));
+      let v = S.init j (fun i -> index i x) in
+      assume (r == UI.from_vec (S.init j (fun i -> index i x)));
       r
     )
   in
   aux m
 
+noextract
 val of_uint (#m:nat) (p:uint_t m) : (x:x1xM bool m{x == of_uint_spec p})
 let of_uint #m p =
   let aux (q:uint_t m) (i:nat{i<m}) : (r:bool{r == UI.nth p i}) =
@@ -296,6 +302,7 @@ let bruteforce_aux (n:nat) (phi:(i:uint_t n -> bool)) :
   foo (pow2 n) phi
 
 #push-options "--fuel 1 --ifuel 1"
+noextract
 let bruteforce
   (#xN:foo bool)
   (#m #m':nat)
