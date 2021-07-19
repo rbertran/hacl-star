@@ -673,6 +673,7 @@ WASMSUPPORT_BUNDLE = -bundle WasmSupport
 LEGACY_BUNDLE = -bundle EverCrypt[rename=EverCrypt_Legacy]
 
 BUNDLE_FLAGS	=\
+  $(AES_BUNDLE) \
   $(BLAKE2_BUNDLE) \
   $(HASH_BUNDLE) \
   $(E_HASH_BUNDLE) \
@@ -707,9 +708,6 @@ DEFAULT_FLAGS = \
   $(REQUIRED_FLAGS) \
   $(TARGET_H_INCLUDE)
 
-# AES testing
-# -----------
-dist/gcc-compatible/Makefile.basic: DEFAULT_FLAGS+=$(AES_BUNDLE)
 
 # WASM distribution
 # -----------------
@@ -786,6 +784,9 @@ dist/wasm/Makefile.basic: BIGNUM_BUNDLE = -bundle Hacl.Bignum.*,Hacl.Bignum,Hacl
 dist/wasm/Makefile.basic: RSAPSS_BUNDLE = -bundle Hacl.RSAPSS,Hacl.Impl.RSAPSS.*,Hacl.Impl.RSAPSS
 dist/wasm/Makefile.basic: FFDHE_BUNDLE = -bundle Hacl.FFDHE,Hacl.Impl.FFDHE.*,Hacl.Impl.FFDHE
 dist/wasm/Makefile.basic: DEFAULT_FLAGS += -bundle 'EverCrypt,EverCrypt.*'
+
+# Disable AES
+dist/wasm/Makefile.basic: AES_BUNDLE=-bundle Hacl.AES_128.*,Hacl.AES_256.*,Hacl.Impl.AES.*
 
 dist/wasm/package.json: dist/wasm/Makefile.basic $(wildcard bindings/js/*.js) bindings/js/README.md $(wildcard bindings/js/*.json) bindings/js/.npmignore
 	cp -f $(filter-out %.basic,$^) $(dir $@)
@@ -901,6 +902,9 @@ dist/linux/Makefile.basic: CURVE_BUNDLE = \
   -no-prefix Hacl.Impl.Curve25519.Field64.Vale \
   -drop Hacl_Curve_Leftovers
 
+# Disable AES
+dist/linux/Makefile.basic: AES_BUNDLE=-bundle Hacl.AES_128.*,Hacl.AES_256.*,Hacl.Impl.AES.*
+
 # CCF distribution
 # ----------------
 #
@@ -942,6 +946,9 @@ dist/ccf/Makefile.basic: BLAKE2_BUNDLE=-bundle Hacl.Impl.Blake2.Constants \
   -bundle Hacl.HKDF.Blake2s_128,Hacl.HMAC.Blake2s_128,Hacl.Blake2s_128,Hacl.Hash.Blake2s_128,Hacl.Streaming.Blake2s_256 \
   -bundle 'Hacl.Impl.Blake2.\*'
 
+# Disable AES
+dist/ccf/Makefile.basic: AES_BUNDLE=-bundle Hacl.AES_128.*,Hacl.AES_256.*,Hacl.Impl.AES.*
+
 # Election Guard distribution
 # ---------------------------
 #
@@ -965,6 +972,9 @@ dist/election-guard/Makefile.basic: HAND_WRITTEN_LIB_FLAGS = -bundle Lib.RandomB
 dist/election-guard/Makefile.basic: DEFAULT_FLAGS += \
   -bundle '\*[rename=Should_not_be_here]' \
   -falloca -ftail-calls
+
+# Disable AES
+dist/election-guard/Makefile.basic: AES_BUNDLE=-bundle Hacl.AES_128.*,Hacl.AES_256.*,Hacl.Impl.AES.*
 
 # Mozilla distribution
 # --------------------
@@ -1009,6 +1019,9 @@ dist/mozilla/Makefile.basic: HAND_WRITTEN_FILES =
 dist/mozilla/Makefile.basic: TARGETCONFIG_FLAGS =
 dist/mozilla/Makefile.basic: HAND_WRITTEN_LIB_FLAGS =
 dist/mozilla/Makefile.basic: TARGET_H_INCLUDE = -add-include '<stdbool.h>'
+
+# Disable AES
+dist/mozilla/Makefile.basic: AES_BUNDLE=-bundle Hacl.AES_128.*,Hacl.AES_256.*,Hacl.Impl.AES.*
 
 # Portable distribution
 # ---------------------

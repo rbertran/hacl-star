@@ -121,7 +121,7 @@ INTTYPES_BUNDLE=-bundle Hacl.IntTypes.Intrinsics= -static-header Hacl.IntTypes.I
 RSAPSS_BUNDLE=-bundle Hacl.RSAPSS=Hacl.Impl.RSAPSS.*,Hacl.Impl.RSAPSS[rename=Hacl_RSAPSS]
 FFDHE_BUNDLE=-bundle Hacl.Impl.FFDHE.Constants -static-header Hacl.Impl.FFDHE.Constants -bundle Hacl.FFDHE=Hacl.Impl.FFDHE[rename=Hacl_FFDHE]
 BIGNUM_BUNDLE=-bundle Hacl.Bignum.Base -static-header Hacl.Bignum.Base -bundle Hacl.Bignum,Hacl.Bignum.*[rename=Hacl_Bignum]
-AES_BUNDLE=-bundle Hacl.AES_128.BitSlice+Hacl.AES_256.BitSlice=Hacl.Impl.AES.*[rename=Hacl_AES]
+AES_BUNDLE=-bundle Hacl.AES_128.BitSlice+Hacl.AES_256.BitSlice+Hacl.AES_128.NI+Hacl.AES_256.NI=Hacl.Impl.AES.*[rename=Hacl_AES_NG]
 
 # 3. OCaml
 
