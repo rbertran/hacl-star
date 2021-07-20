@@ -333,30 +333,34 @@ let bruteforce
   r
 #pop-options
 
-//val nat_ind
-//  (n:pos)
-//  (phi:((i:nat{i<n}) -> Type))
-//  (_:squash (phi (n-1)))
-//  (_:squash (forall (i:nat{i<n-1}). phi i))
-//  : Lemma (forall (i:nat{i<n}). phi i)
-//let nat_ind n phi _ _ = ()
+open FStar.Tactics
 
-//val bool_ind
-//  (phi:(bool -> Type))
-//  (_:squash (phi true))
-//  (_:squash (phi false))
-//  : Lemma (forall b. phi b)
-//let bool_ind phi _ _ = ()
+val nat_ind
+  (n:pos)
+  (phi:((i:nat{i<n}) -> Type))
+  (_:squash (phi (n-1)))
+  (_:squash (forall (i:nat{i<n-1}). phi i))
+  : Lemma (forall (i:nat{i<n}). phi i)
+let nat_ind n phi _ _ = ()
 
-//val nat_less_zero (phi : (i:nat{i<0}) -> Type) : Lemma (forall i. phi i)
-//let nat_less_zero phi = ()
+val bool_ind
+  (phi:(bool -> Type))
+  (_:squash (phi true))
+  (_:squash (phi false))
+  : Lemma (forall b. phi b)
+let bool_ind phi _ _ = ()
 
-//val bruteforce_nat (n:nat) (tac:unit -> Tac unit) : Tac unit
-//let bruteforce_nat n tac =
-//  let _ = repeatn n (fun _ -> apply_lemma (`nat_ind); tac ()) in
-//  apply_lemma (`nat_less_zero)
+val nat_less_zero (phi : (i:nat{i<0}) -> Type) : Lemma (forall i. phi i)
+let nat_less_zero phi = ()
 
-//val bruteforce_bool (n:nat) (tac:unit -> Tac unit) : Tac unit
-//let bruteforce_bool n tac =
-//  let _ = repeatn n (fun _ -> iterAll (fun _ -> apply_lemma (`bool_ind))) in
-//  iterAll tac
+noextract
+val bruteforce_nat (n:nat) (tac:unit -> Tac unit) : Tac unit
+let bruteforce_nat n tac =
+  let _ = repeatn n (fun _ -> apply_lemma (`nat_ind); tac ()) in
+  apply_lemma (`nat_less_zero)
+
+noextract
+val bruteforce_bool (n:nat) (tac:unit -> Tac unit) : Tac unit
+let bruteforce_bool n tac =
+  let _ = repeatn n (fun _ -> iterAll (fun _ -> apply_lemma (`bool_ind))) in
+  iterAll tac

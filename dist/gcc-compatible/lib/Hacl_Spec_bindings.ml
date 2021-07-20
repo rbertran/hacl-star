@@ -2,6 +2,9 @@ open Ctypes
 module Bindings(F:Cstubs.FOREIGN) =
   struct
     open F
+    let hacl_Spec_AES_128_BitSlice_transpose_bits64 =
+      foreign "Hacl_Spec_AES_128_BitSlice_transpose_bits64"
+        (uint64_t @-> (returning uint64_t))
     type spec_Hash_Definitions_hash_alg = Unsigned.UInt8.t
     let spec_Hash_Definitions_hash_alg =
       typedef uint8_t "Spec_Hash_Definitions_hash_alg"

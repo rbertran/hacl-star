@@ -53,3 +53,12 @@ Spec_Cipher_Expansion_cipher_alg_of_impl(Spec_Cipher_Expansion_impl i)
 
 /* SNIPPET_END: Spec_Cipher_Expansion_cipher_alg_of_impl */
 
+/* SNIPPET_START: Hacl_Spec_AES_128_BitSlice_transpose_bits64 */
+
+uint64_t Hacl_Spec_AES_128_BitSlice_transpose_bits64(uint64_t x)
+{
+  return Lib_Transposition64x8_transpose_bits64(x);
+}
+
+/* SNIPPET_END: Hacl_Spec_AES_128_BitSlice_transpose_bits64 */
+

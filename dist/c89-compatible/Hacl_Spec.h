@@ -37,7 +37,7 @@ extern "C" {
 #include "kremlin/internal/target.h"
 
 
-
+#include "Hacl_Lib.h"
 
 #define Spec_Blake2_Blake2S 0
 #define Spec_Blake2_Blake2B 1
@@ -104,6 +104,8 @@ typedef uint8_t Spec_Agile_AEAD_alg;
 #define Spec_Frodo_Params_AES128 1
 
 typedef uint8_t Spec_Frodo_Params_frodo_gen_a;
+
+uint64_t Hacl_Spec_AES_128_BitSlice_transpose_bits64(uint64_t x);
 
 #if defined(__cplusplus)
 }
