@@ -15,11 +15,9 @@ type gate (m p:nat) =
 | Or : a:nat{a<p} -> b:nat{b<p} -> gate m p
 | Not : a:nat{a<p} -> gate m p
 
-let succ : nat -> nat = fun n -> n+1
-
 type circuit (m:nat) : nat -> Type0 =
 | Empty : circuit m 0
-| Cons : #p:nat -> circ:circuit m p -> g:gate m p -> circuit m (succ p)
+| Cons : #p:nat -> circ:circuit m p -> g:gate m p -> circuit m (p+1)
 
 noeq type bar =
 { xN : foo bool
@@ -142,32 +140,6 @@ val circuit_spec_lemma (#m #m':nat) (circ:circuit m m') (lN:bar) (x:xNxM lN.xN m
   [SMTPat (index i (circuit_spec circ lN x))]
 let circuit_spec_lemma circ x lN i = ()
 
-noextract
-val circuit_spec' (#m #p:nat) (circ:circuit m p) (lN:bar) (x:xNxM lN.xN m) : (y:xNxM lN.xN p{y == circuit_spec circ lN x})
-#push-options "--fuel 1 --ifuel 1"
-let rec circuit_spec' #m #p circ lN x =
-  if p = 0 then
-    ()
-  else (
-    let Cons circ' g = circ in
-    let y : xNxM lN.xN (p-1) = circuit_spec' circ' lN x in
-    let w : (w:lN.xN.t{w == circuit_def circ x (p-1)}) =
-      match g with
-      | Input j -> index j x
-      | Ones -> (_).ones_
-      | Zeros -> (_).zeros_
-      | Xor a b -> (_).xor_ (index a y) (index b y)
-      | And a b -> (_).and_ (index a y) (index b y)
-      | Or a b -> (_).or_ (index a y) (index b y)
-      | Not a -> (_).not_ (index a y)
-    in
-    let z : xNxM lN.xN p = ((w <: lN.xN.t), y) in
-    assert(w == circuit_def circ x (p-1));
-    xNxM_eq_intro z (circuit_spec circ lN x);
-    z
-  )
-#pop-options
-
 val sliceable_circuit (#m #m':nat) (circ:circuit m m') (lN:bar) :
   Lemma (sliceable (circuit_spec circ lN) (circuit_spec circ l1))
   [SMTPat (sliceable (circuit_spec circ lN) (circuit_spec circ l1))]
@@ -176,6 +148,69 @@ let sliceable_circuit circ lN =
     xNxM_eq_intro (FStar.Classical.forall_intro (fun i -> sliceable_circuit_lemma circ x i j);
     circuit_spec circ l1 (column j x)) (column j (circuit_spec circ lN x))
   )
+
+type revcircuit (m p:nat) : nat -> Type0 =
+| End : revcircuit m p 0
+| Concat : #i:nat{i<p} -> revcircuit m p i -> gate m (p-i-1) -> revcircuit m p (i+1)
+
+#push-options "--ifuel 1"
+noextract let rev (#m #p:nat) (circ:circuit m p) : revcircuit m p p =
+  let rec aux (#i:nat{i<=p}) (circ:circuit m i) (acc:revcircuit m p (p-i)) : revcircuit m p p =
+    match circ with
+    | Empty -> acc
+    | Cons circ g -> aux circ (Concat acc g)
+  in
+  aux circ End
+#pop-options
+
+#push-options "--ifuel 1"
+noextract let rev' (#m #p:nat) (cric:revcircuit m p p) : circuit m p =
+  let rec aux (#i:nat{i<=p}) (cric:revcircuit m p i) (acc:circuit m (p-i)) : circuit m p =
+    match cric with
+    | End -> acc
+    | Concat cric g ->
+      let g : gate m (p-(i-1)-1) = g in
+      assert(p-(i-1)-1 == p-i);
+      let g : gate m ((p-i)+(1-1)) = g in
+      let g : gate m (p-i) = g in
+      aux cric (Cons acc g)
+  in
+  aux cric Empty
+#pop-options
+
+#push-options "--ifuel 1 --fuel 1"
+noextract
+let rec circuit_impl_aux (#m #p:nat) (#i:nat{i<=p}) (cric:revcircuit m p i) (lN:bar) (x:xNxM lN.xN m) (acc:xNxM lN.xN (p-i)) :
+  Pure (xNxM lN.xN p) (requires True) (ensures fun y -> True) =
+  match cric with
+  | End -> acc
+  | Concat cric g ->
+    let r : lN.xN.t = match g with
+    | Zeros -> (_).zeros_
+    | Ones -> (_).ones_
+    | Input j -> index j x
+    | And a b ->
+        let xa = index a acc in
+        let xb = index b acc in
+        (_).and_ xa xb
+    | Xor a b ->
+        let xa = index a acc in
+        let xb = index b acc in
+        (_).xor_ xa xb
+    | Or a b ->
+        let xa = index a acc in
+        let xb = index b acc in
+        (_).or_ xa xb
+    | Not a ->
+        let xa = index a acc in
+        (_).not_ xa
+    in
+    circuit_impl_aux cric lN x (r, acc)
+#pop-options
+
+noextract
+val circuit_impl (#m #p:nat) (circ:circuit m p) (lN:bar) (x:xNxM lN.xN m) : (y:xNxM lN.xN p{y == circuit_spec circ lN x})
+let rec circuit_impl #m #p circ lN x = admit ()
 
 type circ_st =
 { m: nat
@@ -362,6 +397,3 @@ noextract let compile_not (#m #p:nat) (circ:circuit m p) (#lN:bar) (inputs:xNxM 
   (a:nat{a<i}) (x:(_).t{x==circuit_def circ inputs a})
   : Pure (_).t (requires nth_gate circ i == Not a) (ensures fun y -> y == circuit_def circ inputs i)
   = nth_gate_not circ inputs i a x; normalize_term((_).not_) x
-
-noextract let rec circ (n:nat) : circuit 1 (n+1) =
-if n = 0 then Cons Empty (Input 0) else Cons (circ (n-1)) (Xor (n-1) (n-1))
