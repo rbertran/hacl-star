@@ -65,6 +65,9 @@ let rec xNxM_mk_def xN m f i =
     xNxM_mk_def xN (m-1) f i
 #pop-options
 
+val xNxM_empty (#a:Type0) (xN:foo a) : xNxM xN 0
+let xNxM_empty xN = xNxM_mk _ _ (fun _ -> ())
+
 val xNxM_eq_intro (#a:Type0) (#xN:foo a) (#m:nat) (x y:xNxM xN m) :
   Lemma
     (requires forall (i:nat{i<m}). index i x == index i y)
