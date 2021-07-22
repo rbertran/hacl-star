@@ -239,32 +239,36 @@ let of_uint_spec #m p =
 noextract
 val to_uint (#m:nat) (x:x1xM bool m) : (p:uint_t m{p == to_uint_spec x})
 let to_uint #m x =
-  let rec aux (j:nat{j<=m})
-    : (p:uint_t j{p == UI.from_vec (S.init j (fun i -> index i x))})
-    =
-    if j = 0 then
-      0
-    else (
-      let r = Prims.op_Multiply 2 (aux (j-1)) + (if index (j-1) x then 1 else 0) in
-      assume (r <= pow2 j - 1);
-      let r : uint_t j = r in
-      let v = S.init j (fun i -> index i x) in
-      assume (r == UI.from_vec (S.init j (fun i -> index i x)));
-      r
-    )
-  in
-  aux m
+  normalize_term(
+    let rec aux (j:nat{j<=m})
+      : (p:uint_t j{p == UI.from_vec (S.init j (fun i -> index i x))})
+      =
+      if j = 0 then
+        0
+      else (
+        let r = Prims.op_Multiply 2 (aux (j-1)) + (if index (j-1) x then 1 else 0) in
+        assume (r <= pow2 j - 1);
+        let r : uint_t j = r in
+        let v = S.init j (fun i -> index i x) in
+        assume (r == UI.from_vec (S.init j (fun i -> index i x)));
+        r
+      )
+    in
+    aux m
+  )
 
 noextract
 val of_uint (#m:nat) (p:uint_t m) : (x:x1xM bool m{x == of_uint_spec p})
 let of_uint #m p =
-  let aux (q:uint_t m) (i:nat{i<m}) : (r:bool{r == UI.nth p i}) =
-    admit ();
-    q / (pow2 i) % 2 = 1
-  in
-  let x = x1xM_mk _ (aux p) in
-  xNxM_eq_intro x (of_uint_spec p);
-  x
+  normalize_term(
+    let aux (q:uint_t m) (i:nat{i<m}) : (r:bool{r == UI.nth p i}) =
+      admit ();
+      q / (pow2 i) % 2 = 1
+    in
+    let x = x1xM_mk _ (aux p) in
+    xNxM_eq_intro x (of_uint_spec p);
+    x
+  )
 
 val to_uint_of_uint (#m:nat) (p:uint_t m) :
   Lemma (to_uint (of_uint p) == p)
@@ -289,20 +293,20 @@ val forall_uint_lemma (#m:nat) (phi:x1xM bool m -> Type0) :
 let forall_uint_lemma phi =
   FStar.Classical.forall_intro (fun x -> of_uint_to_uint x <: Lemma (phi x))
 
+let rec bruteforce_aux_aux (n:nat) (phi:(i:nat{i<n} -> bool)) :
+  Pure
+    bool
+    (requires True)
+    (ensures fun r -> if r then forall (i:nat{i<n}). phi i else True)
+  = if n = 0 then true else phi (n-1) && bruteforce_aux_aux (n-1) phi
+
 let bruteforce_aux (n:nat) (phi:(i:uint_t n -> bool)) :
   Pure
     bool
     (requires True)
     (fun r -> if r then forall (i:uint_t n). phi i else True)
   =
-  let rec foo (n:nat) (phi:(i:nat{i<n} -> bool)) :
-    Pure
-      bool
-      (requires True)
-      (ensures fun r -> if r then forall (i:nat{i<n}). phi i else True)
-    = if n = 0 then true else phi (n-1) && foo (n-1) phi
-  in
-  foo (pow2 n) phi
+  bruteforce_aux_aux (pow2 n) phi
 
 #push-options "--fuel 1 --ifuel 1"
 noextract
