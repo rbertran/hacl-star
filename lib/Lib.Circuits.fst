@@ -178,6 +178,7 @@ noextract let rev' (#m #p:nat) (cric:circuit_rev m p p) : circuit m p =
 #pop-options
 
 #push-options "--fuel 1 --ifuel 1"
+noextract
 let circuit_spec2_aux_aux (#m #p:nat) (#i:nat{i<=p}) (g:gate m (p-i)) (lN:bar) (acc:xNxM lN.xN (p-i)) (x:xNxM lN.xN m) : lN.xN.t =
   match g with
   | Zeros -> (_).zeros_
@@ -288,6 +289,8 @@ type circ_st =
 ; p: nat
 ; circ: circuit m p
 }
+
+noextract
 let circ_st_empty (m:nat) =
 { m = m
 ; p = 0
