@@ -1,5 +1,5 @@
 [
-  "˜\u0016\u0004çÛ[Oéàð\u0010Ú–§2\u0010",
+  "ÈµIÞ\u0000¨y\r\u0003\u0019Ãòï–‘H",
   [
     [
       "Vale.X64.QuickCodes.label",
@@ -8,7 +8,7 @@
       0,
       [ "@query" ],
       0,
-      "772c643e6d26bb95ef8582942f2bed77"
+      "e839057f6c5193514479de37bcc44cee"
     ],
     [
       "Vale.X64.QuickCodes.lemma_label_Type0",
@@ -21,7 +21,7 @@
         "typing_Vale.X64.QuickCodes.label"
       ],
       0,
-      "fffde52fcd216823da8a1c0d991fc78e"
+      "12625eb908cde6e7e1ee384246ed928a"
     ],
     [
       "Vale.X64.QuickCodes.lemma_label_bool",
@@ -30,7 +30,7 @@
       1,
       [ "@query" ],
       0,
-      "af4c3e876d6eaf5c7874f27d0acd9c2b"
+      "382b549a3d09e22edaa9f45ec1a567ff"
     ],
     [
       "Vale.X64.QuickCodes.mods_contains1",
@@ -46,7 +46,7 @@
         "fuel_guarded_inversion_Prims.list", "subterm_ordering_Prims.Cons"
       ],
       0,
-      "ea7b0b9bc768dd25988daa17885b2e0a"
+      "7bde64ecd421f9d4142b196336a092c5"
     ],
     [
       "Vale.X64.QuickCodes.mods_contains",
@@ -63,7 +63,7 @@
         "subterm_ordering_Prims.Cons"
       ],
       0,
-      "01fa95f8cd86998b0add053fa9d680d7"
+      "388a1209582d4fe1b7909690aab35c84"
     ],
     [
       "Vale.X64.QuickCodes.quickCodes",
@@ -75,7 +75,19 @@
         "refinement_interpretation_Tm_refine_2de20c066034c13bf76e9c0b94f4806c"
       ],
       0,
-      "62e59862d6d6c927b16a746e361969e0"
+      "27af371c84b316eda10c28a8f2db57ba"
+    ],
+    [
+      "Vale.X64.QuickCodes.quickCodes",
+      2,
+      1,
+      1,
+      [
+        "@MaxIFuel_assumption", "@query",
+        "refinement_interpretation_Tm_refine_c80e4213ca8a6822bfe77f09569c8af5"
+      ],
+      0,
+      "a59d6a9fc592d6edfba055637e361716"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QEmpty__item___0",
@@ -89,7 +101,7 @@
         "refinement_interpretation_Tm_refine_3bf1e58005ba552fb333da9a044d3e87"
       ],
       0,
-      "02b81ca3269c71549202bf96d098d749"
+      "7abfd24bbb1a7e9eaade250e6d65d6e8"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QSeq__item__b",
@@ -103,7 +115,7 @@
         "refinement_interpretation_Tm_refine_a91a7f4d40ff1cab01209a19b453f3b9"
       ],
       0,
-      "94025f89d9b5fdb846ec283d2f85f845"
+      "b1fbbabf05c3306159a1a00477e6d1f9"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QSeq__item__c",
@@ -117,7 +129,7 @@
         "refinement_interpretation_Tm_refine_a91a7f4d40ff1cab01209a19b453f3b9"
       ],
       0,
-      "4269953c6f6365b40c7e92b9f3e48353"
+      "03faf675efc48c8b15c150c3fa08b8da"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QSeq__item__cs",
@@ -131,7 +143,7 @@
         "refinement_interpretation_Tm_refine_a91a7f4d40ff1cab01209a19b453f3b9"
       ],
       0,
-      "918d215831a7f7c73a6149fb13517fba"
+      "1031fc4eed78da557d92ffd0d228994c"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QSeq__item__r",
@@ -145,7 +157,7 @@
         "refinement_interpretation_Tm_refine_a91a7f4d40ff1cab01209a19b453f3b9"
       ],
       0,
-      "b4b000c669ef2e065354a06199ccd553"
+      "08fdf236dbfaba2376d8d9e196027895"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QSeq__item__msg",
@@ -159,7 +171,7 @@
         "refinement_interpretation_Tm_refine_a91a7f4d40ff1cab01209a19b453f3b9"
       ],
       0,
-      "e1510c952dee2fcf27c13b83c37f5968"
+      "1ea610a6f27f7711f72565f289b0993b"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QSeq__item___5",
@@ -177,7 +189,7 @@
         "refinement_interpretation_Tm_refine_a91a7f4d40ff1cab01209a19b453f3b9"
       ],
       0,
-      "9b6f18396fa29cb80e2b6184109da4d4"
+      "1aba77b366715a584183b9776f2b8248"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QSeq__item___6",
@@ -193,7 +205,7 @@
         "refinement_interpretation_Tm_refine_a91a7f4d40ff1cab01209a19b453f3b9"
       ],
       0,
-      "706e0820f8b2f9ade41e00bacb151954"
+      "e8fa8b19e4fde6abad7a7c2e381b1c93"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QBind__item__b",
@@ -207,7 +219,7 @@
         "refinement_interpretation_Tm_refine_7d5c31cc88b5ced2af2f0af6163ab025"
       ],
       0,
-      "836ba41f162500d0d823500b974727f0"
+      "934261fcf7afc9b50aa94c38c9a1f4fd"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QBind__item__c",
@@ -221,7 +233,7 @@
         "refinement_interpretation_Tm_refine_7d5c31cc88b5ced2af2f0af6163ab025"
       ],
       0,
-      "94da224854ae587631d664907f47012c"
+      "f6b803bfee39db16025dc5759f3ccf36"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QBind__item__cs",
@@ -235,7 +247,7 @@
         "refinement_interpretation_Tm_refine_7d5c31cc88b5ced2af2f0af6163ab025"
       ],
       0,
-      "9b88706533e166813fed257426e82c27"
+      "bec677a3f371a9bf489453af2442a82b"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QBind__item__r",
@@ -249,7 +261,7 @@
         "refinement_interpretation_Tm_refine_7d5c31cc88b5ced2af2f0af6163ab025"
       ],
       0,
-      "dc5dd330a990af24c835b3fe43039a4b"
+      "5684497a0843933e35fa79b1f70c6827"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QBind__item__msg",
@@ -263,7 +275,7 @@
         "refinement_interpretation_Tm_refine_7d5c31cc88b5ced2af2f0af6163ab025"
       ],
       0,
-      "c59e9740adf5f42b99d6e63a3286c8dc"
+      "8bdd1f46a27071906b404d3a34e5e677"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QBind__item___5",
@@ -281,7 +293,7 @@
         "refinement_interpretation_Tm_refine_7d5c31cc88b5ced2af2f0af6163ab025"
       ],
       0,
-      "3590a9b1b9115e0e977ae19af4681c22"
+      "1f6e62e74197fdb83e2f12773507d3a9"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QBind__item___6",
@@ -299,7 +311,7 @@
         "refinement_interpretation_Tm_refine_7d5c31cc88b5ced2af2f0af6163ab025"
       ],
       0,
-      "c30718381c2b6e911049af240f223e85"
+      "64cb1c07ddc44c4f0e2b9d42bd4d03c9"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QGetState__item__cs",
@@ -313,7 +325,7 @@
         "refinement_interpretation_Tm_refine_4031209a8486d66d031d8a593c8e7fff"
       ],
       0,
-      "736101b5752a99c5225e002fe4361d86"
+      "8df58df38353491241dec6541a848d93"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QGetState__item___1",
@@ -329,7 +341,7 @@
         "refinement_interpretation_Tm_refine_4031209a8486d66d031d8a593c8e7fff"
       ],
       0,
-      "060556e5e7cdcca8fa772b1d83f6ea48"
+      "6edbebb6df7534322d39c6c5401a7b0b"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QPURE__item__cs",
@@ -343,7 +355,7 @@
         "refinement_interpretation_Tm_refine_66a4a737a20620fc555cee70170fd74e"
       ],
       0,
-      "e146ded592ccaa7b4aaada3cec6a6717"
+      "857af7e080a2ddeab106381388098a4f"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QPURE__item__r",
@@ -357,7 +369,7 @@
         "refinement_interpretation_Tm_refine_66a4a737a20620fc555cee70170fd74e"
       ],
       0,
-      "c8e5428bb002ddad7a05f3e9f88714b0"
+      "76c674bb5a0ac37da6b3ffbce2ebfbe1"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QPURE__item__msg",
@@ -371,7 +383,7 @@
         "refinement_interpretation_Tm_refine_66a4a737a20620fc555cee70170fd74e"
       ],
       0,
-      "b1fa646b8a12695c283cddc90e4a7f1a"
+      "fcf9ec35bea129cd0a345b8ea22bbabf"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QPURE__item__pre",
@@ -385,7 +397,7 @@
         "refinement_interpretation_Tm_refine_66a4a737a20620fc555cee70170fd74e"
       ],
       0,
-      "8ab33098ed7ba99a97b1ac9b22a2829d"
+      "4c5c060d91c71bdfd793ee9d9fd2f9c9"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QPURE__item___4",
@@ -394,15 +406,31 @@
       1,
       [
         "@MaxIFuel_assumption", "@query",
+        "refinement_interpretation_Tm_refine_c80e4213ca8a6822bfe77f09569c8af5",
+        "token_correspondence_Vale.X64.QuickCodes.__proj__QPURE__item__pre",
+        "typing_Vale.X64.QuickCodes.__proj__QPURE__item__pre"
+      ],
+      0,
+      "3b2b93a44054e9c2a72f45132edbaa9a"
+    ],
+    [
+      "Vale.X64.QuickCodes.__proj__QPURE__item___4",
+      2,
+      1,
+      1,
+      [
+        "@MaxIFuel_assumption", "@query",
+        "data_elim_Vale.X64.QuickCodes.QPURE",
         "disc_equation_Vale.X64.QuickCodes.QPURE",
         "proj_equation_Vale.X64.QuickCodes.QPURE_pre",
         "projection_inverse_BoxBool_proj_0",
         "projection_inverse_Vale.X64.QuickCodes.QPURE_pre",
         "refinement_interpretation_Tm_refine_66a4a737a20620fc555cee70170fd74e",
+        "refinement_interpretation_Tm_refine_c80e4213ca8a6822bfe77f09569c8af5",
         "token_correspondence_Vale.X64.QuickCodes.__proj__QPURE__item__pre"
       ],
       0,
-      "aa226a74ddf3495605e0979416afdb1a"
+      "08009bc14073b806b797486d2a6e53a0"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QPURE__item___5",
@@ -418,7 +446,7 @@
         "refinement_interpretation_Tm_refine_66a4a737a20620fc555cee70170fd74e"
       ],
       0,
-      "4cabfabee5a1e24ca9ebc0a2c9280c1a"
+      "63f050ac37b8b728348d5c3d8ef242eb"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QLemma__item__cs",
@@ -432,7 +460,7 @@
         "refinement_interpretation_Tm_refine_5742cde477deec60e39fd91f3654dc27"
       ],
       0,
-      "39435e954c8d4d381124b345475209b4"
+      "4783f9be2571a5cbbffc9871552c3b37"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QLemma__item__r",
@@ -446,7 +474,7 @@
         "refinement_interpretation_Tm_refine_5742cde477deec60e39fd91f3654dc27"
       ],
       0,
-      "c162ed6e94d45bd8349b7e3c1e6f17d7"
+      "031a6cdde9779154dac124825b7e17ad"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QLemma__item__msg",
@@ -460,7 +488,7 @@
         "refinement_interpretation_Tm_refine_5742cde477deec60e39fd91f3654dc27"
       ],
       0,
-      "bdb90ebd8986c207cfd468db09743296"
+      "ce68f39b7fcd774ecb6709368f86581c"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QLemma__item__pre",
@@ -474,7 +502,7 @@
         "refinement_interpretation_Tm_refine_5742cde477deec60e39fd91f3654dc27"
       ],
       0,
-      "f22a089787c303d82860a8c6753e5c8e"
+      "e0b144daba1b477dca6338e246f0882b"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QLemma__item__post",
@@ -490,7 +518,7 @@
         "refinement_interpretation_Tm_refine_5742cde477deec60e39fd91f3654dc27"
       ],
       0,
-      "9ea99c6370a57bdff41a71186ccbc022"
+      "04c32dc76856c43c8e37c93adee7a839"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QLemma__item___5",
@@ -503,7 +531,7 @@
         "refinement_interpretation_Tm_refine_2de20c066034c13bf76e9c0b94f4806c"
       ],
       0,
-      "80f2ef1b086d6e1a4f87aa877b277e3f"
+      "83fb726376e1a913ef58f15fac0f9e09"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QLemma__item___5",
@@ -523,7 +551,7 @@
         "token_correspondence_Vale.X64.QuickCodes.__proj__QLemma__item__post"
       ],
       0,
-      "5de742a02866cafe5e953db2e43e69f0"
+      "ea7e099fa915da15cceddbc37ed9f09c"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QLemma__item___6",
@@ -539,7 +567,7 @@
         "refinement_interpretation_Tm_refine_5742cde477deec60e39fd91f3654dc27"
       ],
       0,
-      "b07daff3d8ace55238a7c1add7613534"
+      "d6fd59aea7f20177b656b62a50d0ea06"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QGhost__item__cs",
@@ -553,7 +581,7 @@
         "refinement_interpretation_Tm_refine_e472aaae78391477fd73f5609049bdfb"
       ],
       0,
-      "723147101f7d85f27e147cfcbc5a1327"
+      "00801970837ce6c7e86afee0e5ad4910"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QGhost__item__b",
@@ -567,7 +595,7 @@
         "refinement_interpretation_Tm_refine_e472aaae78391477fd73f5609049bdfb"
       ],
       0,
-      "2431b6964104a7af0fd00af5fa459eed"
+      "fe133b7f025056e4c49f461237fa68f2"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QGhost__item__r",
@@ -581,7 +609,7 @@
         "refinement_interpretation_Tm_refine_e472aaae78391477fd73f5609049bdfb"
       ],
       0,
-      "2eefcae91abe697127a76ea1a42f55b9"
+      "6a49a09bb55b4d99881910051f10ca09"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QGhost__item__msg",
@@ -595,7 +623,7 @@
         "refinement_interpretation_Tm_refine_e472aaae78391477fd73f5609049bdfb"
       ],
       0,
-      "59719baa5deb689f9996089d0ef9d462"
+      "00868b8995b0e05096591144a1385e10"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QGhost__item__pre",
@@ -609,7 +637,7 @@
         "refinement_interpretation_Tm_refine_e472aaae78391477fd73f5609049bdfb"
       ],
       0,
-      "21dce5e5b511577db23ed3ef1312ed70"
+      "076202dcf4e43047c85bf3a4e972122a"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QGhost__item__post",
@@ -625,7 +653,7 @@
         "refinement_interpretation_Tm_refine_e472aaae78391477fd73f5609049bdfb"
       ],
       0,
-      "090a0399145f5098c78e3a4a2e985f56"
+      "ed8a3cdb367e297f2a038a923bbc33f5"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QGhost__item___6",
@@ -646,7 +674,7 @@
         "token_correspondence_Vale.X64.QuickCodes.__proj__QGhost__item__post"
       ],
       0,
-      "4cfc92335e4634c636bf97ce1d5cb4e7"
+      "117c7969ae2dadcd211a6cbe064fa683"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QGhost__item___7",
@@ -664,7 +692,7 @@
         "refinement_interpretation_Tm_refine_e472aaae78391477fd73f5609049bdfb"
       ],
       0,
-      "2ad2fe9798914a7de3b3cb615b746686"
+      "1e9f7718e19f3ca6a604d7bea22a1029"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QAssertBy__item__cs",
@@ -678,7 +706,7 @@
         "refinement_interpretation_Tm_refine_b73f35781bfc1860f57b6f8b87012ba4"
       ],
       0,
-      "c595bf66382a1808b244d2a2f1ea463f"
+      "e4b15e754fd14a10e0e4c8f748f8ad5b"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QAssertBy__item__r",
@@ -692,7 +720,7 @@
         "refinement_interpretation_Tm_refine_b73f35781bfc1860f57b6f8b87012ba4"
       ],
       0,
-      "ca50ffa0714e5929d703868fa80c68d2"
+      "f59177bd26498f3dba0227f169e8f11b"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QAssertBy__item__msg",
@@ -706,7 +734,7 @@
         "refinement_interpretation_Tm_refine_b73f35781bfc1860f57b6f8b87012ba4"
       ],
       0,
-      "51963f7fcb8fc2384e9e6e16bc9965cc"
+      "c2bfd29b7fc37af78404aca81d1cb7fc"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QAssertBy__item__p",
@@ -720,7 +748,7 @@
         "refinement_interpretation_Tm_refine_b73f35781bfc1860f57b6f8b87012ba4"
       ],
       0,
-      "dcec62a405408b53ff41ed4bc6c58402"
+      "f73959e1a3df314353486320b1d0cdeb"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QAssertBy__item___4",
@@ -734,7 +762,7 @@
         "refinement_interpretation_Tm_refine_b73f35781bfc1860f57b6f8b87012ba4"
       ],
       0,
-      "540a53fbd7ec1e30ebe33180f1de872c"
+      "82fd9138492d050f4123d43009f8d031"
     ],
     [
       "Vale.X64.QuickCodes.__proj__QAssertBy__item___5",
@@ -750,7 +778,7 @@
         "refinement_interpretation_Tm_refine_b73f35781bfc1860f57b6f8b87012ba4"
       ],
       0,
-      "a64bc92fd9a7c1355ae15ce9155dcd72"
+      "9092e1631d7c4155c9cd39a7b2ed7417"
     ],
     [
       "Vale.X64.QuickCodes.va_QLemma",
@@ -762,7 +790,19 @@
         "refinement_interpretation_Tm_refine_2de20c066034c13bf76e9c0b94f4806c"
       ],
       0,
-      "3ea5d720a5ee8b42dc7b9a1143e46380"
+      "7566bcf72e0db3e0436f445ac1fc7b6a"
+    ],
+    [
+      "Vale.X64.QuickCodes.va_qPURE",
+      1,
+      1,
+      1,
+      [
+        "@MaxIFuel_assumption", "@query",
+        "refinement_interpretation_Tm_refine_c80e4213ca8a6822bfe77f09569c8af5"
+      ],
+      0,
+      "ff278c14ddac97d77c612ba373106efb"
     ],
     [
       "Vale.X64.QuickCodes.empty_list_is_small",
@@ -776,7 +816,7 @@
         "fuel_guarded_inversion_Prims.list", "subterm_ordering_Prims.Cons"
       ],
       0,
-      "a708bf91a91bc9a19c890b98bf0c109f"
+      "a946c8e75e6ec87cefccee68c9fe5b13"
     ],
     [
       "Vale.X64.QuickCodes.wp",
@@ -821,7 +861,7 @@
         "unit_typing"
       ],
       0,
-      "dd934ddfdaca218b0875c36b7f0b953c"
+      "f696056bc9ef10dac750835750d39efb"
     ],
     [
       "Vale.X64.QuickCodes.wp",
@@ -833,7 +873,7 @@
         "projection_inverse_BoxInt_proj_0", "well-founded-ordering-on-nat"
       ],
       0,
-      "412eea34a32b975c2fd9c79eebc61672"
+      "8a3d80c362e8f728a7e2f24e3d3d72e8"
     ],
     [
       "Vale.X64.QuickCodes.wp",
@@ -845,7 +885,7 @@
         "projection_inverse_BoxInt_proj_0", "well-founded-ordering-on-nat"
       ],
       0,
-      "bf017f38c2c9b93489900630eb9ff986"
+      "7c274f62479f6237ecee087f8b46a52e"
     ],
     [
       "Vale.X64.QuickCodes.state_mod_eq",
@@ -866,7 +906,7 @@
         "fuel_guarded_inversion_Vale.X64.QuickCode.mod_t"
       ],
       0,
-      "597e6ad649c7b793cf403142713b08a0"
+      "a127b4ab476fbaae8388806a70f50c7e"
     ],
     [
       "Vale.X64.QuickCodes.update_state_mods_refl",
@@ -952,7 +992,7 @@
         "typing_Vale.X64.State.__proj__Mkvale_state__item__vs_regs"
       ],
       0,
-      "5e211ca374e29088d0966c339e60adc5"
+      "973f0bd7640722d608f2e5f852f5b52a"
     ],
     [
       "Vale.X64.QuickCodes.update_state_mods_not1",
@@ -1039,7 +1079,7 @@
         "typing_Vale.X64.State.__proj__Mkvale_state__item__vs_regs"
       ],
       0,
-      "29fb5aeeb2db6a66d645ad0fca362322"
+      "5bce21c8414a4724ccfe65b9176e1212"
     ],
     [
       "Vale.X64.QuickCodes.update_state_mods_from1",
@@ -1055,7 +1095,7 @@
         "primitive_Prims.op_Negation", "projection_inverse_BoxBool_proj_0"
       ],
       0,
-      "c7e0a135e1da71cf3db102df65ff1d6a"
+      "f92add0a1a2c6eb9707de889a9f57986"
     ],
     [
       "Vale.X64.QuickCodes.update_state_mods_to1",
@@ -1151,7 +1191,7 @@
         "typing_tok_Vale.X64.QuickCode.Mod_None@tok"
       ],
       0,
-      "f1445f8795cf6ff82600661f18fb0bed"
+      "0b74bfc2c38b43fcd9b2eb7549aff015"
     ],
     [
       "Vale.X64.QuickCodes.update_state_mods_from",
@@ -1164,7 +1204,7 @@
         "fuel_guarded_inversion_Vale.X64.QuickCode.mod_t"
       ],
       0,
-      "4e35c9f1bd3d6ffcf8b66fbeb6713f3b"
+      "f7f068ea845ddbad9ff7696f1b2afaed"
     ],
     [
       "Vale.X64.QuickCodes.update_state_mods_to",
@@ -1213,7 +1253,7 @@
         "typing_Vale.X64.State.__proj__Mkvale_state__item__vs_regs"
       ],
       0,
-      "47a1a8eff3767a3f5575aa99d4ceb793"
+      "28b4c9efa8e24bdc1b1a5c99eb3f6a54"
     ],
     [
       "Vale.X64.QuickCodes.update_state_mods_trans",
@@ -1250,7 +1290,7 @@
         "typing_Vale.X64.State.__proj__Mkvale_state__item__vs_regs"
       ],
       0,
-      "d2808e4deece4c21d8779909411f7877"
+      "cc48fc2640df50a5737d1707a6fc8031"
     ],
     [
       "Vale.X64.QuickCodes.update_state_mods_weaken1",
@@ -1295,7 +1335,7 @@
         "unit_typing"
       ],
       0,
-      "813ce7ba88ee797354136555d6e38b58"
+      "ea84d9b27b496514a1898fde66ca9d55"
     ],
     [
       "Vale.X64.QuickCodes.update_state_mods_weaken",
@@ -1331,7 +1371,7 @@
         "typing_Vale.X64.State.__proj__Mkvale_state__item__vs_regs"
       ],
       0,
-      "dfd52cedc40a98adde18fa0cd89445c6"
+      "18ff56aa08a8b688ed476b7775233ce4"
     ],
     [
       "Vale.X64.QuickCodes.call_QPURE",
@@ -1340,19 +1380,31 @@
       1,
       [
         "@MaxIFuel_assumption", "@query",
+        "refinement_interpretation_Tm_refine_c80e4213ca8a6822bfe77f09569c8af5"
+      ],
+      0,
+      "5da77dbd1fb71830b09df55d39501c2b"
+    ],
+    [
+      "Vale.X64.QuickCodes.call_QPURE",
+      2,
+      1,
+      1,
+      [
+        "@MaxIFuel_assumption", "@query",
         "Prims_interpretation_Tm_arrow_92458cff82f9ffee1f6e26a1c0c579f3",
-        "Prims_pretyping_f8666440faa91836cc5a13998af863fc",
         "Vale.X64.QuickCodes_interpretation_Tm_arrow_2a3381d384e2722434518a0bfbf9e1c6",
         "Vale.X64.QuickCodes_interpretation_Tm_arrow_b9ff16838ca14be79c4714dd5f2c76fe",
         "equation_Prims.l_True", "equation_Prims.pure_post",
         "equation_Prims.pure_post_",
         "refinement_interpretation_Tm_refine_2a09f2450e26fe8d9312d402cf7d7936",
         "refinement_interpretation_Tm_refine_8d65e998a07dd53ec478e27017d9dba5",
+        "refinement_interpretation_Tm_refine_c80e4213ca8a6822bfe77f09569c8af5",
         "string_inversion", "true_interp",
         "typing_Vale.X64.QuickCodes.label", "unit_typing"
       ],
       0,
-      "373171ce5b398eaf00174ddca6aa6e6f"
+      "c2f8c2541fcab135fe32b1ea78326e7b"
     ],
     [
       "Vale.X64.QuickCodes.wp_sound",
@@ -1420,8 +1472,8 @@
         "fuel_guarded_inversion_Vale.X64.QuickCodes.quickCodes",
         "fuel_guarded_inversion_Vale.X64.State.vale_state",
         "function_token_typing_Vale.Arch.HeapImpl.vale_heap",
+        "interpretation_Tm_abs_9c1592e27fc5352462128a8612462a17",
         "interpretation_Tm_abs_c8c3955c6d20d50ca51d19c6d5f0e657",
-        "interpretation_Tm_abs_d527d8d05997d96dc9d2df7f2e54ce12",
         "l_and-interp", "l_imp-interp",
         "l_quant_interp_304bab225187ac37ac9d69ad8b8c114a",
         "l_quant_interp_77ce7dc2822dda058d24973d401dffa9",
@@ -1520,7 +1572,7 @@
         "unit_typing"
       ],
       0,
-      "f64c652ffa5a748668e3eed441bc4cbf"
+      "88a6408870eeecba4378531c30c29539"
     ],
     [
       "Vale.X64.QuickCodes.qblock_proof",
@@ -1529,7 +1581,7 @@
       1,
       [ "@query", "equation_Vale.X64.QuickCodes.wp_block" ],
       0,
-      "27e70515f3b804802359d10ce9f70f1e"
+      "cb6dc78426e6fd14a452825e13423a29"
     ],
     [
       "Vale.X64.QuickCodes.qblock",
@@ -1538,7 +1590,7 @@
       1,
       [ "@query", "equation_Vale.X64.QuickCode.va_t_ensure" ],
       0,
-      "16dda358516976e618c409cf11edeb67"
+      "9573f9345278ca52587c0d6620ac8b7d"
     ],
     [
       "Vale.X64.QuickCodes.qInlineIf_proof",
@@ -1563,7 +1615,7 @@
         "typing_Vale.X64.QuickCodes.mods_contains"
       ],
       0,
-      "2cb4019ee557015ede7f995687977b44"
+      "e50f240e65e50481d47d15c5a7693f22"
     ],
     [
       "Vale.X64.QuickCodes.va_qInlineIf",
@@ -1575,7 +1627,7 @@
         "equation_Vale.X64.QuickCodes.if_code"
       ],
       0,
-      "759279712f1bdbc4444f9ba7b1cd7488"
+      "95a0200f2f6d46b8bbf34dd0d3a1cdcc"
     ],
     [
       "Vale.X64.QuickCodes.cmp",
@@ -1594,7 +1646,7 @@
         "refinement_interpretation_Tm_refine_414d0a9f578ab0048252f8c8f552b99f"
       ],
       0,
-      "851db0211e6d2e489054ed93f021cba4"
+      "d9023c507ca8959965392a4538552a9f"
     ],
     [
       "Vale.X64.QuickCodes.cmp",
@@ -1613,7 +1665,7 @@
         "refinement_interpretation_Tm_refine_414d0a9f578ab0048252f8c8f552b99f"
       ],
       0,
-      "fb3828efa789c3c567e4650433287c69"
+      "ae5a5a5d3b7106d0dd91b605de942c3e"
     ],
     [
       "Vale.X64.QuickCodes.cmp",
@@ -1632,7 +1684,7 @@
         "refinement_interpretation_Tm_refine_414d0a9f578ab0048252f8c8f552b99f"
       ],
       0,
-      "c99f6b6273d6b9619ebe2a57e8ffc8d8"
+      "f99f5548af8432b5c149d652052a4b9c"
     ],
     [
       "Vale.X64.QuickCodes.cmp",
@@ -1651,7 +1703,7 @@
         "refinement_interpretation_Tm_refine_414d0a9f578ab0048252f8c8f552b99f"
       ],
       0,
-      "63bf1446896cc89722c1b5cbf5554966"
+      "e975c594cb25503dd2cf86b8bdf20de3"
     ],
     [
       "Vale.X64.QuickCodes.cmp",
@@ -1670,7 +1722,7 @@
         "refinement_interpretation_Tm_refine_414d0a9f578ab0048252f8c8f552b99f"
       ],
       0,
-      "1ea572bd960d60566a6721f403cac659"
+      "4ba06ddadbbf64de4e1d75ef9623d823"
     ],
     [
       "Vale.X64.QuickCodes.cmp",
@@ -1689,7 +1741,7 @@
         "refinement_interpretation_Tm_refine_414d0a9f578ab0048252f8c8f552b99f"
       ],
       0,
-      "bdc58a87b8626394a8a89aa6d6c0c4af"
+      "7e885234fd9e48dad0fc514d1e4e42b2"
     ],
     [
       "Vale.X64.QuickCodes.__proj__Cmp_eq__item__o1",
@@ -1708,7 +1760,7 @@
         "refinement_interpretation_Tm_refine_414d0a9f578ab0048252f8c8f552b99f"
       ],
       0,
-      "791cdada491852832e913de96021ae04"
+      "d90ff33e2bcc3c896a26323ffd72d84e"
     ],
     [
       "Vale.X64.QuickCodes.__proj__Cmp_eq__item__o1",
@@ -1730,7 +1782,7 @@
         "refinement_interpretation_Tm_refine_79e3a6e70e67630cf427a80ed0a4e1d3"
       ],
       0,
-      "de4fa098146ac5923eaa6cdc1c4fff7a"
+      "ff87c47462e0d72fa788ab082011675a"
     ],
     [
       "Vale.X64.QuickCodes.__proj__Cmp_eq__item__o2",
@@ -1749,7 +1801,7 @@
         "refinement_interpretation_Tm_refine_414d0a9f578ab0048252f8c8f552b99f"
       ],
       0,
-      "698ba83f76642ebed99261ae8f7ec140"
+      "57530173410c71557fb5785a4afff7ea"
     ],
     [
       "Vale.X64.QuickCodes.__proj__Cmp_eq__item__o2",
@@ -1771,7 +1823,7 @@
         "refinement_interpretation_Tm_refine_79e3a6e70e67630cf427a80ed0a4e1d3"
       ],
       0,
-      "c744647ca6971d8cbdeb5d2b85842134"
+      "c6c4d5bd0a275a6eab629219d82edb44"
     ],
     [
       "Vale.X64.QuickCodes.__proj__Cmp_ne__item__o1",
@@ -1790,7 +1842,7 @@
         "refinement_interpretation_Tm_refine_414d0a9f578ab0048252f8c8f552b99f"
       ],
       0,
-      "5a8151a2af198a1bf4b5bec453225758"
+      "81db833dad615fa49402d9737aa286b2"
     ],
     [
       "Vale.X64.QuickCodes.__proj__Cmp_ne__item__o1",
@@ -1812,7 +1864,7 @@
         "refinement_interpretation_Tm_refine_cf3a5e84197e0dc095e3f4b6944c03ad"
       ],
       0,
-      "a17ae578a741467b3fbee332f2987d79"
+      "0d27d9901e81de24252437138a5c55d0"
     ],
     [
       "Vale.X64.QuickCodes.__proj__Cmp_ne__item__o2",
@@ -1831,7 +1883,7 @@
         "refinement_interpretation_Tm_refine_414d0a9f578ab0048252f8c8f552b99f"
       ],
       0,
-      "37603953331b56aaa885e9efa29eaa3f"
+      "ebdfa795781601b8eec5b10e8d2d38c8"
     ],
     [
       "Vale.X64.QuickCodes.__proj__Cmp_ne__item__o2",
@@ -1853,7 +1905,7 @@
         "refinement_interpretation_Tm_refine_cf3a5e84197e0dc095e3f4b6944c03ad"
       ],
       0,
-      "ff13c4558c48716ac1d530d4d122b6d8"
+      "9c754f7afeff18385dcaa460da5f3c52"
     ],
     [
       "Vale.X64.QuickCodes.__proj__Cmp_le__item__o1",
@@ -1872,7 +1924,7 @@
         "refinement_interpretation_Tm_refine_414d0a9f578ab0048252f8c8f552b99f"
       ],
       0,
-      "bff72ec3e708ad11638ad80a912e0985"
+      "72db028bcc51caa8882de50dc847dfab"
     ],
     [
       "Vale.X64.QuickCodes.__proj__Cmp_le__item__o1",
@@ -1894,7 +1946,7 @@
         "refinement_interpretation_Tm_refine_e81e0a8f29a0b7a0a0192b5e4daa0ea7"
       ],
       0,
-      "9515ec2e1442cd6428880d30d46f2bb2"
+      "199a3cb27695b907130cc80fac247490"
     ],
     [
       "Vale.X64.QuickCodes.__proj__Cmp_le__item__o2",
@@ -1913,7 +1965,7 @@
         "refinement_interpretation_Tm_refine_414d0a9f578ab0048252f8c8f552b99f"
       ],
       0,
-      "5033901c00ed5364ecae289b66ba5c40"
+      "7dfd0e09157fee4be6eac382e88d35e3"
     ],
     [
       "Vale.X64.QuickCodes.__proj__Cmp_le__item__o2",
@@ -1935,7 +1987,7 @@
         "refinement_interpretation_Tm_refine_e81e0a8f29a0b7a0a0192b5e4daa0ea7"
       ],
       0,
-      "43a849da9ffc4a4884fc714f65b98b65"
+      "8b5e2e7c1daca6f7a920aef32d7bc376"
     ],
     [
       "Vale.X64.QuickCodes.__proj__Cmp_ge__item__o1",
@@ -1954,7 +2006,7 @@
         "refinement_interpretation_Tm_refine_414d0a9f578ab0048252f8c8f552b99f"
       ],
       0,
-      "dc8d9431ac0119b787c6586914430983"
+      "3d551d1d76054c469570e9d5ef0bb2cb"
     ],
     [
       "Vale.X64.QuickCodes.__proj__Cmp_ge__item__o1",
@@ -1976,7 +2028,7 @@
         "refinement_interpretation_Tm_refine_963c01ae6ff8fce053e3fb4c65517cf0"
       ],
       0,
-      "4473ef0874f590b5d4e5bfeed5b3dbd2"
+      "ddfe771f5fce5e7c9739a3fa0ae13134"
     ],
     [
       "Vale.X64.QuickCodes.__proj__Cmp_ge__item__o2",
@@ -1995,7 +2047,7 @@
         "refinement_interpretation_Tm_refine_414d0a9f578ab0048252f8c8f552b99f"
       ],
       0,
-      "240086f1c8c832951e6ad99ad51b2463"
+      "7271d4937c111cea032d2cceb5f795f7"
     ],
     [
       "Vale.X64.QuickCodes.__proj__Cmp_ge__item__o2",
@@ -2017,7 +2069,7 @@
         "refinement_interpretation_Tm_refine_963c01ae6ff8fce053e3fb4c65517cf0"
       ],
       0,
-      "4074889d266c98ab5ea67151f53563fe"
+      "4c7cd8898baf8752c12785ced4de077b"
     ],
     [
       "Vale.X64.QuickCodes.__proj__Cmp_lt__item__o1",
@@ -2036,7 +2088,7 @@
         "refinement_interpretation_Tm_refine_414d0a9f578ab0048252f8c8f552b99f"
       ],
       0,
-      "f9d942684a41ee8ad9c28a2b482ec981"
+      "8357e84048750a41f98b6c950766e7f2"
     ],
     [
       "Vale.X64.QuickCodes.__proj__Cmp_lt__item__o1",
@@ -2058,7 +2110,7 @@
         "refinement_interpretation_Tm_refine_7a0baeddd930b9285f08819aa1aae3d9"
       ],
       0,
-      "6eff13f98e63097290e72f8dd2fae6f4"
+      "a1d56fad9c5da92fda8c5258bf4f5884"
     ],
     [
       "Vale.X64.QuickCodes.__proj__Cmp_lt__item__o2",
@@ -2077,7 +2129,7 @@
         "refinement_interpretation_Tm_refine_414d0a9f578ab0048252f8c8f552b99f"
       ],
       0,
-      "bd1f646f3704b33de6ed28fa4de2b38c"
+      "0bd993ec0541ad866fd43fc11ba13923"
     ],
     [
       "Vale.X64.QuickCodes.__proj__Cmp_lt__item__o2",
@@ -2099,7 +2151,7 @@
         "refinement_interpretation_Tm_refine_7a0baeddd930b9285f08819aa1aae3d9"
       ],
       0,
-      "5c45d3285fde0c6d9408e6c9ede6ea3f"
+      "44a897b0f6201cfa3586c5ba337f367b"
     ],
     [
       "Vale.X64.QuickCodes.__proj__Cmp_gt__item__o1",
@@ -2118,7 +2170,7 @@
         "refinement_interpretation_Tm_refine_414d0a9f578ab0048252f8c8f552b99f"
       ],
       0,
-      "0e0863397f29947dfe68cd27db79db30"
+      "fb4d6d854990adac10cb120a8b89b386"
     ],
     [
       "Vale.X64.QuickCodes.__proj__Cmp_gt__item__o1",
@@ -2140,7 +2192,7 @@
         "refinement_interpretation_Tm_refine_d215a1997b8658bff7ac4ee881057f3a"
       ],
       0,
-      "dacf16ac7dcca48b7df0cd659b3e5040"
+      "0f111896d05652bdcb7a36435a11aa6a"
     ],
     [
       "Vale.X64.QuickCodes.__proj__Cmp_gt__item__o2",
@@ -2159,7 +2211,7 @@
         "refinement_interpretation_Tm_refine_414d0a9f578ab0048252f8c8f552b99f"
       ],
       0,
-      "8ca3079c647d0e3557753899da86d3ab"
+      "ac5647ca34095dba39329e793a032139"
     ],
     [
       "Vale.X64.QuickCodes.__proj__Cmp_gt__item__o2",
@@ -2181,7 +2233,7 @@
         "refinement_interpretation_Tm_refine_d215a1997b8658bff7ac4ee881057f3a"
       ],
       0,
-      "849d9cac558301108c9b0d4340f1abc3"
+      "3eb6d893e0681f287ae415fc4005b296"
     ],
     [
       "Vale.X64.QuickCodes.cmp_to_ocmp",
@@ -2199,7 +2251,7 @@
         "fuel_guarded_inversion_Vale.X64.QuickCodes.cmp"
       ],
       0,
-      "d20806d0ff8245552dd74da1256a6358"
+      "b43021e5efe2a4b60c76b8d14d4eba88"
     ],
     [
       "Vale.X64.QuickCodes.valid_cmp",
@@ -2217,7 +2269,7 @@
         "fuel_guarded_inversion_Vale.X64.QuickCodes.cmp"
       ],
       0,
-      "cd11657d74f187a25e3cbec3c9d14ba5"
+      "4a791eb4c9efeb9765ead0bd3c91837f"
     ],
     [
       "Vale.X64.QuickCodes.eval_cmp",
@@ -2241,7 +2293,7 @@
         "refinement_interpretation_Tm_refine_414d0a9f578ab0048252f8c8f552b99f"
       ],
       0,
-      "aa2c5a6cf609ef1c13309f4ae11c3dfc"
+      "c2b7940b38625531a06aefda6f223ff0"
     ],
     [
       "Vale.X64.QuickCodes.qIf_proof",
@@ -2355,7 +2407,7 @@
         "typing_tok_Vale.X64.QuickCode.Mod_flags@tok"
       ],
       0,
-      "88e49cd501a550a22abbdc208482118e"
+      "12c33a7122ecb1577852fb3e507422fa"
     ],
     [
       "Vale.X64.QuickCodes.va_qIf",
@@ -2364,7 +2416,7 @@
       1,
       [ "@query", "equation_Vale.X64.QuickCode.va_t_ensure" ],
       0,
-      "e5e2d28a3dda269c61c606b94730b628"
+      "871f1602ccfef19fe223fc3af06ab9a0"
     ],
     [
       "Vale.X64.QuickCodes.qWhile_proof_rec",
@@ -2480,7 +2532,7 @@
         "typing_tok_Vale.X64.QuickCode.Mod_flags@tok"
       ],
       0,
-      "dae3ec6e5f7d71ec5ae271e6ac38dadf"
+      "d0f1ea23f3ca3d2403a1fea119c1989f"
     ],
     [
       "Vale.X64.QuickCodes.qWhile_proof",
@@ -2518,7 +2570,7 @@
         "typing_Vale.X64.State.__proj__Mkvale_state__item__vs_regs"
       ],
       0,
-      "a327a2ef9bdc60d9b327340c3e66b05a"
+      "73b7a8b2eea10006cff98a7caf25e8c5"
     ],
     [
       "Vale.X64.QuickCodes.va_qWhile",
@@ -2527,7 +2579,7 @@
       1,
       [ "@query", "equation_Vale.X64.QuickCode.va_t_ensure" ],
       0,
-      "97ef38695cfca13e85d831d2399ab0d8"
+      "f5722b61f2a7df40e6aae1ec49be5d4d"
     ],
     [
       "Vale.X64.QuickCodes.qAssertLemma",
@@ -2536,7 +2588,7 @@
       1,
       [ "@query" ],
       0,
-      "1004163b62358a425c648b461881b5af"
+      "2ac32e434e8237e5461169599e2aa433"
     ],
     [
       "Vale.X64.QuickCodes.qAssertSquashLemma",
@@ -2548,7 +2600,7 @@
         "refinement_interpretation_Tm_refine_2de20c066034c13bf76e9c0b94f4806c"
       ],
       0,
-      "725998c64ce8b03cdd7a42d87d147a78"
+      "98f9e46afa3567b93a95f036f7458ac3"
     ],
     [
       "Vale.X64.QuickCodes.wp_sound_code",
@@ -2568,7 +2620,7 @@
         "token_correspondence_Vale.X64.QuickCode.__proj__QProc__item__wp"
       ],
       0,
-      "7ccd80c0a8d272be22bc201ccddb5c01"
+      "795e885c17e37ad3329f5336cc301d9e"
     ],
     [
       "Vale.X64.QuickCodes.regs_match_file",
@@ -2591,7 +2643,7 @@
         "well-founded-ordering-on-nat"
       ],
       0,
-      "53323c57a7100b09888c98b5d6a324bd"
+      "b7d570d7929a9dd80a9098a3ac58cb2e"
     ],
     [
       "Vale.X64.QuickCodes.regs_match",
@@ -2611,7 +2663,7 @@
         "well-founded-ordering-on-nat"
       ],
       0,
-      "88aa652cba141891ec0ab8694134b476"
+      "c66e7351b79d9d0a21787395b9fe462a"
     ],
     [
       "Vale.X64.QuickCodes.all_regs_match",
@@ -2623,7 +2675,7 @@
         "projection_inverse_BoxInt_proj_0"
       ],
       0,
-      "a449a5c0c4e72faea46b2e48f75ac36e"
+      "46b8ca6f336b5b59ce8b882da2c551ae"
     ],
     [
       "Vale.X64.QuickCodes.lemma_regs_match_file",
@@ -2635,7 +2687,7 @@
         "refinement_interpretation_Tm_refine_8212b7ba50f2f7bab55227c784b164c4"
       ],
       0,
-      "611e14f83fe3af8b9c4863194bde3c59"
+      "9748d9a6c7c263ed8455b5389dc2fae5"
     ],
     [
       "Vale.X64.QuickCodes.lemma_regs_match_file",
@@ -2666,7 +2718,7 @@
         "well-founded-ordering-on-nat"
       ],
       0,
-      "4dfda59a36d1e6bc44222693147b3b37"
+      "3213d5bbf8170fca1fd997a99e670488"
     ],
     [
       "Vale.X64.QuickCodes.lemma_regs_match",
@@ -2678,7 +2730,7 @@
         "refinement_interpretation_Tm_refine_0e6b11452ce1488f817a4b4389fceae3"
       ],
       0,
-      "dd5203532db22f33661874aba01f5a0b"
+      "07e12e4815d1f21e8929d795893a0104"
     ],
     [
       "Vale.X64.QuickCodes.lemma_regs_match",
@@ -2706,7 +2758,7 @@
         "well-founded-ordering-on-nat"
       ],
       0,
-      "8f882aadb5af0683c81f26ed9411c99d"
+      "418e17a88fa530c776ad3e37e3b989df"
     ],
     [
       "Vale.X64.QuickCodes.lemma_state_match",
@@ -2742,7 +2794,7 @@
         "typing_Vale.X64.State.__proj__Mkvale_state__item__vs_regs"
       ],
       0,
-      "8e77ab70662c0083bd7b1dd4af1ae224"
+      "7478349cf07cd72d7d227d82a5284554"
     ],
     [
       "Vale.X64.QuickCodes.va_state_match",
@@ -2751,7 +2803,7 @@
       1,
       [ "@query" ],
       0,
-      "81c2ea8a0b41e1604cd176a9137af5be"
+      "2677acd1bc70479db933e0748a10ab5c"
     ],
     [
       "Vale.X64.QuickCodes.wp_sound_code_pre",
@@ -2786,7 +2838,7 @@
         "typing_Vale.X64.State.__proj__Mkvale_state__item__vs_regs"
       ],
       0,
-      "2aabaa53711fabf05598c62f2edc120f"
+      "31a5d14b1930181126612701d03cee2d"
     ],
     [
       "Vale.X64.QuickCodes.wp_sound_code_wrap",
@@ -2823,7 +2875,7 @@
         "typing_Vale.X64.State.__proj__Mkvale_state__item__vs_regs"
       ],
       0,
-      "b8c7427dd89138d64b9b918e3160b316"
+      "056738736b00165ab44338c8f937b2ab"
     ],
     [
       "Vale.X64.QuickCodes.assert_normal",
@@ -2832,7 +2884,7 @@
       1,
       [ "@query" ],
       0,
-      "066eff705bcbc7ce3e640c8cf7da36b4"
+      "7341b8b553aeff1238da99b49a356a81"
     ],
     [
       "Vale.X64.QuickCodes.va_wp_sound_code_norm",
@@ -2841,7 +2893,7 @@
       1,
       [ "@query" ],
       0,
-      "9c16105c51447b85a72c9490e452cab8"
+      "d4dce97227d9614830dde562cbc1ba63"
     ]
   ]
 ]

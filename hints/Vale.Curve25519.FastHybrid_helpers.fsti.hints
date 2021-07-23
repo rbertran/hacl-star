@@ -8,7 +8,7 @@
       0,
       [ "@query" ],
       0,
-      "fb412d30d21feea74228e1cd11bce330"
+      "0306c51481611b59f99583b09bc1038a"
     ],
     [
       "Vale.Curve25519.FastHybrid_helpers.lemma_mul_pow256_add",
@@ -17,7 +17,7 @@
       0,
       [ "@query" ],
       0,
-      "403a952bd2ee85cb240bd38804bac5df"
+      "09f4ef98940ef2f49416d4d7c8414ab0"
     ],
     [
       "Vale.Curve25519.FastHybrid_helpers.lemma_carry_prime",
@@ -34,7 +34,7 @@
         "refinement_interpretation_Tm_refine_c1424615841f28cac7fc34e92b7ff33c"
       ],
       0,
-      "bc4164e0e946a91060cef62d06c9261b"
+      "5a2913b5af99549abecb170141416607"
     ],
     [
       "Vale.Curve25519.FastHybrid_helpers.lemma_fast_mul1",
@@ -56,7 +56,7 @@
         "refinement_interpretation_Tm_refine_c1424615841f28cac7fc34e92b7ff33c"
       ],
       0,
-      "105b9d949b8d007a32e7a675f1a61ef8"
+      "fa511c2c3d125fbdf69d10dd827a6792"
     ],
     [
       "Vale.Curve25519.FastHybrid_helpers.lemma_addition",
@@ -78,7 +78,7 @@
         "refinement_interpretation_Tm_refine_c1424615841f28cac7fc34e92b7ff33c"
       ],
       0,
-      "d9c70603bf57392ac9757fcf2a37675c"
+      "68bccab5878ce59335799c60ab456554"
     ]
   ]
 ]

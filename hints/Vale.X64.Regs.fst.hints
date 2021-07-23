@@ -24,7 +24,7 @@
         "typing_Vale.Lib.Map16.sel16", "typing_Vale.X64.Machine_s.n_regs"
       ],
       0,
-      "5e98e61b3f17f66a007f425780e9c0a3"
+      "73f8eaab21c658eac068732c5007fa33"
     ],
     [
       "Vale.X64.Regs.upd",
@@ -42,7 +42,7 @@
         "typing_Vale.X64.Machine_s.n_regs"
       ],
       0,
-      "4bf53fecc075cec52b7ab00754fbb530"
+      "078dbb8936caf30e2fcc683bb0cc1fbf"
     ],
     [
       "Vale.X64.Regs.eta",
@@ -78,7 +78,7 @@
         "refinement_interpretation_Tm_refine_fe479871b3967d0c9b8d8614ccf88035"
       ],
       0,
-      "d74873f93d05d3fc12791f778987fc38"
+      "03bd1ecaf222372e656dbcdf792badf5"
     ],
     [
       "Vale.X64.Regs.of_fun",
@@ -115,7 +115,7 @@
         "typing_Vale.X64.Machine_s.n_regs"
       ],
       0,
-      "42af518d86c08d26b8645b4562032a80"
+      "c46c0177dde1f33a4914eeb916bc07b4"
     ],
     [
       "Vale.X64.Regs.lemma_upd_eq",
@@ -149,7 +149,7 @@
         "typing_Vale.X64.Machine_s.__proj__Reg__item__rf"
       ],
       0,
-      "931ef59de5bdd65e72fcbb635d13ceb8"
+      "a3ecf18633ba8b57cdaccd5ce597e4cf"
     ],
     [
       "Vale.X64.Regs.lemma_upd_ne",
@@ -188,7 +188,7 @@
         "typing_Vale.X64.Machine_s.n_regs"
       ],
       0,
-      "25e6672a10cd3b62247bdc555da5d33f"
+      "dd3c602c121f89b7488ca57c2028b629"
     ],
     [
       "Vale.X64.Regs.lemma_equal_intro",
@@ -221,7 +221,7 @@
         "refinement_interpretation_Tm_refine_d9979b96a3f2b18961b3dd63a2783b64"
       ],
       0,
-      "e5992b2044badbc4b7c5bf70646d37eb"
+      "0984a6217f4d6c2600b08f82a1e8b480"
     ],
     [
       "Vale.X64.Regs.lemma_equal_elim",
@@ -230,7 +230,7 @@
       0,
       [ "@query", "eq2-interp", "equation_Vale.X64.Regs.equal" ],
       0,
-      "e0556ff94af65c85009c698e90ef51ea"
+      "3c82c904662c2b8baabacb01729cd1cf"
     ],
     [
       "Vale.X64.Regs.lemma_eta",
@@ -275,7 +275,7 @@
         "typing_Vale.X64.Regs.eta", "typing_Vale.X64.Regs.eta_sel"
       ],
       0,
-      "368ee59dc2d2bcdcb4496e0e11e538bd"
+      "405e59f87f31e4e93819794eed2734c4"
     ]
   ]
 ]

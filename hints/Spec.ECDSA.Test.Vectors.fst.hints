@@ -8,7 +8,7 @@
       0,
       [ "@query" ],
       0,
-      "c489c0c46dcad999cacb7628d13f4461"
+      "f6724e244b5c5486714166c5b22fac4b"
     ],
     [
       "Spec.ECDSA.Test.Vectors.sigver_vectors_sha2_384",
@@ -17,7 +17,7 @@
       0,
       [ "@query" ],
       0,
-      "cb0e50e3782bca943816e64e7165e827"
+      "118e653f7e2cea30eab8477af783de14"
     ],
     [
       "Spec.ECDSA.Test.Vectors.sigver_vectors_sha2_512",
@@ -26,7 +26,7 @@
       0,
       [ "@query" ],
       0,
-      "654d6f811617137574ca9addbc475588"
+      "881e316a79e01fcb113d31ce55c3bc91"
     ],
     [
       "Spec.ECDSA.Test.Vectors.siggen_vectors_sha2_256",
@@ -35,7 +35,7 @@
       0,
       [ "@query" ],
       0,
-      "f2cf02b7fc698c7476c59e8f851be107"
+      "c39fc1003664d7360b5b43f595029c85"
     ],
     [
       "Spec.ECDSA.Test.Vectors.siggen_vectors_sha2_384",
@@ -44,7 +44,7 @@
       0,
       [ "@query" ],
       0,
-      "3f70f9c9bb9ce691128155204f515709"
+      "36de4af0c45f0f18158dfd91893e3163"
     ],
     [
       "Spec.ECDSA.Test.Vectors.siggen_vectors_sha2_512",
@@ -53,7 +53,7 @@
       0,
       [ "@query" ],
       0,
-      "b00c7640b850fb5081ed8a9458b53092"
+      "3539eac3ac71a9f68daa2b00cf39286a"
     ]
   ]
 ]

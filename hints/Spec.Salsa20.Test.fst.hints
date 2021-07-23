@@ -29,7 +29,7 @@
         "typing_Lib.IntTypes.bits", "typing_tok_Lib.IntTypes.U32@tok"
       ],
       0,
-      "d041523e3ce3b2085a22b792a0adde35"
+      "8809de3f7050b5cde4108b1ea5bd63d0"
     ],
     [
       "Spec.Salsa20.Test.test_row_round",
@@ -63,7 +63,7 @@
         "typing_Lib.IntTypes.bits", "typing_tok_Lib.IntTypes.U32@tok"
       ],
       0,
-      "c6b2fd252d8a45a19154a2afbc7f5a5d"
+      "1a5b724ff6197603ae85a2433a2edf39"
     ],
     [
       "Spec.Salsa20.Test.test_column_round",
@@ -97,7 +97,7 @@
         "typing_Lib.IntTypes.bits", "typing_tok_Lib.IntTypes.U32@tok"
       ],
       0,
-      "a14313da71a6d262d44b18d867fed862"
+      "c977d97fc97291a68e726489e638e112"
     ],
     [
       "Spec.Salsa20.Test.test_column_round2",
@@ -125,7 +125,7 @@
         "typing_Lib.IntTypes.bits", "typing_tok_Lib.IntTypes.U32@tok"
       ],
       0,
-      "259f7db5aee7a817856b5a8bd2356f00"
+      "a9e5c0a4444654176f3fdc3e48448b46"
     ],
     [
       "Spec.Salsa20.Test.test_salsa20_core",
@@ -156,7 +156,7 @@
         "typing_Lib.IntTypes.bits", "typing_tok_Lib.IntTypes.U32@tok"
       ],
       0,
-      "45b00f4626e17af48519165639dd7119"
+      "6b203cdc3ce9e4abd12e5a784bd0506f"
     ]
   ]
 ]

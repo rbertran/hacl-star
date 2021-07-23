@@ -37,7 +37,7 @@
         "typing_FStar.Seq.Base.length", "typing_FStar.UInt64.t"
       ],
       0,
-      "a3de7f6dd057d446d94340102cae7013"
+      "b55ac1c371de68dd78dcc388020787f2"
     ],
     [
       "Vale.Wrapper.X64.Poly.math_aux",
@@ -70,7 +70,7 @@
         "typing_tok_Vale.Arch.HeapTypes_s.TUInt8@tok"
       ],
       0,
-      "0470df8de9674f93ebdb57335307736c"
+      "83f42ee07f43c45e4402f13b4f7b08d6"
     ],
     [
       "Vale.Wrapper.X64.Poly.x64_poly1305",
@@ -122,7 +122,7 @@
         "typing_tok_Vale.Arch.HeapTypes_s.TUInt8@tok"
       ],
       0,
-      "e65aaa41e8f153c5ae2ca89187dcf3be"
+      "762be79318b3b24b322d808144013daf"
     ],
     [
       "Vale.Wrapper.X64.Poly.x64_poly1305",
@@ -301,7 +301,7 @@
         "typing_tok_Vale.Arch.HeapTypes_s.TUInt8@tok"
       ],
       0,
-      "8b884c0806d89b462fc23449a52cc2de"
+      "c8a52539bfc1c1eec1e976af1a64c253"
     ]
   ]
 ]
