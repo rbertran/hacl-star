@@ -191,29 +191,9 @@ module UI=FStar.UInt
 val subBytes_def (lN:bar) (x:xNxM lN.xN 8) (j:nat{j<lN.xN.n}) :
   Lemma (column j (subBytes lN x) == of_uint (sbox (to_uint (column j x))))
 let subBytes_def lN x j =
-  let open FStar.Tactics in
-  subBytes_sliceable lN;
-  assert(forall (i:nat{i<256}). x1xM_eq (subBytes l1 (of_uint i)) (of_uint (sbox i))) by (
-    norm [ delta_only [`%subBytes] ];
-    norm [ delta_only [`%circuit_spec2] ];
-    // unroll circuit
-    norm [ zeta; delta_only [`%rev; `%circ]; iota ];
-    // normalize initial acc
-    norm [ zeta; delta_only [`%xNxM_empty; `%xNxM_mk]; iota; primops ];
-    let _ = repeatn 1 (fun _ ->
-      apply_lemma(`nat_ind);
-      //normalize spec
-      norm [ delta_only [ `%of_uint; `%sbox ]; iota; primops ];
-      //norm [ delta ];
-      ()
-    ) in
-    
-    dump "";
-    //trefl ()
-    qed ()
-  );
-  assume(bruteforce (subBytes lN) (subBytes l1) sbox);
-  ()
+ subBytes_sliceable lN;
+ assume(bruteforce (subBytes lN) (subBytes l1) sbox);
+ ()
 
 open Lib.IntTypes
 open Lib.Bitmap
