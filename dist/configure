@@ -12,6 +12,20 @@ if [[ $CC == "" ]]; then
   CC=cc
 fi
 
+my_mktemp () {
+  local name=$1
+  local ext=$2
+  local f=$(mktemp --suffix=$ext /tmp/$name.XXXXXXX)
+  if [[ $f == "" ]]; then
+    local f=$(mktemp -p . --suffix=$ext $name.XXXXXXX)
+  fi
+  echo $f
+}
+
+my_mktemp_c () {
+  my_mktemp $1 .c
+}
+
 # Helpers to help do feature or bug detection
 # -------------------------------------------
 
@@ -53,8 +67,8 @@ check_no_bug81300 () {
   # but mozilla. If lib_intrinsics.h is not present, assume there is no bug and
   # return success.
   if [ -f lib_intrinsics.h ]; then
-  local out=$(mktemp /tmp/testbug81300.XXXXXXX)
-  local file=${out}.c
+  local out=$(my_mktemp testbug81300)
+  local file=$out.c
   cat > $file <<EOF
 #include <inttypes.h>
 #include <stdio.h>
@@ -62,7 +76,7 @@ check_no_bug81300 () {
 #include <lib_intrinsics.h>
 uint64_t add4_variables(uint64_t *x, uint64_t y0) {
   uint64_t *r2 = x + 2;
-  uint64_t *r3 = x + 3; 
+  uint64_t *r3 = x + 3;
   uint64_t cc = Lib_IntTypes_Intrinsics_add_carry_u64(0, x[0], y0, x);
   uint64_t cc1 = Lib_IntTypes_Intrinsics_add_carry_u64(cc, 1, 0, x);
   uint64_t cc2 = Lib_IntTypes_Intrinsics_add_carry_u64(1, 0, 0, r2);
@@ -103,7 +117,7 @@ EOF
 }
 
 detect_uint128 () {
-  local file=$(mktemp /tmp/testint128.XXXXXXX).c
+  local file=$(my_mktemp_c testint128)
   echo "unsigned __int128 x = 0;" > $file
   $CC $CROSS_CFLAGS -c $file -o /dev/null
 }
@@ -128,7 +142,7 @@ detect_broken_xcode () {
 }
 
 check_explicit_bzero () {
-  local file=$(mktemp /tmp/testbzero.XXXXXXX).c
+  local file=$(my_mktemp_c testbzero)
   cat > $file <<EOF
 #include <string.h>
 
@@ -160,7 +174,7 @@ detect_arm () {
 }
 
 detect_arm_neon () {
-  local file=$(mktemp /tmp/testvec128.XXXXXXX).c
+  local file=$(my_mktemp_c testvec128)
   cat > $file <<EOF
 #include <libintvector.h>
 
@@ -179,9 +193,14 @@ EOF
   fi
 }
 
-# We only detect the 64-bit version of the z-architecture (s390x).
-detect_ibmz () {
+# We only detect the 64-bit version of the SystemZ architecture (s390x).
+detect_systemz () {
   [[ $target_arch == "s390x" ]]
+}
+
+# We only detect the 64-bit version of the PowerPC architecture
+detect_powerpc () {
+  [[ $target_arch == "ppc64le" ]]
 }
 
 
@@ -202,6 +221,7 @@ show_help () {
   printf "                    * x86_64-apple-ios-simulator\n"
   printf "    --disable-bzero Do not use explicit_bzero (binary will work with an old GLIBC)\n"
   printf "    --disable-ocaml Disable OCAML bindings\n"
+  printf "    --enable-power9 Enable Power ISA v3.0 instruction set for PowerPC architecture\n"
   printf "\n"
 }
 
@@ -213,6 +233,7 @@ echo -n > config.h
 # Default arguments
 disable_ocaml=0
 disable_bzero=0
+enable_power9=0
 cross_build=0
 
 # Parse command line arguments.
@@ -222,6 +243,7 @@ while [ $# -gt 0 ]; do
         -target) build_target="$2"; shift ;;
         --disable-ocaml) disable_ocaml=1 ;;
         --disable-bzero) disable_bzero=1 ;;
+        --enable-power9) enable_power9=1 ;;
         --help) show_help; exit 0 ;;
         *) show_help; exit 2 ;;
     esac
@@ -401,13 +423,32 @@ if detect_x86 || detect_x64; then
   fi
 fi
 
-if detect_ibmz; then
+if detect_systemz; then
   echo "... detected z platform"
   echo "TARGET_ARCHITECTURE = SystemZ" >> Makefile.config
   echo "#define TARGET_ARCHITECTURE TARGET_ARCHITECTURE_ID_SYSTEMZ" >> config.h
   echo "... $build_target supports 128-bit z VSX"
   compile_vec128=true
-  echo "CFLAGS_128 = -m64 -mzarch -mvx -mzvector -march=z13" >> Makefile.config
+  echo "CFLAGS_128 = -m64 -mzarch -mvx -mzvector -march=z15" >> Makefile.config
+  # In the case of IBMz, some of the vectorized functions are defined as
+  # inline static rather than as macros, meaning we need to compile all
+  # the files with the vector compilation options. Note that this is not
+  # a problem because we don't do cross-compilation for IBMz. Also note
+  # that we don't have support for vec256 for IBMz.
+  echo "CFLAGS += \$(CFLAGS_128)" >> Makefile.config
+fi
+
+# TODO: try to enable the intrinsics
+if detect_powerpc; then
+  echo "... detected PowerPC platform"
+  echo "... $build_target supports 128-bit Power VSX"
+  echo "TARGET_ARCHITECTURE = PowerPC64" >> Makefile.config
+  echo "#define TARGET_ARCHITECTURE TARGET_ARCHITECTURE_ID_POWERPC64" >> config.h
+  compile_vec128=true
+  if [[ "$enable_power9" == "1" ]]; then
+    echo "... enable Power ISA v3.0 instruction set"
+    echo "CFLAGS_128 = -mcpu=power9" >> Makefile.config
+  fi
 fi
 
 if $compile_intrinsics; then

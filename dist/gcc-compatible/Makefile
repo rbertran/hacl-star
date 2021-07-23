@@ -35,7 +35,7 @@ endif
 # TODO: Makefile.config: configure; ./$<
 # TODO: include Makefile.config
 UNAME		?= $(shell uname)
-MARCH		?= $(shell uname -m)
+MARCH		?= $(shell uname -m | sed 's/amd64/x86_64/')
 ifeq ($(UNAME),Darwin)
   VARIANT	= -darwin
   SO		= so
@@ -52,7 +52,7 @@ else ifeq ($(OS),Windows_NT)
   LDFLAGS	= -Wl,--out-implib,libevercrypt.dll.a
 else ifeq ($(UNAME),FreeBSD)
   CFLAGS	+= -fPIC
-  VARIANT	= -freebsd
+  VARIANT	= -linux
   SO 		= so
 endif
 
@@ -213,6 +213,10 @@ install-hacl-star-raw: dllocamlevercrypt.$(SO)
 	ocamlfind install hacl-star-raw META $(CTYPES_ML) $(CTYPES_CMX) $(CTYPES_CMO) $(CTYPES_CMI) \
          libevercrypt.a libevercrypt.$(SO) ocamlevercrypt.cma ocamlevercrypt.cmxa ocamlevercrypt.a \
          libocamlevercrypt.a dllocamlevercrypt.$(SO) config.h
+
+.PHONY: install-ocaml
+install-ocaml: install-hacl-star-raw
+	cd ../../bindings/ocaml && dune build && dune install
 
 endif
 endif
