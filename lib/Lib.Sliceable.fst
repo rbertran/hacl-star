@@ -14,7 +14,7 @@ let offset f off i = f (i+off)
 
 (*** xN and xNxM ***)
 
-noeq type foo (a:Type0) =
+noeq type xN (a:Type0) =
 { n:nat
 ; t:Type0
 ; v: t -> (i:nat{i<n}) -> a
@@ -22,18 +22,18 @@ noeq type foo (a:Type0) =
 ; mk_def: f:(i:nat{i<n} -> a) -> i:nat{i<n} -> Lemma (v (mk f) i == f i)
 }
 
-val xN_mk_def (#a:Type0) (xN:foo a) (f:(i:nat{i<xN.n} -> a)) (i:nat{i<xN.n}) :
+val xN_mk_def (#a:Type0) (xN:xN a) (f:(i:nat{i<xN.n} -> a)) (i:nat{i<xN.n}) :
   Lemma (xN.v (xN.mk f) i == f i)
   [SMTPat (xN.v (xN.mk f) i)]
 let xN_mk_def xN f i = xN.mk_def f i
 
-val xNxM (#a:Type0) (xN:foo a) (m:nat) : Type0
+val xNxM (#a:Type0) (xN:xN a) (m:nat) : Type0
 #push-options "--fuel 1 --ifuel 1"
 let rec xNxM xN m = if m = 0 then unit else xN.t * xNxM xN (m-1)
 #pop-options
 
 noextract
-val index (#a:Type0) (#xN:foo a) (#m:nat) (i:nat{i<m}) (x:xNxM xN m) : xN.t
+val index (#a:Type0) (#xN:xN a) (#m:nat) (i:nat{i<m}) (x:xNxM xN m) : xN.t
 #push-options "--ifuel 1 --fuel 1"
 let rec index #n #xN #m i x =
 if m = 0 then
@@ -46,13 +46,13 @@ else
     index i v
 #pop-options
 
-val xNxM_mk (#a:Type0) (xN:foo a) (m:nat) (f:(i:nat{i<m} -> xN.t)) : xNxM xN m
+val xNxM_mk (#a:Type0) (xN:xN a) (m:nat) (f:(i:nat{i<m} -> xN.t)) : xNxM xN m
 #push-options "--fuel 1"
 let rec xNxM_mk xN m f =
   if m = 0 then () else (f (m-1), xNxM_mk xN (m-1) f)
 #pop-options
 
-val xNxM_mk_def (#a:Type0) (xN:foo a) (m:nat) (f:(i:nat{i<m} -> xN.t)) (i:nat{i<m}) :
+val xNxM_mk_def (#a:Type0) (xN:xN a) (m:nat) (f:(i:nat{i<m} -> xN.t)) (i:nat{i<m}) :
   Lemma (index i (xNxM_mk xN m f) == f i)
   [SMTPat (index i (xNxM_mk xN m f))]
 #push-options "--fuel 1"
@@ -65,10 +65,10 @@ let rec xNxM_mk_def xN m f i =
     xNxM_mk_def xN (m-1) f i
 #pop-options
 
-val xNxM_empty (#a:Type0) (xN:foo a) : xNxM xN 0
+val xNxM_empty (#a:Type0) (xN:xN a) : xNxM xN 0
 let xNxM_empty xN = xNxM_mk _ _ (fun _ -> ())
 
-val xNxM_eq_intro (#a:Type0) (#xN:foo a) (#m:nat) (x y:xNxM xN m) :
+val xNxM_eq_intro (#a:Type0) (#xN:xN a) (#m:nat) (x y:xNxM xN m) :
   Lemma
     (requires forall (i:nat{i<m}). index i x == index i y)
     (ensures x == y)
@@ -87,7 +87,7 @@ let rec xNxM_eq_intro #n #xN #m x y =
 
 (*** x1 and x1xM ***)
 
-let x1 (a:Type0) : (xN:foo a{xN.n==1}) =
+let x1 (a:Type0) : (xN:xN a{xN.n==1}) =
 { n = 1
 ; t = a
 ; v = (fun x 0 -> x)
@@ -129,18 +129,18 @@ val x1xM_mk (#a:Type0) (m:nat) (f:(i:nat{i<m} -> a)) : x1xM a m
 let x1xM_mk m f = xNxM_mk _ _ (fun i -> x1_of (f i))
 
 noextract
-val column (#a:Type0) (#xN:foo a) (#m:nat) (j:nat{j<xN.n}) (x:xNxM xN m) : x1xM a m
+val column (#a:Type0) (#xN:xN a) (#m:nat) (j:nat{j<xN.n}) (x:xNxM xN m) : x1xM a m
 let column j x =
   let aux1 i k = (_).v (index i x) j in
   let aux2 i = (_).mk (aux1 i) in
   xNxM_mk _ _ aux2
 
-val column_def (#a:Type0) (#xN:foo a) (#m:nat) (j:nat{j<xN.n}) (x:xNxM xN m) (i:nat{i<m}) :
+val column_def (#a:Type0) (#xN:xN a) (#m:nat) (j:nat{j<xN.n}) (x:xNxM xN m) (i:nat{i<m}) :
   Lemma ((_).v (index i (column j x)) 0 == (_).v (index i x) j)
   [SMTPat ((_).v (index i (column j x)) 0)]
 let column_def j x i = ()
 
-val column_lemma (#a:Type0) (#xN:foo a) (#m:nat) (x:xNxM xN m) (i:nat{i<m}) (j:nat{j<xN.n}) :
+val column_lemma (#a:Type0) (#xN:xN a) (#m:nat) (x:xNxM xN m) (i:nat{i<m}) (j:nat{j<xN.n}) :
   Lemma ( (x1 a).v (index i (column j x)) 0 == xN.v (index i x) j )
   [SMTPat ((x1 a).v (index i (column j x)) 0)]
 let column_lemma x i j = ()
@@ -152,13 +152,13 @@ let column_column x = xNxM_eq_intro (column 0 x) x
 
 (*** Sliceability ***)
 
-val sliceable (#a:Type0) (#xN:foo a) (#m #m':nat) (f:(xNxM xN m -> xNxM xN m')) (g:(x1xM a m -> x1xM a m')) : Type0
+val sliceable (#a:Type0) (#xN:xN a) (#m #m':nat) (f:(xNxM xN m -> xNxM xN m')) (g:(x1xM a m -> x1xM a m')) : Type0
 let sliceable #a #xN #m #m' f g =
   forall (x:xNxM xN m) (j:nat{j<xN.n}).
   (column j (f x) == g (column j x))
 
 val sliceable_intro
-  (#a:Type0) (#xN:foo a)
+  (#a:Type0) (#xN:xN a)
   (#m #m':nat)
   (f:(xNxM xN m -> xNxM xN m'))
   (g:(x1xM a m -> x1xM a m'))
@@ -167,7 +167,7 @@ val sliceable_intro
 let sliceable_intro #a #xN #m #m' f g pr = FStar.Classical.forall_intro_2 pr
 
 val sliceable_def
-  (#a:Type0) (#xN:foo a)
+  (#a:Type0) (#xN:xN a)
   (#m #m':nat)
   (f:(xNxM xN m -> xNxM xN m'))
   (g:(x1xM a m -> x1xM a m'))
@@ -176,7 +176,7 @@ val sliceable_def
 let sliceable_def f g = ()
 
 val sliceable_feq
-  (#a:Type0) (#xN:foo a)
+  (#a:Type0) (#xN:xN a)
   (#m #m':nat)
   (f:(xNxM xN m -> xNxM xN m'))
   (g:(x1xM a m -> x1xM a m'){sliceable f g})
@@ -188,7 +188,7 @@ let sliceable_feq f g h = ()
 
 noextract
 val reduce_output
-  (#a:Type0) (#xN:foo a)
+  (#a:Type0) (#xN:xN a)
   (#m #m':nat)
   (f:(xNxM xN m -> xNxM xN m'))
   (m'':nat) (r:(i:nat{i<m''} -> j:nat{j<m'}))
@@ -196,7 +196,7 @@ val reduce_output
 let reduce_output f m'' r x = xNxM_mk _ _ (fun i -> index (r i) (f x))
 
 val reduce_output_def
-  (#a:Type0) (#xN:foo a)
+  (#a:Type0) (#xN:xN a)
   (#m #m':nat)
   (f:( xNxM xN m -> xNxM xN m'))
   (m'':nat) (r:(i:nat{i<m''} -> j:nat{j<m'}))
@@ -206,7 +206,7 @@ val reduce_output_def
 let reduce_output_def f m'' r x i = ()
 
 val reduce_output_sliceable
-  (#a:Type0) (#xN:foo a)
+  (#a:Type0) (#xN:xN a)
   (#m #m':nat)
   (f:(xNxM xN m -> xNxM xN m'))
   (g:(x1xM a m -> x1xM a m'){sliceable f g})
@@ -311,7 +311,7 @@ let bruteforce_aux (n:nat) (phi:(i:uint_t n -> bool)) :
 #push-options "--fuel 1 --ifuel 1"
 noextract
 let bruteforce
-  (#xN:foo bool)
+  (#xN:xN bool)
   (#m #m':nat)
   (impl_n:(xNxM xN m -> xNxM xN m'))
   (impl_1:(x1xM bool m -> x1xM bool m'))

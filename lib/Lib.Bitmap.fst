@@ -8,7 +8,7 @@ module S = FStar.Seq
 
 #set-options "--fuel 0 --ifuel 0"
 
-private val aux (t:inttype{unsigned t}) (l:secrecy_level) (n:nat{n<=bits t}) : foo bool
+private val aux (t:inttype{unsigned t}) (l:secrecy_level) (n:nat{n<=bits t}) : xN bool
 let aux t l n =
 { n = n
 ; t = int_t t l
@@ -17,7 +17,7 @@ let aux t l n =
 ; mk_def = (fun f i -> ())
 }
 
-val uN (t:inttype{unsigned t}) (l:secrecy_level) (n:nat{n<=bits t}) : bar
+val uN (t:inttype{unsigned t}) (l:secrecy_level) (n:nat{n<=bits t}) : lN
 let uN t l n =
 { xN = aux t l n
 ; ones_ = ones t l
@@ -333,7 +333,7 @@ let transpose_8_64 = TrV 8 32 U64 transpose_8_32
 val transpose_64_8 : transposable 64 U64 8 U8
 let transpose_64_8 = transpose_inv transpose_8_64
 
-val line (#a:Type0) (#xN:foo a) (#m:nat) (i:nat{i<m}) (x:xNxM xN m) : x1xM a xN.n
+val line (#a:Type0) (#xN:xN a) (#m:nat) (i:nat{i<m}) (x:xNxM xN m) : x1xM a xN.n
 let line i x =
   let aux1 j k = (_).v (index x i) j in
   let aux2 j = (_).mk (aux1 j) in
