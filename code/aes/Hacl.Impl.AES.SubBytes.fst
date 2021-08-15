@@ -176,10 +176,10 @@ let outputs =
   | 6 -> r6
   | 7 -> r7
 
-private val subBytes (lN:bar) (x:xNxM lN.xN 8) : xNxM lN.xN 8
+private val subBytes (lN:lN) (x:xNxM lN.xN 8) : xNxM lN.xN 8
 let subBytes lN x = reduce_output (circuit_spec2 circ lN) 8 outputs x
 
-private val subBytes_sliceable (lN:bar) : Lemma (sliceable (subBytes lN) (subBytes l1))
+private val subBytes_sliceable (lN:lN) : Lemma (sliceable (subBytes lN) (subBytes l1))
 let subBytes_sliceable lN =
   circuit_spec2_sliceable circ lN;
   reduce_output_sliceable (circuit_spec2 circ lN) (circuit_spec2 circ l1) 8 outputs;
@@ -188,7 +188,7 @@ let subBytes_sliceable lN =
 open Hacl.Spec.AES.SubBytes
 module UI=FStar.UInt
 
-val subBytes_def (lN:bar) (x:xNxM lN.xN 8) (j:nat{j<lN.xN.n}) :
+val subBytes_def (lN:lN) (x:xNxM lN.xN 8) (j:nat{j<lN.xN.n}) :
   Lemma (column j (subBytes lN x) == of_uint (sbox (to_uint (column j x))))
 let subBytes_def lN x j =
  subBytes_sliceable lN;
