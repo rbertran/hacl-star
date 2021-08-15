@@ -27,7 +27,7 @@ open FStar.HyperStack.ST
 module B=Lib.Bitmap
 module IT=Lib.IntTypes
 
-let lN = B.uN IT.U64 IT.SEC 64
+let uN = B.uN IT.U64 IT.SEC 64
 
 let pp (_:unit) : Tac unit =
   norm [ delta_only [`%m; `%p] ];
@@ -47,11 +47,11 @@ let pp (_:unit) : Tac unit =
 
   norm [ delta_only
     [ `%lN
-    ; `%Mkfoo?.t
-    ; `%Mkbar?.xN
+    ; `%MkxN?.t
+    ; `%MklN?.xN
     ; `%Lib.Bitmap.uN
-    ; `%Mkbar
-    ; `%Mkbar?.xor_
+    ; `%MklN
+    ; `%MklN?.xor_
     ]
   ];
 
@@ -59,41 +59,41 @@ let pp (_:unit) : Tac unit =
   trefl ()
 
 [@@postprocess_with pp]
-let test2 (x:xNxM lN.xN m) :
-  Stack (xNxM lN.xN p)
+let test2 (x:xNxM uN.xN m) :
+  Stack (xNxM uN.xN p)
     (requires fun _ -> True)
     (ensures fun _ _ _ -> True)
   =
-  circuit_impl circ lN x
+  circuit_impl circ uN x
 
 let pp' (_:unit) : Tac unit =
   norm [ delta_only [`%test2] ];
   norm [ delta_only
     [ `%lN
-    ; `%Mkfoo?.t
-    ; `%Mkbar?.xN
+    ; `%MkxN?.t
+    ; `%MklN?.xN
     ; `%Lib.Bitmap.uN
-    ; `%Mkbar
-    ; `%Mkbar?.xor_
+    ; `%MklN
+    ; `%MklN?.xor_
     ]
   ];
   dump "";
   trefl ()
 
 [@@postprocess_with pp']
-let test3 (x:xNxM lN.xN m) :
-  Stack (xNxM lN.xN p)
+let test3 (x:xNxM uN.xN m) :
+  Stack (xNxM uN.xN p)
     (requires fun _ -> True)
     (ensures fun _ _ _ -> True)
   =
   test2 x
 
-let impl (lN:bar) (x:xNxM lN.xN m) : xNxM lN.xN p =
+let impl (lN:lN) (x:xNxM lN.xN m) : xNxM lN.xN p =
   circuit_spec2 circ lN x
 
 let spec (a:UI.uint_t m) : UI.uint_t p = a % 2
 
-let test1 (lN:bar) : Lemma (
+let test1 (lN:lN) : Lemma (
   forall (x:xNxM lN.xN m) (j:nat{j<lN.xN.n}).
   column j (impl lN x) == of_uint (spec (to_uint (column j x)))
   ) =
