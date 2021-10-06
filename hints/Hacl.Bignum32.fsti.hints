@@ -1,6 +1,24 @@
 [
-  "Ê_r@d\u0018Çb2F²‡V3\u001bÙ",
+  "vá8Oˆ? 4eÄ\u0010ZñÞ¢•",
   [
+    [
+      "Hacl.Bignum32.add_mod",
+      1,
+      0,
+      0,
+      [ "@query" ],
+      0,
+      "ea82a378ce41f93068180e26dbb37d8b"
+    ],
+    [
+      "Hacl.Bignum32.sub_mod",
+      1,
+      0,
+      0,
+      [ "@query" ],
+      0,
+      "0d0fb211c600aafef3dc43e9b56857f9"
+    ],
     [
       "Hacl.Bignum32.mul",
       1,
@@ -19,7 +37,7 @@
         "refinement_interpretation_Tm_refine_542f9d4f129664613f2483a6c88bc7c2"
       ],
       0,
-      "a742df47b2a43b1f5d75c08f591e142d"
+      "d776c76ca6b614521b1259f8f6c4193a"
     ],
     [
       "Hacl.Bignum32.sqr",
@@ -39,7 +57,7 @@
         "refinement_interpretation_Tm_refine_542f9d4f129664613f2483a6c88bc7c2"
       ],
       0,
-      "18243cdffe92f02da959c7e3e6f3e87a"
+      "190c50b27f9d65165c81be0d717529ce"
     ],
     [
       "Hacl.Bignum32.bn_to_bytes_be",
@@ -66,7 +84,7 @@
         "typing_tok_Lib.IntTypes.PUB@tok", "typing_tok_Lib.IntTypes.U32@tok"
       ],
       0,
-      "29ea21efe19b3536921b697b70ec37ea"
+      "3ab8d12738c8d6139bd23b144bd417bb"
     ],
     [
       "Hacl.Bignum32.bn_to_bytes_le",
@@ -93,7 +111,7 @@
         "typing_tok_Lib.IntTypes.PUB@tok", "typing_tok_Lib.IntTypes.U32@tok"
       ],
       0,
-      "d72b3bd9352ccc9cf21e22b9ce6aafd9"
+      "b36230a79d2982def729669eb5bcae11"
     ]
   ]
 ]

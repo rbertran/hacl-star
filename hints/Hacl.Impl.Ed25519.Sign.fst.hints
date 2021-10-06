@@ -54,7 +54,7 @@
         "typing_tok_Lib.Buffer.MUT@tok", "typing_tok_Lib.IntTypes.U32@tok"
       ],
       0,
-      "71fd62091f1770d4b883b4cbd4d11922"
+      "24973656b65b9ea39028e8edf09205fb"
     ],
     [
       "Hacl.Impl.Ed25519.Sign.sign",
@@ -209,7 +209,7 @@
         "typing_tok_Lib.IntTypes.U8@tok"
       ],
       0,
-      "e5ba4936f91967d320ad055f111f3791"
+      "0a053130ada92b3496f47ab56c04d716"
     ]
   ]
 ]
