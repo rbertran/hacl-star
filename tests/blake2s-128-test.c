@@ -38,6 +38,8 @@ int main()
 {
   EverCrypt_AutoConfig2_init();
   bool ok = true;
+
+  for (int i=0; i<5; i++) {
   for (int i = 0; i < sizeof(vectors2s)/sizeof(blake2_test_vector); ++i) {
     ok &= print_test2s(vectors2s[i].input_len,vectors2s[i].input,vectors2s[i].key_len,vectors2s[i].key,vectors2s[i].expected_len,vectors2s[i].expected);
   }
@@ -63,6 +65,7 @@ int main()
 
   uint64_t count = ROUNDS * SIZE;
   printf("Blake2S (Vec 128-bit):\n"); print_time(count,tdiff1,cdiff1);
+    }
 
   if (ok) return EXIT_SUCCESS;
   else return EXIT_FAILURE;

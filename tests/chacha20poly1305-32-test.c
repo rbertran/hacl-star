@@ -17,7 +17,7 @@
 
 #include "chacha20poly1305_vectors.h"
 
-#define ROUNDS 100000
+#define ROUNDS 10000
 #define SIZE   16384
 
 bool print_result(int in_len, uint8_t* comp, uint8_t* exp) {

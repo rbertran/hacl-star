@@ -23,6 +23,7 @@ int main() {
     // the streaming API with various lengths. Otherwise, in an exemplary test,
     // one would write a for-loop over the test vectors.
 
+  for (int i=0; i<100000; i++) {
     uint8_t tag[16] = {};
     poly1305_test_vector *v = vectors;
 
@@ -57,6 +58,7 @@ int main() {
     else {
         printf("Poly1305 (256-bit) streaming: no AVX2 support: ignoring tests\n");
     }
+  }
 
     if (ok)
         return EXIT_SUCCESS;

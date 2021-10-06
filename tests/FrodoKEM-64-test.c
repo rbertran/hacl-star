@@ -18,6 +18,7 @@ bool test_dec(uint8_t *sk, uint8_t *ct, uint8_t *ss_expected){
 bool
 test_frodo()
 {
+  for (int i=0; i<10000; i++) {
   uint8_t pk[976U];
   uint8_t sk[2032U];
   uint8_t ct[1080U];
@@ -32,6 +33,7 @@ test_frodo()
       if (ss1[i] != ss2[i]) {
         return false;
       }
+  }
   }
 
   return true;

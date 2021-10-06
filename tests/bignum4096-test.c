@@ -115,6 +115,8 @@ bool print_test(
 int main() {
 
   bool ok = true;
+
+  for (int i=0; i<10; i++) {
   for (int i = 0; i < sizeof(vectors_be)/sizeof(bignum4096_bytes_be_test_vector); ++i) {
     ok &= print_test_bytes_be_precomp(vectors_be[i].nBytes, vectors_be[i].aBytes, vectors_be[i].bBits, vectors_be[i].bBytes, vectors_be[i].resBytes);
   }
@@ -125,6 +127,7 @@ int main() {
 
   for (int i = 0; i < sizeof(vectors)/sizeof(bignum4096_test_vector); ++i) {
     ok &= print_test(vectors[i].n, vectors[i].a, vectors[i].bBits, vectors[i].b, vectors[i].res);
+  }
   }
 
   if (ok) return EXIT_SUCCESS;

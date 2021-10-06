@@ -14,7 +14,7 @@
 #include "test_helpers.h"
 #include "curve25519_vectors.h"
 
-#define ROUNDS 100000
+#define ROUNDS 50000
 #define SIZE   1
 
 

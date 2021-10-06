@@ -91,7 +91,7 @@ bool print_result(int in_len, uint8_t* comp, uint8_t* exp) {
 }
 
 
-#define ROUNDS 16384
+#define ROUNDS 1638
 #define SIZE   16384
 
 bool testImplementationHacl()

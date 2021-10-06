@@ -19,6 +19,8 @@ typedef struct Hacl_Streaming_Blake2_blake2b_32_state_s blake2_state;
 int main() {
     bool ok = true;
 
+
+    for (int i=0; i<100000; i++) {
     // Here, I can't really loop over the vectors... because I want to exercise
     // the streaming API with various lengths. Otherwise, in an exemplary test,
     // one would write a for-loop over the test vectors.
@@ -49,6 +51,7 @@ int main() {
     ok &= compare_and_print(64, tag, v->expected);
 
     Hacl_Streaming_Blake2_blake2b_32_with_key_free(64, s);
+    }
 
     if (ok)
         return EXIT_SUCCESS;

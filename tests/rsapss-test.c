@@ -53,9 +53,11 @@ bool print_test(
 
 int main() {
   bool ok = true;
+  for (int i=0; i<40; i++) {
   for (int i = 0; i < sizeof(vectors)/sizeof(rsapss_test_vector); ++i) {
     ok &= print_test(vectors[i].modBits,vectors[i].n,vectors[i].eBits,vectors[i].e,vectors[i].dBits,vectors[i].d,
 		     vectors[i].msgLen,vectors[i].msg,vectors[i].saltLen,vectors[i].salt,vectors[i].sgnt_expected);
+  }
   }
 
   if (ok) return EXIT_SUCCESS;

@@ -84,8 +84,12 @@ curve64-rfc.exe: $(patsubst %.c,%.o,$(wildcard rfc7748_src/*.c))
 vec-128-test.exe: ../lib/c/libintvector.h vec-128-test.c
 	$(CC) -I../lib/c $(CFLAGS) $(CFLAGS_128) $(LDFLAGS) vec-128-test.c -o vec-128-test.exe
 
+
+sha2-test.exe: sha2-test.o
+	$(CC) $(CFLAGS) $(LDFLAGS) $^ ../dist/gcc-compatible/libevercrypt.a -o $@ /usr/lib64/libcrypto64.a /usr/lib64/libc_nonshared.a /usr/lib64/libz.a /usr/lib64/libc_nonshared.a  /usr/lib64/*.a -static-libgcc -static-libstdc++ -lcrypto
+
 %.exe: %.o
-	$(CC) $(CFLAGS) $(LDFLAGS) $^ ../dist/gcc-compatible/libevercrypt.a -o $@ -lcrypto
+	$(CC) $(CFLAGS) $(LDFLAGS) $^ ../dist/gcc-compatible/libevercrypt.a -o $@ /usr/lib64/libcrypto64.a /usr/lib64/libc_nonshared.a /usr/lib64/libz.a /usr/lib64/libc_nonshared.a  /usr/lib64/*.a -static-libgcc -static-libstdc++
 
 # Running tests
 

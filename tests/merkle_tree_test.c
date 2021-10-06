@@ -38,6 +38,8 @@ int main(int argc, char *argv[]) {
   if (argc > 1)
     num_elts = atoi(argv[1]);
 
+  for (int i=0; i<100000; i++) {
+
   EverCrypt_AutoConfig2_init();
 
   // Creation
@@ -208,6 +210,7 @@ int main(int argc, char *argv[]) {
   mt_free_hash(root);
 
   printf("The Merkle tree is freed\n");
+  }
 
   return 0;
 }

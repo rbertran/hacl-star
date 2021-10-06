@@ -143,6 +143,7 @@ static inline bool compare_and_print_vec64_(vec128 comp, vec128 exp) {
 int main() {
   bool ok = true;
 
+  for (int i=0; i<30000; i++) {
   vec128 vec0, vec1;
   vec128 exp;
   uint32_t x32;
@@ -605,6 +606,7 @@ int main() {
   exp = initialize_vector64(0x8888888888888888UL,0x8888888888888888UL);
   compare_and_print_vec64("xor", vec0, exp);
   //  print_vector64("xor", vec0);
+  }
 
   if (ok) return EXIT_SUCCESS;
   else return EXIT_FAILURE;

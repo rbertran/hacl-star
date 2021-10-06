@@ -21,6 +21,7 @@ int main() {
     // Here, I can't really loop over the vectors... because I want to exercise
     // the streaming API with various lengths. Otherwise, in an exemplary test,
     // one would write a for-loop over the test vectors.
+  for (int i=0; i<200000; i++) {
 
     uint8_t tag[16] = {};
     poly1305_test_vector *v = vectors;
@@ -51,6 +52,7 @@ int main() {
     ok &= compare_and_print(16, tag, v->tag);
 
     Hacl_Streaming_Poly1305_128_free(s);
+  }
 
     if (ok)
         return EXIT_SUCCESS;

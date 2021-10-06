@@ -22,6 +22,8 @@ int main() {
     // the streaming API with various lengths. Otherwise, in an exemplary test,
     // one would write a for-loop over the test vectors.
 
+    for(int i=0; i<100000; i++) {
+
     uint8_t tag[32] = {};
     blake2_test_vector *v = vectors2s;
 
@@ -65,6 +67,7 @@ int main() {
     ok &= compare_and_print(32, tag, v->expected);
 
     Hacl_Streaming_Blake2s_128_blake2s_128_with_key_free(32, s);
+    }
 
     if (ok)
         return EXIT_SUCCESS;

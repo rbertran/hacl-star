@@ -22,6 +22,8 @@ int main() {
   // Here, I can't really loop over the vectors... because I want to exercise
   // the streaming API with various lengths. Otherwise, in an exemplary test,
   // one would write a for-loop over the test vectors.
+  
+  for (int i=0; i<100000; i++) {
 
   uint8_t tag[32] = {};
   sha2_test_vector *v = vectors;
@@ -48,6 +50,7 @@ int main() {
   ok &= compare_and_print(32, tag, v->tag_256);
 
   Hacl_Streaming_SHA2_free_256(s);
+  }
 
   if (ok)
     return EXIT_SUCCESS;
