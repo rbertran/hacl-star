@@ -30,3 +30,10 @@ dist/**/lib/*_c_stubs.c
 doc/_build
 config.h
 *.smt2
+*.db
+*.error
+*.mpt
+*.samples
+*.functions_selected
+*.functions
+*.trace
