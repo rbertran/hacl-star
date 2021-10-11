@@ -82,13 +82,25 @@ for elem in *.exe; do
     # we don't care abount the minimum size (1).
     #
     if [ ! -f $elem.functions_selected ]; then
-        set +e
-        chop-score-table $data 80 10 1 -functions > $elem.functions_selected
-        error=$?
-        set -e
+        for coverage in $(seq 80 -10 10); do
+            set +e
+            echo chop-score-table $data $coverage 10 1 -functions
+            chop-score-table $data $coverage 10 1 -functions > $elem.functions_selected
+            error=$?
+            set -e
+            if [ $error -ne 0 ]; then
+                rm -f $elem.functions_selected
+                if [ $coverage -eq 10 ]; then
+                    echo Unable to compute functions selected | tee $elem.error
+                    error=1
+                fi
+                continue
+            else
+                error=0
+                break
+            fi
+        done;
         if [ $error -ne 0 ]; then
-            rm -f $elem.functions_selected
-            echo Unable to compute the functions selected | tee $elem.error
             continue
         fi
     fi
@@ -143,7 +155,7 @@ for elem in *.exe; do
         fi
 
         #
-        # Convert to standalone ELF ?
+        # Convert to standalone ELF 
         #
         for mptfile in $mptdir/*mpt.gz ; do
             if [ ! -f ${mptfile/%.mpt.gz/.s} ]; then
@@ -158,6 +170,32 @@ for elem in *.exe; do
                 echo mp_mpt2elf.py -t $mptfile -T z16-z16-z64_linux_gcc -O ${mptfile/%.mpt.gz/_reset.s} --raw-bin --compiler /opt/rh/gcc-toolset-10/root/bin/gcc --wrap-endless --reset 
                 mp_mpt2elf.py -t $mptfile -T z16-z16-z64_linux_gcc -O ${mptfile/%.mpt.gz/_reset.s} --raw-bin --compiler /opt/rh/gcc-toolset-10/root/bin/gcc --wrap-endless --reset & 
                 set -e
+            fi
+        done;
+        wait
+
+        #
+        # if ELF not generated try the workaround
+        #
+        for mptfile in $mptdir/*mpt.gz ; do
+            if [ -f ${mptfile/%.mpt.gz/.s} ]; then
+                if [ ! -f ${mptfile/%.mpt.gz/.elf} ]; then
+                    set +e
+                    rm -f ${mptfile/%.mpt.gz/.s}
+                    echo mp_mpt2elf.py -t $mptfile -T z16-z16-z64_linux_gcc -O ${mptfile/%.mpt.gz/.s} --raw-bin --compiler /opt/rh/gcc-toolset-10/root/bin/gcc --wrap-endless  --fix-long-jump
+                    mp_mpt2elf.py -t $mptfile -T z16-z16-z64_linux_gcc -O ${mptfile/%.mpt.gz/.s} --raw-bin --compiler /opt/rh/gcc-toolset-10/root/bin/gcc --wrap-endless  --fix-long-jump & 
+                    set -e
+                fi
+            fi
+
+            if [ -f ${mptfile/%.mpt.gz/_reset.s} ]; then
+                if [ ! -f ${mptfile/%.mpt.gz/_reset.elf} ]; then
+                    set +e
+                    rm -f ${mptfile/%.mpt.gz/_reset.s}
+                    echo mp_mpt2elf.py -t $mptfile -T z16-z16-z64_linux_gcc -O ${mptfile/%.mpt.gz/_reset.s} --raw-bin --compiler /opt/rh/gcc-toolset-10/root/bin/gcc --wrap-endless --reset  --fix-long-jump 
+                    mp_mpt2elf.py -t $mptfile -T z16-z16-z64_linux_gcc -O ${mptfile/%.mpt.gz/_reset.s} --raw-bin --compiler /opt/rh/gcc-toolset-10/root/bin/gcc --wrap-endless --reset  --fix-long-jump & 
+                    set -e
+                fi
             fi
         done;
         wait
@@ -179,7 +217,7 @@ for elem in *.exe; do
         done
 
         #
-        # Try if the run 
+        # Try if they run correctly
         #
         for elffile in $mptdir/*elf ; do
             set +e
@@ -189,7 +227,7 @@ for elem in *.exe; do
         wait
 
         #
-        # Convert to AVP
+        # Convert to AVP 
         #
         for mptfile in $mptdir/*mpt.gz ; do
             if [ ! -f ${mptfile/%.mpt.gz/.avp.gz} ]; then
