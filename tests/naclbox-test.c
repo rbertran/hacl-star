@@ -36,33 +36,33 @@ bool print_test(int in_len, uint8_t* in, uint8_t* nonce, uint8_t* sk1, uint8_t* 
   bool ok = print_result(in_len, ciphertext, cipher);
   ok = ok && print_result(MACBYTES, mac, mac_exp);
   res = Hacl_NaCl_crypto_box_open_detached(decrypted, ciphertext, mac, in_len, nonce, pk2, sk1);
-  printf("Decryption of HACL box was a %s.\n", res == 0 ? "success" : "failure");
+  //printf("Decryption of HACL box was a %s.\n", res == 0 ? "success" : "failure");
   ok = (res == 0) && print_result(in_len, in, decrypted);
   memset(decrypted,0,in_len);
 
   /* Testing the combined mode */
   i = Hacl_NaCl_crypto_box_easy(ciphertext1, in, in_len, nonce, pk1, sk2);
   res = Hacl_NaCl_crypto_box_open_easy(decrypted, ciphertext1, in_len+MACBYTES, nonce, pk2, sk1);
-  printf("Decryption of HACL box_easy was a %s.\n", res == 0 ? "success" : "failure");
+  //printf("Decryption of HACL box_easy was a %s.\n", res == 0 ? "success" : "failure");
   ok = (res == 0) && ok && print_result(in_len, in, decrypted);
   memset(decrypted,0,in_len);
 
   /* Testing the precomputed interface */
-  printf("Shared Secret computed by crypto_box_beforenm:\n");
+  //printf("Shared Secret computed by crypto_box_beforenm:\n");
   res = Hacl_NaCl_crypto_box_beforenm(k, pk1, sk2);
   res = Hacl_NaCl_crypto_box_beforenm(k1, pk2, sk1);
   ok = ok && print_result(KEYBYTES, k, k1);
 
   i = Hacl_NaCl_crypto_box_detached_afternm(ciphertext, mac, in, in_len, nonce, k);
   res = Hacl_NaCl_crypto_box_open_detached_afternm(decrypted, ciphertext, mac, in_len, nonce, k);
-  printf("Decryption of HACL box_afternm was a %s.\n", res == 0 ? "success" : "failure");
+  //printf("Decryption of HACL box_afternm was a %s.\n", res == 0 ? "success" : "failure");
   ok = (res == 0) && ok && print_result(in_len, in, decrypted);
   memset(decrypted,0,in_len);
 
 
   i = Hacl_NaCl_crypto_box_easy_afternm(ciphertext1, in, in_len, nonce, k);
   res = Hacl_NaCl_crypto_box_open_easy_afternm(decrypted, ciphertext1, in_len+MACBYTES, nonce, k);
-  printf("Decryption of HACL box_easy_afternm was a %s.\n", res == 0 ? "success" : "failure");
+  //printf("Decryption of HACL box_easy_afternm was a %s.\n", res == 0 ? "success" : "failure");
   ok = (res == 0) && ok && print_result(in_len, in, decrypted);
   memset(decrypted,0,in_len);
 

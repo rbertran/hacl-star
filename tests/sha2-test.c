@@ -40,23 +40,23 @@ bool print_test(uint8_t* in, int in_len, uint8_t* exp224, uint8_t* exp256, uint8
   uint8_t comp[64] = {0};
 
   Hacl_Hash_SHA2_hash_224(in,in_len,comp);
-  printf("SHA2-224 (32-bit) Result:\n");
+  //printf("SHA2-224 (32-bit) Result:\n");
   bool ok = print_result(comp, exp224,28);
 
   Hacl_Hash_SHA2_hash_256(in,in_len,comp);
-  printf("SHA2-256 (32-bit) Result:\n");
+  //printf("SHA2-256 (32-bit) Result:\n");
   ok = print_result(comp, exp256,32) && ok;
 
   ossl_sha2(comp,in,in_len);
-  printf("OpenSSL SHA2-256 (32-bit) Result:\n");
+  //printf("OpenSSL SHA2-256 (32-bit) Result:\n");
   ok = print_result(comp, exp256,32) && ok;
 
   Hacl_Hash_SHA2_hash_384(in,in_len,comp);
-  printf("SHA2-384 (32-bit) Result:\n");
+  //printf("SHA2-384 (32-bit) Result:\n");
   ok = print_result(comp, exp384,48) && ok;
 
   Hacl_Hash_SHA2_hash_512(in,in_len,comp);
-  printf("SHA2-512 (32-bit) Result:\n");
+  //printf("SHA2-512 (32-bit) Result:\n");
   ok = print_result(comp, exp512,64) && ok;
 
   return ok;
@@ -142,11 +142,11 @@ int main(){
 
   uint8_t res = plain[0];
   uint64_t count = ROUNDS * SIZE;
-  printf("SHA2-224 (32-bit) PERF: %d\n",(int)res); print_time(count,tdiff1,cdiff1);
-  printf("SHA2-256 (32-bit) PERF: %d\n",(int)res); print_time(count,tdiff2,cdiff2);
-  printf("OpenSSL SHA2-256 (32-bit) PERF: %d\n",(int)res); print_time(count,tdiff2a,cdiff2a);
-  printf("SHA2-384 (32-bit) PERF: %d\n",(int)res); print_time(count,tdiff3,cdiff3);
-  printf("SHA2-512 (32-bit) PERF: %d\n",(int)res); print_time(count,tdiff4,cdiff4);
+  //printf("SHA2-224 (32-bit) PERF: %d\n",(int)res); print_time(count,tdiff1,cdiff1);
+  //printf("SHA2-256 (32-bit) PERF: %d\n",(int)res); print_time(count,tdiff2,cdiff2);
+  //printf("OpenSSL SHA2-256 (32-bit) PERF: %d\n",(int)res); print_time(count,tdiff2a,cdiff2a);
+  //printf("SHA2-384 (32-bit) PERF: %d\n",(int)res); print_time(count,tdiff3,cdiff3);
+  //printf("SHA2-512 (32-bit) PERF: %d\n",(int)res); print_time(count,tdiff4,cdiff4);
 
   if (ok) return EXIT_SUCCESS;
   else return EXIT_FAILURE;

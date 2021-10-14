@@ -233,6 +233,6 @@ int main()
     	return EXIT_FAILURE;
     }
 
-    printf("%s\n", "ECDSA tests completed successfully");
+    //printf("%s\n", "ECDSA tests completed successfully");
 	return EXIT_SUCCESS;
 }

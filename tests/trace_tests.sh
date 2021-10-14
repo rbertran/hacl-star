@@ -29,7 +29,7 @@ source $CHOPSTIX/share/chopstix/setup.sh
 # compile tests
 make -f Makefile.static
 
-for elem in *.exe; do
+for elem in $1*.exe; do
     echo $elem
 
     data="$elem.db"
@@ -123,7 +123,7 @@ for elem in *.exe; do
             rm -fr $tracedir
             set +e
             echo timeout 60 chop trace -log-level verbose $tracepoints -max-traces 10 -access-trace -gzip -trace-dir $tracedir ./$elem
-            timeout 60 chop trace -log-level verbose $tracepoints -max-traces 10 -access-trace -gzip -trace-dir $tracedir ./$elem
+            timeout 60 chop trace -log-level verbose $tracepoints -max-traces 10 -access-trace -gzip -trace-dir $tracedir ./$elem 2>> "$elem#$score#$mfunc.log" >> "$elem#$score#$mfunc.log"
             error=$?
             set -e
             if [ $error -eq 0 ]; then
@@ -143,8 +143,8 @@ for elem in *.exe; do
             set +e
             chop-trace2mpt --trace-dir $tracedir -o "$mptdir/$elem#$score#$mfunc#all" --gzip
             error=$?
-            chop-trace2mpt --trace-dir $tracedir -o "$mptdir/$elem#$score#$mfunc#user" --gzip --max-address 0x30000000000
-            error=$((error+$?))
+            #chop-trace2mpt --trace-dir $tracedir -o "$mptdir/$elem#$score#$mfunc#user" --gzip --max-address 0x30000000000
+            #error=$((error+$?))
             set -e
             if [ $error -eq 0 ]; then
                 touch $mptdir/OK
@@ -158,17 +158,17 @@ for elem in *.exe; do
         # Convert to standalone ELF 
         #
         for mptfile in $mptdir/*mpt.gz ; do
-            if [ ! -f ${mptfile/%.mpt.gz/.s} ]; then
-                set +e
-                echo mp_mpt2elf.py -t $mptfile -T z16-z16-z64_linux_gcc -O ${mptfile/%.mpt.gz/.s} --raw-bin --compiler /opt/rh/gcc-toolset-10/root/bin/gcc --wrap-endless
-                mp_mpt2elf.py -t $mptfile -T z16-z16-z64_linux_gcc -O ${mptfile/%.mpt.gz/.s} --raw-bin --compiler /opt/rh/gcc-toolset-10/root/bin/gcc --wrap-endless & 
-                set -e
-            fi
+            #if [ ! -f ${mptfile/%.mpt.gz/.s} ]; then
+            #    set +e
+            #    echo mp_mpt2elf.py -t $mptfile -T z16-z16-z64_linux_gcc -O ${mptfile/%.mpt.gz/.s} --raw-bin --compiler /opt/rh/gcc-toolset-10/root/bin/gcc --wrap-endless
+            #    mp_mpt2elf.py -t $mptfile -T z16-z16-z64_linux_gcc -O ${mptfile/%.mpt.gz/.s} --raw-bin --compiler /opt/rh/gcc-toolset-10/root/bin/gcc --wrap-endless & 
+            #    set -e
+            #fi
 
             if [ ! -f ${mptfile/%.mpt.gz/_reset.s} ]; then
                 set +e
-                echo mp_mpt2elf.py -t $mptfile -T z16-z16-z64_linux_gcc -O ${mptfile/%.mpt.gz/_reset.s} --raw-bin --compiler /opt/rh/gcc-toolset-10/root/bin/gcc --wrap-endless --reset 
-                mp_mpt2elf.py -t $mptfile -T z16-z16-z64_linux_gcc -O ${mptfile/%.mpt.gz/_reset.s} --raw-bin --compiler /opt/rh/gcc-toolset-10/root/bin/gcc --wrap-endless --reset & 
+                echo mp_mpt2elf.py -t $mptfile -T z16-z16-z64_linux_gcc -O ${mptfile/%.mpt.gz/_reset.s} --raw-bin --compiler /opt/rh/gcc-toolset-10/root/bin/gcc --wrap-endless --reset --compiler-flags="-march=z15"  
+                mp_mpt2elf.py -t $mptfile -T z16-z16-z64_linux_gcc -O ${mptfile/%.mpt.gz/_reset.s} --raw-bin --compiler /opt/rh/gcc-toolset-10/root/bin/gcc --wrap-endless --reset --compiler-flags="-march=z15" & 
                 set -e
             fi
         done;
@@ -178,22 +178,22 @@ for elem in *.exe; do
         # if ELF not generated try the workaround
         #
         for mptfile in $mptdir/*mpt.gz ; do
-            if [ -f ${mptfile/%.mpt.gz/.s} ]; then
-                if [ ! -f ${mptfile/%.mpt.gz/.elf} ]; then
-                    set +e
-                    rm -f ${mptfile/%.mpt.gz/.s}
-                    echo mp_mpt2elf.py -t $mptfile -T z16-z16-z64_linux_gcc -O ${mptfile/%.mpt.gz/.s} --raw-bin --compiler /opt/rh/gcc-toolset-10/root/bin/gcc --wrap-endless  --fix-long-jump
-                    mp_mpt2elf.py -t $mptfile -T z16-z16-z64_linux_gcc -O ${mptfile/%.mpt.gz/.s} --raw-bin --compiler /opt/rh/gcc-toolset-10/root/bin/gcc --wrap-endless  --fix-long-jump & 
-                    set -e
-                fi
-            fi
+            #if [ -f ${mptfile/%.mpt.gz/.s} ]; then
+            #    if [ ! -f ${mptfile/%.mpt.gz/.elf} ]; then
+            #        set +e
+            #        rm -f ${mptfile/%.mpt.gz/.s}
+            #        echo mp_mpt2elf.py -t $mptfile -T z16-z16-z64_linux_gcc -O ${mptfile/%.mpt.gz/.s} --raw-bin --compiler /opt/rh/gcc-toolset-10/root/bin/gcc --wrap-endless  --fix-long-jump
+            #        mp_mpt2elf.py -t $mptfile -T z16-z16-z64_linux_gcc -O ${mptfile/%.mpt.gz/.s} --raw-bin --compiler /opt/rh/gcc-toolset-10/root/bin/gcc --wrap-endless  --fix-long-jump & 
+            #        set -e
+            #    fi
+            #fi
 
             if [ -f ${mptfile/%.mpt.gz/_reset.s} ]; then
                 if [ ! -f ${mptfile/%.mpt.gz/_reset.elf} ]; then
                     set +e
                     rm -f ${mptfile/%.mpt.gz/_reset.s}
-                    echo mp_mpt2elf.py -t $mptfile -T z16-z16-z64_linux_gcc -O ${mptfile/%.mpt.gz/_reset.s} --raw-bin --compiler /opt/rh/gcc-toolset-10/root/bin/gcc --wrap-endless --reset  --fix-long-jump 
-                    mp_mpt2elf.py -t $mptfile -T z16-z16-z64_linux_gcc -O ${mptfile/%.mpt.gz/_reset.s} --raw-bin --compiler /opt/rh/gcc-toolset-10/root/bin/gcc --wrap-endless --reset  --fix-long-jump & 
+                    echo mp_mpt2elf.py -t $mptfile -T z16-z16-z64_linux_gcc -O ${mptfile/%.mpt.gz/_reset.s} --raw-bin --compiler /opt/rh/gcc-toolset-10/root/bin/gcc --wrap-endless --reset  --fix-long-jump  --compiler-flags="-march=z15" 
+                    mp_mpt2elf.py -t $mptfile -T z16-z16-z64_linux_gcc -O ${mptfile/%.mpt.gz/_reset.s} --raw-bin --compiler /opt/rh/gcc-toolset-10/root/bin/gcc --wrap-endless --reset  --fix-long-jump --compiler-flags="-march=z15" &  
                     set -e
                 fi
             fi
@@ -230,12 +230,12 @@ for elem in *.exe; do
         # Convert to AVP 
         #
         for mptfile in $mptdir/*mpt.gz ; do
-            if [ ! -f ${mptfile/%.mpt.gz/.avp.gz} ]; then
-                set +e
-                echo mp_mpt2avp.py -t $mptfile -T z16-z16-z64_mesa_st -O ${mptfile/%.mpt.gz/.avp.gz} --raw-bin --wrap-endless  
-                mp_mpt2avp.py -t $mptfile -T z16-z16-z64_mesa_st -O ${mptfile/%.mpt.gz/.avp.gz} --raw-bin --wrap-endless & 
-                set -e
-            fi
+            #if [ ! -f ${mptfile/%.mpt.gz/.avp.gz} ]; then
+            #    set +e
+            #    echo mp_mpt2avp.py -t $mptfile -T z16-z16-z64_mesa_st -O ${mptfile/%.mpt.gz/.avp.gz} --raw-bin --wrap-endless  
+            #    mp_mpt2avp.py -t $mptfile -T z16-z16-z64_mesa_st -O ${mptfile/%.mpt.gz/.avp.gz} --raw-bin --wrap-endless & 
+            #    set -e
+            #fi
 
             if [ ! -f ${mptfile/%.mpt.gz/_reset.avp.gz} ]; then
                 set +e

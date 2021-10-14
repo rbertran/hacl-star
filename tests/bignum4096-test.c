@@ -64,7 +64,7 @@ bool print_test_bytes_be_precomp(
 {
   uint8_t resBytes[512U] = {0};
   bool ok = mod_exp_bytes_be_precomp(nBytes, aBytes, bBits, bBytes, resBytes);
-  printf("\n mod_exp_precomp for bytes Result: \n");
+  //printf("\n mod_exp_precomp for bytes Result: \n");
   ok = ok && compare_and_print(512U, resBytes, resBytes_expected);
 
   return ok;
@@ -81,7 +81,7 @@ bool print_test_bytes_be(
 {
   uint8_t resBytes[512U] = {0};
   bool ok = mod_exp_bytes_be(nBytes, aBytes, bBits, bBytes, resBytes);
-  printf("\n mod_exp for bytes Result: \n");
+  //printf("\n mod_exp for bytes Result: \n");
   ok = ok && compare_and_print(512U, resBytes, resBytes_expected);
 
   return ok;
@@ -98,15 +98,15 @@ bool print_test(
 {
   uint64_t res[64U] = {0};
   Hacl_Bignum4096_mod_exp_vartime(n, a, bBits, b, res);
-  printf("\n mod_exp Result: \n");
+  //printf("\n mod_exp Result: \n");
 
   bool ok = true;
   for (size_t i = 0; i < 64U; i++)
     ok = ok & (res_expected[i] == res[i]);
-  if (ok)
-    printf("Success!\n");
-  else
-    printf("**FAILED**\n");
+  //if (ok)
+    //printf("Success!\n");
+  //else
+    //printf("**FAILED**\n");
 
   return ok;
 }

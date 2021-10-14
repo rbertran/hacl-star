@@ -32,7 +32,7 @@ bool print_test2b(int in_len, uint8_t* in, int key_len, uint8_t* key, int exp_le
   memset(comp, 0, exp_len * sizeof comp[0]);
 
   Hacl_Blake2b_32_blake2b(exp_len,comp,in_len,in,key_len,key);
-  printf("testing blake2b vec-32:\n");
+  //printf("testing blake2b vec-32:\n");
   bool ok = print_result(exp_len,comp,exp);
   return ok;
 }
@@ -42,12 +42,12 @@ bool print_test2s(int in_len, uint8_t* in, int key_len, uint8_t* key, int exp_le
   memset(comp, 0, exp_len * sizeof comp[0]);
 
   Hacl_Blake2s_32_blake2s(exp_len,comp,in_len,in,key_len,key);
-  printf("testing blake2s vec-32:\n");
+  //printf("testing blake2s vec-32:\n");
   bool ok = print_result(exp_len,comp,exp);
 
 #if defined(HACL_CAN_COMPILE_VEC128)
   Hacl_Blake2s_128_blake2s(exp_len,comp,in_len,in,key_len,key);
-  printf("testing blake2s vec-128:\n");
+  //printf("testing blake2s vec-128:\n");
   ok = ok && print_result(exp_len,comp,exp);
 #endif
 
@@ -109,11 +109,11 @@ int main()
 #endif
 
   uint64_t count = ROUNDS * SIZE;
-  printf("Blake2S (Vec 32-bit):\n"); print_time(count,tdiff1,0);
-  printf("Blake2B (Vec 64-bit):\n"); print_time(count,tdiff2,0);
+  //printf("Blake2S (Vec 32-bit):\n"); print_time(count,tdiff1,0);
+  //printf("Blake2B (Vec 64-bit):\n"); print_time(count,tdiff2,0);
 
 #if defined(HACL_CAN_COMPILE_VEC128)
-  printf("Blake2S (Vec 128-bit):\n"); print_time(count,tdiff3,0);
+  //printf("Blake2S (Vec 128-bit):\n"); print_time(count,tdiff3,0);
 #endif
 
   if (ok) return EXIT_SUCCESS;

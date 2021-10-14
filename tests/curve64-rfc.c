@@ -29,7 +29,7 @@ bool print_test(uint8_t* scalar, uint8_t* pub, uint8_t* exp){
   uint8_t comp[32] = {0};
 
   x25519_shared_secret_x64(comp,pub,scalar);
-  printf("Curve25519 (RFC7794 Original 64-bit) Result:\n");
+  //printf("Curve25519 (RFC7794 Original 64-bit) Result:\n");
   bool ok = print_result(32,comp,exp);
   return ok;
 }
@@ -71,8 +71,8 @@ int main() {
   uint64_t count = ROUNDS * SIZE;
   double time = (((double)tdiff1) / CLOCKS_PER_SEC);
   double nsigs = ((double)ROUNDS) / time;
-  printf("Curve25519 (RFC7748 Original) PERF:\n"); print_time(count,tdiff1,cdiff1);
-  printf("smult %8.2f mul/s\n",nsigs);
+  //printf("Curve25519 (RFC7748 Original) PERF:\n"); print_time(count,tdiff1,cdiff1);
+  //printf("smult %8.2f mul/s\n",nsigs);
 
   if (ok) return EXIT_SUCCESS;
   else return EXIT_FAILURE;

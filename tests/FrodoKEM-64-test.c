@@ -44,11 +44,11 @@ int main()
   bool pass = test_frodo();
   if (pass)
     {
-      printf("[FrodoKEM] Self-test: PASS\n");
+      //printf("[FrodoKEM] Self-test: PASS\n");
     }
   else
     {
-      printf("[FrodoKEM] Self-test: FAIL\n");
+      //printf("[FrodoKEM] Self-test: FAIL\n");
     }
 
   for (int i = 0; i < sizeof(vectors)/sizeof(frodo_test_vector); ++i) {

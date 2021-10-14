@@ -28,29 +28,32 @@
 typedef Lib_IntVector_Intrinsics_vec128 vec128;
 
 static inline void print_buf8(unsigned char *msg, uint8_t *buf) {
-  printf("[> %s:\n", msg);
-  printf("initialize_vector8(");
-  for (size_t i = 0; i < 16; i++) {
-    printf("0x%02xU",buf[i]);
-    if(i < 15) { printf(","); }
-  }
-  printf(");\n");
+  //printf("[> %s:\n", msg);
+  //printf("initialize_vector8(");
+  //for (size_t i = 0; i < 16; i++) {
+    //printf("0x%02xU",buf[i]);
+    //if(i < 15) { //printf(","); }
+  //}
+  //printf(");\n");
+  return;
 }
 
 static inline void print_vector32(unsigned char *msg, vec128 vec) {
-  printf("[> %s:\n", msg);
-  printf("initialize_vector32(0x%08x,0x%08x,0x%08x,0x%08x);\n",
-         Lib_IntVector_Intrinsics_vec128_extract32(vec,0),
-         Lib_IntVector_Intrinsics_vec128_extract32(vec,1),
-         Lib_IntVector_Intrinsics_vec128_extract32(vec,2),
-         Lib_IntVector_Intrinsics_vec128_extract32(vec,3));
+  //printf("[> %s:\n", msg);
+  //printf("initialize_vector32(0x%08x,0x%08x,0x%08x,0x%08x);\n",
+         //Lib_IntVector_Intrinsics_vec128_extract32(vec,0),
+         //Lib_IntVector_Intrinsics_vec128_extract32(vec,1),
+         //Lib_IntVector_Intrinsics_vec128_extract32(vec,2),
+         //Lib_IntVector_Intrinsics_vec128_extract32(vec,3));
+         return;
 }
 
 static inline void print_vector64(unsigned char *msg, vec128 vec) {
-  printf("[> %s:\n", msg);
-  printf("initialize_vector64(0x%lxUL,0x%lxUL);\n",
-         (uint64_t) Lib_IntVector_Intrinsics_vec128_extract64(vec,0),
-         (uint64_t) Lib_IntVector_Intrinsics_vec128_extract64(vec,1));
+  //printf("[> %s:\n", msg);
+  //printf("initialize_vector64(0x%lxUL,0x%lxUL);\n",
+       //  (uint64_t) Lib_IntVector_Intrinsics_vec128_extract64(vec,0),
+       //  (uint64_t) Lib_IntVector_Intrinsics_vec128_extract64(vec,1));
+       return;
 }
 
 void initialize_buf8(uint8_t x0, uint8_t x1, uint8_t x2, uint8_t x3, uint8_t x4,
@@ -84,66 +87,66 @@ static inline bool compare_and_print_vec8_(vec128 comp, vec128 exp) {
 }
 
 static inline bool compare_and_print_vec32_(vec128 comp, vec128 exp) {
-  printf("computed: ");
-  printf("[%08x], ",Lib_IntVector_Intrinsics_vec128_extract32(comp,0));
-  printf("[%08x], ",Lib_IntVector_Intrinsics_vec128_extract32(comp,1));
-  printf("[%08x], ",Lib_IntVector_Intrinsics_vec128_extract32(comp,2));
-  printf("[%08x]",Lib_IntVector_Intrinsics_vec128_extract32(comp,3));
-  printf("\n");
-  printf("expected: ");
-  printf("[%08x], ",Lib_IntVector_Intrinsics_vec128_extract32(exp,0));
-  printf("[%08x], ",Lib_IntVector_Intrinsics_vec128_extract32(exp,1));
-  printf("[%08x], ",Lib_IntVector_Intrinsics_vec128_extract32(exp,2));
-  printf("[%08x]",Lib_IntVector_Intrinsics_vec128_extract32(exp,3));
-  printf("\n");
+  //printf("computed: ");
+  //printf("[%08x], ",Lib_IntVector_Intrinsics_vec128_extract32(comp,0));
+  //printf("[%08x], ",Lib_IntVector_Intrinsics_vec128_extract32(comp,1));
+  //printf("[%08x], ",Lib_IntVector_Intrinsics_vec128_extract32(comp,2));
+  //printf("[%08x]",Lib_IntVector_Intrinsics_vec128_extract32(comp,3));
+  //printf("\n");
+  //printf("expected: ");
+  //printf("[%08x], ",Lib_IntVector_Intrinsics_vec128_extract32(exp,0));
+  //printf("[%08x], ",Lib_IntVector_Intrinsics_vec128_extract32(exp,1));
+  //printf("[%08x], ",Lib_IntVector_Intrinsics_vec128_extract32(exp,2));
+  //printf("[%08x]",Lib_IntVector_Intrinsics_vec128_extract32(exp,3));
+  //printf("\n");
   bool ok = true;
   ok = ok & (Lib_IntVector_Intrinsics_vec128_extract32(comp,0) == Lib_IntVector_Intrinsics_vec128_extract32(exp,0));
   ok = ok & (Lib_IntVector_Intrinsics_vec128_extract32(comp,1) == Lib_IntVector_Intrinsics_vec128_extract32(exp,1));
   ok = ok & (Lib_IntVector_Intrinsics_vec128_extract32(comp,2) == Lib_IntVector_Intrinsics_vec128_extract32(exp,2));
   ok = ok & (Lib_IntVector_Intrinsics_vec128_extract32(comp,3) == Lib_IntVector_Intrinsics_vec128_extract32(exp,3));
-  if (ok)
-    printf("Success!\n");
-  else
-    printf("**FAILED**\n");
+  //if (ok)
+    //printf("Success!\n");
+  //else
+    //printf("**FAILED**\n");
   return ok;
 }
 
 static inline bool compare_and_print_vec64_(vec128 comp, vec128 exp) {
   unsigned int len = 2;
-  printf("computed: ");
-  printf("[%lx], ",(uint64_t)Lib_IntVector_Intrinsics_vec128_extract64(comp,0));
-  printf("[%lx]",(uint64_t)Lib_IntVector_Intrinsics_vec128_extract64(comp,1));
-  printf("\n");
-  printf("expected: ");
-  printf("[%lx], ",(uint64_t)Lib_IntVector_Intrinsics_vec128_extract64(exp,0));
-  printf("[%lx]",(uint64_t)Lib_IntVector_Intrinsics_vec128_extract64(exp,1));
-  printf("\n");
+  //printf("computed: ");
+  //printf("[%lx], ",(uint64_t)Lib_IntVector_Intrinsics_vec128_extract64(comp,0));
+  //printf("[%lx]",(uint64_t)Lib_IntVector_Intrinsics_vec128_extract64(comp,1));
+  //printf("\n");
+  //printf("expected: ");
+  //printf("[%lx], ",(uint64_t)Lib_IntVector_Intrinsics_vec128_extract64(exp,0));
+  //printf("[%lx]",(uint64_t)Lib_IntVector_Intrinsics_vec128_extract64(exp,1));
+  //printf("\n");
   bool ok = true;
   ok = ok & (Lib_IntVector_Intrinsics_vec128_extract64(comp,0) == Lib_IntVector_Intrinsics_vec128_extract64(exp,0));
   ok = ok & (Lib_IntVector_Intrinsics_vec128_extract64(comp,1) == Lib_IntVector_Intrinsics_vec128_extract64(exp,1));
-  if (ok)
-    printf("Success!\n");
-  else
-    printf("**FAILED**\n");
+  //if (ok)
+    //printf("Success!\n");
+  //else
+    //printf("**FAILED**\n");
   return ok;
 }
 
 #define compare_and_print_vec8(msg, vec0, vec1)                          \
-  printf("%s:\n", msg);                                                  \
+  //printf("%s:\n", msg);                                                  \
   if (!compare_and_print_vec8_(vec0, vec1)) { ok = false; }
 
 #define compare_and_print_vec32(msg, vec0, vec1)                          \
-  printf("%s:\n", msg);                                                   \
+  //printf("%s:\n", msg);                                                   \
   if (!compare_and_print_vec32_(vec0, vec1)) { ok = false; }
 
 #define compare_and_print_vec64(msg, vec0, vec1)                          \
-  printf("%s:\n", msg);                                                   \
+  //printf("%s:\n", msg);                                                   \
   if (!compare_and_print_vec64_(vec0, vec1)) { ok = false; }
 
 int main() {
   bool ok = true;
 
-  for (int i=0; i<30000; i++) {
+  for (int i=0; i<30000000; i++) {
   vec128 vec0, vec1;
   vec128 exp;
   uint32_t x32;
@@ -165,18 +168,20 @@ int main() {
   //vec0 = initialize_vector();
   vec0 = initialize_vector32(0x00010203, 0x04050607, 0x08090a0b, 0x0c0d0e0f);
   x32 = Lib_IntVector_Intrinsics_vec128_extract32(vec0, 3);
-  printf("extract32:\n");
-  printf("computed:%08x\n", x32);
-  printf("expected:%08x\n", 0x0c0d0e0f);
-  if (x32 == 0x0c0d0e0f) { printf("Success!\n"); } else { ok = false; printf("**FAILED**\n"); }
+  //printf("extract32:\n");
+  //printf("computed:%08x\n", x32);
+  //printf("expected:%08x\n", 0x0c0d0e0f);
+  if (x32 == 0x0c0d0e0f) { //printf("Success!\n");
+  ok = ok;} else { ok = false;} //printf("**FAILED**\n"); }
 
   //vec0 = initialize_vector();
   vec0 = initialize_vector64(0x00010203004050607, 0x08090a0b0c0d0e0f);
   x64 = Lib_IntVector_Intrinsics_vec128_extract64(vec0, 1);
-  printf("extract64:\n");
-  printf("computed:%lx\n", x64);
-  printf("expected:%lx\n", 0x08090a0b0c0d0e0f);
-  if (x64 == 0x08090a0b0c0d0e0f) { printf("Success!\n"); } else { ok = false; printf("**FAILED**\n"); }
+  //printf("extract64:\n");
+  //printf("computed:%lx\n", x64);
+  //printf("expected:%lx\n", 0x08090a0b0c0d0e0f);
+  if (x64 == 0x08090a0b0c0d0e0f) { //printf("Success!\n");
+  ok=ok;} else { ok = false;} //printf("**FAILED**\n"); }
 
   // Insert
   vec0 = initialize_vector32(0, 1, 2, 3);
@@ -199,25 +204,25 @@ int main() {
 
   vec0 = initialize_vector32(0x00112233, 0x44556677, 0x8899aabb, 0xccddeeff);
   Lib_IntVector_Intrinsics_vec128_store32_le(tmp, vec0);
-  printf("store32_le:\n");
+  //printf("store32_le:\n");
   if (!compare_and_print(16, tmp, store_le_b)) { ok = false; }
   //  print_buf8("store32_le", tmp);
 
   vec0 = initialize_vector64(0x4455667700112233, 0xccddeeff8899aabb);
   Lib_IntVector_Intrinsics_vec128_store64_le(tmp, vec0);
-  printf("store64_le:\n");
+  //printf("store64_le:\n");
   if (!compare_and_print(16, tmp, store_le_b)) { ok = false; }
   //  print_buf8("store_le", tmp);
 
   vec0 = initialize_vector32(0x00112233, 0x44556677, 0x8899aabb, 0xccddeeff);
   Lib_IntVector_Intrinsics_vec128_store32_le(tmp_misaligned, vec0);
-  printf("store32_le misaligned:\n");
+  //printf("store32_le misaligned:\n");
   if (!compare_and_print(16, tmp_misaligned, store_le_b)) { ok = false; }
   //  print_buf8("store32_le misaligned", tmp_misaligned);
 
   vec0 = initialize_vector64(0x4455667700112233, 0xccddeeff8899aabb);
   Lib_IntVector_Intrinsics_vec128_store64_le(tmp_misaligned, vec0);
-  printf("store64_le misaligned:\n");
+  //printf("store64_le misaligned:\n");
   if (!compare_and_print(16, tmp_misaligned, store_le_b)) { ok = false; }
   //  print_buf8("store_le misaligned", tmp_misaligned);
 

@@ -29,7 +29,7 @@ bool print_test2b(int in_len, uint8_t* in, int key_len, uint8_t* key, int exp_le
   memset(comp, 0, exp_len * sizeof comp[0]);
 
   Hacl_Blake2b_256_blake2b(exp_len,comp,in_len,in,key_len,key);
-  printf("testing blake2b vec-256:\n");
+  //printf("testing blake2b vec-256:\n");
   bool ok = print_result(exp_len,comp,exp);
   return ok;
 }
@@ -39,11 +39,11 @@ int main()
 {
   EverCrypt_AutoConfig2_init();
   if (!EverCrypt_AutoConfig2_has_vec256()) {
-      printf("The current hardware doesn't support vec256: aborting\n");
+      //printf("The current hardware doesn't support vec256: aborting\n");
       return EXIT_SUCCESS;
   }
   else {
-      printf("The current hardware supports vec256: performing the tests\n");
+      //printf("The current hardware supports vec256: performing the tests\n");
   }
 
   bool ok = true;
@@ -72,7 +72,7 @@ int main()
   double tdiff1 = t2 - t1;
 
   uint64_t count = ROUNDS * SIZE;
-  printf("Blake2B (Vec 256-bit):\n"); print_time(count,tdiff1,cdiff1);
+  //printf("Blake2B (Vec 256-bit):\n"); print_time(count,tdiff1,cdiff1);
 
   if (ok) return EXIT_SUCCESS;
   else return EXIT_FAILURE;

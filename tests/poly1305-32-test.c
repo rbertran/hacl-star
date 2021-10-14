@@ -27,7 +27,7 @@ bool print_test(int in_len, uint8_t* in, uint8_t* key, uint8_t* exp){
   uint8_t comp[16] = {0};
 
   Hacl_Poly1305_32_poly1305_mac(comp,in_len,in,key);
-  printf("Poly1305 (32-bit) Result:\n");
+  //printf("Poly1305 (32-bit) Result:\n");
   bool ok = print_result(comp, exp);
 
   return ok;
@@ -66,7 +66,7 @@ int main() {
   cycles cdiff1 = b - a;
 
   uint64_t count = ROUNDS * SIZE;
-  printf("Poly1305 (32-bit) PERF: %d\n",(int)res); print_time(count,tdiff1,cdiff1);
+  //printf("Poly1305 (32-bit) PERF: %d\n",(int)res); print_time(count,tdiff1,cdiff1);
 
   if (ok) return EXIT_SUCCESS;
   else return EXIT_FAILURE;

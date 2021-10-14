@@ -23,7 +23,7 @@ int main() {
   // the streaming API with various lengths. Otherwise, in an exemplary test,
   // one would write a for-loop over the test vectors.
   
-  for (int i=0; i<100000; i++) {
+  for (int i=0; i<1000000; i++) {
 
   uint8_t tag[32] = {};
   sha2_test_vector *v = vectors;

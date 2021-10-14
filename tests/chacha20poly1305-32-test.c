@@ -17,7 +17,7 @@
 
 #include "chacha20poly1305_vectors.h"
 
-#define ROUNDS 10000
+#define ROUNDS 20000
 #define SIZE   16384
 
 bool print_result(int in_len, uint8_t* comp, uint8_t* exp) {
@@ -32,13 +32,13 @@ bool print_test(int in_len, uint8_t* in, uint8_t* key, uint8_t* nonce, int aad_l
   uint8_t mac[16] = {0};
 
   Hacl_Chacha20Poly1305_32_aead_encrypt(key, nonce, aad_len, aad, in_len, in, ciphertext, mac);
-  printf("Chacha20Poly1305 (32-bit) Result (chacha20):\n");
+  //printf("Chacha20Poly1305 (32-bit) Result (chacha20):\n");
   bool ok = print_result(in_len,ciphertext,exp_cipher);
-  printf("(poly1305):\n");
+  //printf("(poly1305):\n");
   ok = ok && print_result(16,mac,exp_mac);
 
   int res = Hacl_Chacha20Poly1305_32_aead_decrypt(key, nonce, aad_len, aad, in_len, plaintext, exp_cipher, exp_mac);
-  if (res != 0) printf("AEAD Decrypt (Chacha20/Poly1305) failed \n.");
+  //if (res != 0) //printf("AEAD Decrypt (Chacha20/Poly1305) failed \n.");
   ok = ok && (res == 0);
   ok = ok && print_result(in_len,plaintext,in);
 
@@ -102,12 +102,12 @@ int main(){
 
   // JP: I don't understand what this does since this variable is almost always
   // zeroed-out.
-  printf ("\n res1: %i \n", res1);
+  //printf ("\n res1: %i \n", res1);
 
 
   uint64_t count = ROUNDS * SIZE;
-  printf("Chacha20Poly1305 Encrypt (32-bit) PERF:\n");  print_time(count,tdiff1,cdiff1);
-  printf("Chacha20Poly1305 Decrypt (32-bit) PERF:\n");  print_time(count,tdiff4,cdiff4);
+  //printf("Chacha20Poly1305 Encrypt (32-bit) PERF:\n");  print_time(count,tdiff1,cdiff1);
+  //printf("Chacha20Poly1305 Decrypt (32-bit) PERF:\n");  print_time(count,tdiff4,cdiff4);
 
   if (ok) return EXIT_SUCCESS;
   else return EXIT_FAILURE;

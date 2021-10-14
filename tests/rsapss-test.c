@@ -40,12 +40,12 @@ bool print_test(
 
 
   Hacl_RSAPSS_rsapss_sign(Spec_Hash_Definitions_SHA2_256, modBits, eBits, dBits, skey, saltLen, salt, msgLen, msg, sgnt);
-  printf("RSAPSS sign Result:\n");
+  //printf("RSAPSS sign Result:\n");
   bool ok = print_result(nbLen, sgnt, sgnt_expected);
 
-  printf("RSAPSS verify Result:\n");
+  //printf("RSAPSS verify Result:\n");
   bool ver = Hacl_RSAPSS_rsapss_verify(Spec_Hash_Definitions_SHA2_256, modBits, eBits, pkey, saltLen, nbLen, sgnt, msgLen, msg);
-  if (ver) printf("Success!\n");
+  if (ver) //printf("Success!\n");
   ok = ok && ver;
   return ok;
 }

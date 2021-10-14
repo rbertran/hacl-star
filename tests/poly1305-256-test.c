@@ -29,7 +29,7 @@ bool print_test(int in_len, uint8_t* in, uint8_t* key, uint8_t* exp){
   bool ok = true;
 
   Hacl_Poly1305_256_poly1305_mac(comp,in_len,in,key);
-  printf("Poly1305 (256-bit) Result:\n");
+  //printf("Poly1305 (256-bit) Result:\n");
   ok = ok && print_result(comp, exp);
 
   return ok;
@@ -38,11 +38,11 @@ bool print_test(int in_len, uint8_t* in, uint8_t* key, uint8_t* exp){
 int main() {
   EverCrypt_AutoConfig2_init();
   if (!EverCrypt_AutoConfig2_has_vec256()) {
-      printf("The current hardware doesn't support vec256: aborting\n");
+      //printf("The current hardware doesn't support vec256: aborting\n");
       return EXIT_SUCCESS;
   }
   else {
-      printf("The current hardware supports vec256: performing the tests\n");
+      //printf("The current hardware supports vec256: performing the tests\n");
   }
 
   bool ok = true;
@@ -75,7 +75,7 @@ int main() {
   cycles cdiff1 = b - a;
 
   uint64_t count = ROUNDS * SIZE;
-  printf("Poly1305 (256-bit) PERF:\n"); print_time(count,tdiff1,cdiff1);
+  //printf("Poly1305 (256-bit) PERF:\n"); print_time(count,tdiff1,cdiff1);
 
   if (ok) return EXIT_SUCCESS;
   else return EXIT_FAILURE;

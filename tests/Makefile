@@ -96,4 +96,4 @@ clean:
 	rm -f *.exe
 
 chopclean:
-	rm -fr *mpt *trace *db *functions *samples *functions_selected
+	rm -fr *mpt *trace *db *functions *samples *functions_selected *log

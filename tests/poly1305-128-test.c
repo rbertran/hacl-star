@@ -28,7 +28,7 @@ bool print_test(int in_len, uint8_t* in, uint8_t* key, uint8_t* exp){
   bool ok = true;
 
   Hacl_Poly1305_128_poly1305_mac(comp,in_len,in,key);
-  printf("Poly1305 (128-bit) Result:\n");
+  //printf("Poly1305 (128-bit) Result:\n");
   ok = ok && print_result(comp, exp);
 
   return ok;
@@ -67,7 +67,7 @@ int main() {
   cycles cdiff1 = b - a;
 
   uint64_t count = ROUNDS * SIZE;
-  printf("Poly1305 (128-bit) PERF:\n"); print_time(count,tdiff1,cdiff1);
+  //printf("Poly1305 (128-bit) PERF:\n"); print_time(count,tdiff1,cdiff1);
 
   if (ok) return EXIT_SUCCESS;
   else return EXIT_FAILURE;

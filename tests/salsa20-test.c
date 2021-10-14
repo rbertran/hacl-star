@@ -53,18 +53,18 @@ int main() {
 
   uint8_t comp[512] = {0};
 
-  printf("Salsa20 Result\n");
+  //printf("Salsa20 Result\n");
   Hacl_Salsa20_salsa20_encrypt(in_len,comp,in,k,n,0);
-  printf("computed1:\n");
+  //printf("computed1:\n");
   bool ok = print_result(64,comp,exp1);
 
-  printf("computed2:\n");
+  //printf("computed2:\n");
   ok = ok && print_result(64,comp+192,exp2);
 
-  printf("computed3:\n");
+  //printf("computed3:\n");
   ok = ok && print_result(64,comp+256,exp3);
 
-  printf("computed4:\n");
+  //printf("computed4:\n");
   ok = ok && print_result(64,comp+448,exp4);
 
   uint64_t len = SIZE;
@@ -92,7 +92,7 @@ int main() {
   cycles cdiff = b - a;
 
   uint64_t count = ROUNDS * SIZE;
-  printf("Salsa20 PERF\n"); print_time(count,tdiff,cdiff);
+  //printf("Salsa20 PERF\n"); print_time(count,tdiff,cdiff);
   if (ok) return EXIT_SUCCESS;
   else return EXIT_FAILURE;
 }

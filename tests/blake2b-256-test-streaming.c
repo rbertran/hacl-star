@@ -53,7 +53,7 @@ int main() {
       Hacl_Streaming_Blake2b_256_blake2b_256_with_key_free(64, s);
     }
     else {
-        printf("Blake2b (256-bit) streaming: no AVX2 support: ignoring tests\n");
+        //printf("Blake2b (256-bit) streaming: no AVX2 support: ignoring tests\n");
     }
 
     if (ok)

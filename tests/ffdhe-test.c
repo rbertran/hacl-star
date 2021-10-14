@@ -30,18 +30,18 @@ bool print_test(Spec_FFDHE_ffdhe_alg a, uint8_t* sk1, uint8_t* pk1, uint8_t* sk2
   Hacl_FFDHE_ffdhe_shared_secret(a, sk2, pk1, ss2);
 
   bool ok = true;
-  printf("FFDHE pk1 =? pk_c1: ");
+  //printf("FFDHE pk1 =? pk_c1: ");
   //ok &= compare_and_print(len,pk_c1,pk1);
   ok &= compare(len,pk_c1,pk1);
 
-  printf("FFDHE pk2 =? pk_c2: ");
+  //printf("FFDHE pk2 =? pk_c2: ");
   //ok &= compare_and_print(len,pk_c2,pk2);
   ok &= compare(len,pk_c2,pk2);
 
-  printf("FFDHE ss1 =? ss2: ");
+  //printf("FFDHE ss1 =? ss2: ");
   ok &= compare(len,ss1,ss2);
 
-  printf("FFDHE ss1 =? exp:\n");
+  //printf("FFDHE ss1 =? exp:\n");
   ok &= compare_and_print(len,ss1,exp);
 
   return ok;

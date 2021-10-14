@@ -56,7 +56,7 @@ int main() {
       Hacl_Streaming_Poly1305_256_free(s);
     }
     else {
-        printf("Poly1305 (256-bit) streaming: no AVX2 support: ignoring tests\n");
+        //printf("Poly1305 (256-bit) streaming: no AVX2 support: ignoring tests\n");
     }
   }
 

@@ -28,7 +28,7 @@ bool print_test2s(int in_len, uint8_t* in, int key_len, uint8_t* key, int exp_le
   memset(comp, 0, exp_len * sizeof comp[0]);
 
   Hacl_Blake2s_128_blake2s(exp_len,comp,in_len,in,key_len,key);
-  printf("testing blake2s vec-128:\n");
+  //printf("testing blake2s vec-128:\n");
   bool ok = print_result(exp_len,comp,exp);
 
   return ok;
@@ -64,7 +64,7 @@ int main()
   double tdiff1 = t2 - t1;
 
   uint64_t count = ROUNDS * SIZE;
-  printf("Blake2S (Vec 128-bit):\n"); print_time(count,tdiff1,cdiff1);
+  //printf("Blake2S (Vec 128-bit):\n"); print_time(count,tdiff1,cdiff1);
     }
 
   if (ok) return EXIT_SUCCESS;

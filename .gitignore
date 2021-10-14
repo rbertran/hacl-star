@@ -37,3 +37,4 @@ config.h
 *.functions_selected
 *.functions
 *.trace
+*.log
