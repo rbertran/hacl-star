@@ -1,0 +1,5 @@
+b *main
+run
+b *START_TEST
+continue
+info all-registers
