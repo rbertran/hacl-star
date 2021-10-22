@@ -1,0 +1,8 @@
+b *main
+run
+b *START_TEST
+while (1) 
+    stepi 
+    disas
+    info registers
+end

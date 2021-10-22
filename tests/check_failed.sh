@@ -54,17 +54,25 @@ for elem in */*all*reset*FAIL ; do
                 fi
             done;
 
+            # echo timeout 10 gdb -batch -x gdb.command3 ${elem/%.FAIL/} 
+            timeout 10 gdb -batch -x gdb.command3 ${elem/%.FAIL/} > ${elem/%.FAIL/}.gdb_trace 2> /dev/null
+
             if [ $(objdump -d  ${elem/%.FAIL/} | cut -d ":" -f 1 | grep -c $segfault) -ne 0 ]; then
                 # Fail in a instruction 
-                echo $address $elem $segfault $(objdump -d ${elem/%.FAIL/} | grep $segfault)
+                echo $address $elem $segfault $(cat ${elem/%.FAIL/}.gdb_trace | grep -c "^=") $(objdump -d ${elem/%.FAIL/} | grep $segfault)
             else
                 # Fail because code not found
                 # 
                 # Possible source targets:
-                echo $address $elem $segfault JUMP
+                echo $address $elem $segfault $(cat ${elem/%.FAIL/}.gdb_trace | grep -c "^=") $(cat ${elem/%.FAIL/}.gdb_trace | grep "^=" | tail -n 1)
             fi
+
+
+
         fi
     else
         echo $elem bad address, system call probably
     fi
 done;
+echo DONE
+exit 0
