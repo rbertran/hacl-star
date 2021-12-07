@@ -113,9 +113,26 @@ for elem in $1*.exe; do
         echo chop-marks-sysz ./$elem $mfunc
         tracepoints=$(chop-marks-sysz ./$elem $mfunc)
         score=$(cat $elem.functions | tr "\t" " " | grep " $mfunc " | cut -d ' ' -f 5 | cut -d "." -f 1 | xargs printf "%03d\n")
+        ftracedir="$elem#$score#$mfunc.full.trace"
         tracedir="$elem#$score#$mfunc.trace"
         mptdir="$elem#$score#$mfunc.mpt"
 
+        #
+        # Full Trace
+        #
+        if [ ! -f $ftracedir/FOK ]; then
+            rm -fr $ftracedir
+            set +e
+            echo chop trace -log-level verbose $tracepoints -no-save -no-registers -no-maps -no-info -access-trace -gzip -trace-dir $ftracedir ./$elem
+            chop trace $tracepoints -no-save -no-registers -no-maps -no-info -access-trace -gzip -trace-dir $ftracedir ./$elem 2>> "$elem#$score#$mfunc.log.ft" >> "$elem#$score#$mfunc.log.ft"
+            error=$?
+            set -e
+            if [ $error -eq 0 ]; then
+                touch $ftracedir/FOK
+            else
+                echo Unable to full trace | tee $ftracedir.full.error
+                continue
+            fi
         #
         # Trace
         #
