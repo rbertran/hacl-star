@@ -133,6 +133,7 @@ for elem in $1*.exe; do
                 echo Unable to full trace | tee $ftracedir.full.error
                 continue
             fi
+        fi
         #
         # Trace
         #
