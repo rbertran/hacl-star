@@ -114,26 +114,49 @@ for elem in $1*.exe; do
         tracepoints=$(chop-marks-sysz ./$elem $mfunc)
         score=$(cat $elem.functions | tr "\t" " " | grep " $mfunc " | cut -d ' ' -f 5 | cut -d "." -f 1 | xargs printf "%03d\n")
         ftracedir="$elem#$score#$mfunc.full.trace"
+        itracedir="$elem#$score#$mfunc.ipc.trace"
         tracedir="$elem#$score#$mfunc.trace"
         mptdir="$elem#$score#$mfunc.mpt"
 
         #
-        # Full Trace
+        # Full Memory Trace
         #
         if [ ! -f $ftracedir/FOK ]; then
             rm -fr $ftracedir
             set +e
-            echo chop trace -log-level verbose $tracepoints -no-save -no-registers -no-maps -no-info -access-trace -gzip -trace-dir $ftracedir ./$elem
-            chop trace $tracepoints -no-save -no-registers -no-maps -no-info -access-trace -gzip -trace-dir $ftracedir ./$elem 2>> "$elem#$score#$mfunc.log.ft" >> "$elem#$score#$mfunc.log.ft"
+            echo chop trace -log-level verbose $tracepoints -no-save -no-registers -no-maps -no-info -access-trace -gzip -max-traces 1000000 -trace-dir $ftracedir ./$elem
+            chop trace $tracepoints -no-save -no-registers -no-maps -no-info -access-trace -gzip -max-traces 1000000 -trace-dir $ftracedir ./$elem 2>> "$elem#$score#$mfunc.log.ft" >> "$elem#$score#$mfunc.log.ft"
             error=$?
             set -e
             if [ $error -eq 0 ]; then
                 touch $ftracedir/FOK
             else
-                echo Unable to full trace | tee $ftracedir.full.error
+                echo Unable to memory full trace | tee $ftracedir.full.error
                 continue
             fi
         fi
+
+        #
+        # Full IPC Trace
+        #
+        if [ ! -f $itracedir/IOK ]; then
+            rm -fr $itracedir && mkdir -p $itracedir
+            set +e
+            echo ~/perf-invok/perf-invok -o $itracedir/allipc.csv ./$elem
+            ~/perf-invok/perf-invok -o $itracedir/allipc.csv ./$elem
+            error=$?
+            echo ~/perf-invok/perf-invok $tracepoints -o $itracedir/invipc.csv -max 1000000 ./$elem
+            ~/perf-invok/perf-invok $tracepoints -o $itracedir/invipc.csv -max 1000000 ./$elem
+            error=$(($error+$?))
+            set -e
+            if [ $error -eq 0 ]; then
+                touch $itracedir/IOK
+            else
+                echo Unable to ipc full trace | tee $itracedir.ipc.error
+                continue
+            fi
+        fi
+
         #
         # Trace
         #
